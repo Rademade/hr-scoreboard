@@ -2,14 +2,13 @@
   <div class="vacations">
     <h1 class="vacations__title">Vacations</h1>
     <ul >
-      <li v-for="item in data.objects">
-        {{item.name}}
-        {{item.vacancies.total}}
+      <li v-for="item in data" v-if="item.status !== 0" v-bind:key="item.id">
         <ul>
-          <li v-for="vacancy in item.vacancies.objects">{{vacancy.position}}</li>
+          <li v-for="vacancy in item.vacancies.objects" v-bind:key="vacancy.id">{{vacancy.position}} {{item.name}}</li>
         </ul>
       </li>
     </ul>
+    <p >{{ totalVacanciesSum }}</p>
   </div>
 </template>
 
@@ -23,12 +22,24 @@ Vue.use(VueResources);
 export default {
   data() {
     return {
-      data: []
+      data: [],
+      totalVacanciesList: [],
+      totalVacanciesSum: 0,
     }
   },
+  computed: {
+
+  },
   created() {
+
     this.$http.post('/api/vacations').then(response => {
       this.data = response.body;
+      const reducer = (accumulator, currentValue) => accumulator + currentValue;
+      this.totalVacanciesList = this.data.map((data)=> {
+        return data.vacancies.total;
+      });
+      this.totalVacanciesSum = this.totalVacanciesList.reduce(reducer);
+
     }, response => {
       return response;
     });
