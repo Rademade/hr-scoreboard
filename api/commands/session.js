@@ -6,6 +6,7 @@ const SessionModel = require('../models/session').SessionModel;
 const dotenv = require('dotenv').config({path: '../.env.local'});
 const db = require('../config/db');
 const mongoose    = require('mongoose');
+const { CleaverstaffApiService } = require('../services/cleaverstaff-api');
 
 let deleteSession = () => {
   return SessionModel.remove({}, function (err) {
@@ -13,11 +14,8 @@ let deleteSession = () => {
   });
 };
 
-let addSession = () => {
-  axios.post('https://cleverstaff.net/hr/person/auth', {
-    login: process.env.USER_LOGIN,
-    password: process.env.USER_PASSWORD
-  }).then(function (resp) {
+let createSession = () => {
+  CleaverstaffApiService.auth(function (resp) {
     let cookie = resp.headers['set-cookie'][0].split(/JSESSIONID\=(.*?);/ig)[1];
     let session = new SessionModel({
       value: cookie
@@ -38,5 +36,5 @@ program
 
 program
   .version('0.0.1')
-  .action(addSession())
+  .action(createSession())
   .parse(process.argv);
