@@ -1,32 +1,13 @@
 #!/usr/bin/env node
-
 const program = require('commander');
-const axios = require('axios');
-const SessionModel = require('../models/session').SessionModel;
-const dotenv = require('dotenv').config({path: '../.env.local'});
-const db = require('../config/db');
-const mongoose    = require('mongoose');
-const { CleaverstaffApiService } = require('../services/cleaverstaff-api');
+const {CleaverStaffApiService} = require('../services/cleaverstaff-api');
 
 let deleteSession = () => {
-  return SessionModel.remove({}, function (err) {
-    console.log(err);
-  });
+  CleaverStaffApiService.removeAuthCookie(() => console.log('Cookie successfully removed.'));
 };
 
 let createSession = () => {
-  CleaverstaffApiService.auth(function (resp) {
-    let cookie = resp.headers['set-cookie'][0].split(/JSESSIONID\=(.*?);/ig)[1];
-    let session = new SessionModel({
-      value: cookie
-    });
-
-    session.save(function (err) {
-      if (err) throw err;
-      if(!err)   mongoose.disconnect();
-      console.log('Session successfully saved.');
-    });
-  });
+  CleaverStaffApiService.updateAuthCookie(() => console.log('Cookie successfully created.'));
 };
 
 program
