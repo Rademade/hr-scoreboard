@@ -1,14 +1,10 @@
 import React from 'react';
-import './App.css';
+import Scoreboard from './components/Scoreboard';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h2>
-          HR Scoreboard
-        </h2>
-      </header>
+    <div>
+      <Scoreboard/>
     </div>
   );
 }
