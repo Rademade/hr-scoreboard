@@ -1,27 +1,13 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React from "./node_modules/react";
 import { Container, Title } from "../components/styled";
-import { init } from "../state/reducer";
 
-const Scoreboard = ({ init }) => {
-  useEffect(() => {
-    init();
-  }, []);
-
+function Scoreboard(props) {
+  console.log("Scoreboard", props);
   return (
     <Container>
       <Title>Scoreboard</Title>
     </Container>
   );
-};
+}
 
-const mapStateToProps = ({ app }) => ({ app });
-
-const mapDispatchToProps = dispatch => ({
-  init: () => dispatch(init())
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Scoreboard);
+export default Scoreboard;

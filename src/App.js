@@ -1,14 +1,8 @@
 import React from "react";
-import { Provider } from "react-redux";
-import createStore from "./state/createStore";
-import Scoreboard from "./Scoreboard";
+import Scoreboard from "./scoreboard";
 
-const store = createStore();
-
-const App = () => (
-  <Provider store={store}>
-    <Scoreboard />
-  </Provider>
-);
+function App() {
+  return <Scoreboard />;
+}
 
 export default App;
