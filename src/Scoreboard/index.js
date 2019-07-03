@@ -1,13 +1,21 @@
-import React from "./node_modules/react";
-import { Container, Title } from "../components/styled";
+import { connect } from "react-redux";
+import ScoreboardView from "./ScoreboardView";
+import { initializePage } from "./ScoreboardState";
 
-function Scoreboard(props) {
-  console.log("Scoreboard", props);
-  return (
-    <Container>
-      <Title>Scoreboard</Title>
-    </Container>
-  );
+function mapStateToProps(state) {
+  return {
+    isInitialize: state.sboard.isInitialize,
+    value: state.sboard.value
+  };
 }
 
-export default Scoreboard;
+function mapDispatchToProps(dispatch) {
+  return {
+    initializePage: value => dispatch(initializePage(value))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ScoreboardView);
