@@ -1,12 +1,14 @@
 import React from "react";
-import Scoreboard from "./components/Scoreboard";
+import { Provider } from "react-redux";
+import createStore from "./state/createStore";
+import Scoreboard from "./Scoreboard";
 
-function App() {
-  return (
-    <div>
-      <Scoreboard />
-    </div>
-  );
-}
+const store = createStore();
+
+const App = () => (
+  <Provider store={store}>
+    <Scoreboard />
+  </Provider>
+);
 
 export default App;
