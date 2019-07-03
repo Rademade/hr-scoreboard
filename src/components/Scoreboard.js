@@ -1,10 +1,11 @@
 import React from "react";
+import { Container, Title } from "./StyledComponents";
 
 function Scoreboard() {
   return (
-    <div>
-      <h1>Scoreboard</h1>
-    </div>
+    <Container>
+      <Title>Scoreboard</Title>
+    </Container>
   );
 }
 
