@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Container, Title } from "../components/styled";
 
 function Scoreboard({ getVacansies, isLoading, data, error }) {
-  console.log("Scoreboard render", isLoading, data, error);
+  // console.log("Scoreboard render", isLoading, data, error);
 
   useEffect(() => {
     getVacansies();

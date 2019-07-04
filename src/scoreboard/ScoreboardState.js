@@ -28,11 +28,12 @@ export function fetchVacanciesAsync(value) {
   return async dispatch => {
     try {
       dispatch(fetchVacancies());
-      // perform fetch
+
+      // fetch here
+
       dispatch(
         fetchVacanciesSuccess({
-          id: 13,
-          vacancies: [1, 2, 3, 4, 5, 6]
+          vacancies: []
         })
       );
     } catch (error) {
