@@ -28,8 +28,14 @@ export function fetchVacanciesAsync(value) {
   return async dispatch => {
     try {
       dispatch(fetchVacancies());
-
-      // fetch here
+      
+      const response = await fetch("/hr/client/get", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log("fetch result", response);
 
       dispatch(
         fetchVacanciesSuccess({
