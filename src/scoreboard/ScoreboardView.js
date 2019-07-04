@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { Container, Title } from "../components/styled";
 
-function Scoreboard({ initializePage, isInitialize, value }) {
-  console.log("Scoreboard", isInitialize, value);
+function Scoreboard({ getVacansies, isLoading, data, error }) {
+  console.log("Scoreboard render", isLoading, data, error);
 
   useEffect(() => {
-    initializePage(665);
-  }, [initializePage]);
+    getVacansies();
+  }, [getVacansies]);
 
   return (
     <Container>
