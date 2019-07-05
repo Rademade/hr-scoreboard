@@ -1,62 +1,84 @@
+const axios = require("axios");
+
+const LOG_IN = "Scoreboard/Login";
+const LOG_IN_SUCESS = "Scoreboard/LoginSuccess";
+const LOG_IN_FAIL = "Scoreboard/LoginFail";
+
 const FETCH_VACANCIES = "Scoreboard/FetchVacancies";
 const FETCH_VACANCIES_SUCCESS = "Scoreboard/FetchVacanciesSuccess";
 const FETCH_VACANCIES_FAIL = "Scoreboard/FetchVacanciesFail";
 
-// action creators
-function fetchVacancies() {
-  return {
-    type: FETCH_VACANCIES
-  };
-}
-
-function fetchVacanciesSuccess(data) {
-  return {
-    type: FETCH_VACANCIES_SUCCESS,
-    payload: { data }
-  };
-}
-
-function fetchVacanciesFail(error) {
-  return {
-    type: FETCH_VACANCIES_FAIL,
-    payload: { error }
-  };
-}
-
 // thunk actions
-export function fetchVacanciesAsync(value) {
+export function loginAsync() {
   return async dispatch => {
     try {
-      dispatch(fetchVacancies());
-      
-      const response = await fetch("/hr/client/get", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      dispatch({ type: LOG_IN });
+      const response = await axios.post("/hr/person/auth", {
+        login: "viktor@rademade.com",
+        password: "a343parder433b"
       });
-      console.log("fetch result", response);
-
-      dispatch(
-        fetchVacanciesSuccess({
-          vacancies: []
-        })
-      );
+      console.log("login response", response);
+      dispatch({ type: LOG_IN_SUCESS, payload: {} });
     } catch (error) {
-      console.log("fetchVacansiesAsync error log", error);
-      dispatch(fetchVacanciesFail(error));
+      dispatch({
+        type: LOG_IN_FAIL,
+        payload: error
+      });
+    }
+  };
+}
+
+export function fetchVacanciesAsync() {
+  return async dispatch => {
+    try {
+      dispatch({ type: FETCH_VACANCIES });
+      const response = await axios.post("/hr/client/get", {
+        country: null,
+        city: null,
+        name: null
+      });
+      console.log("fetch response", response);
+      dispatch({
+        type: FETCH_VACANCIES_SUCCESS,
+        payload: []
+      });
+    } catch (error) {
+      dispatch({
+        type: FETCH_VACANCIES_FAIL,
+        payload: error
+      });
     }
   };
 }
 
 const initialState = {
   isLoading: false,
-  data: {},
+  isLoggedIn: false,
+  items: {},
+  user: {},
   error: null
 };
 
 export default function ScoreboardStateReducer(state = initialState, action) {
   switch (action.type) {
+    case LOG_IN:
+      return {
+        ...state,
+        isLoading: true,
+        error: null
+      };
+    case LOG_IN_SUCESS:
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload
+      };
+    case LOG_IN_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
     case FETCH_VACANCIES:
       return {
         ...state,
@@ -67,13 +89,13 @@ export default function ScoreboardStateReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        data: action.payload.data
+        items: action.payload
       };
     case FETCH_VACANCIES_FAIL:
       return {
         ...state,
         isLoading: false,
-        error: action.payload.error
+        error: action.payload
       };
     default:
       return state;
