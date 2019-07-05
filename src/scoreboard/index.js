@@ -3,11 +3,15 @@ import ScoreboardView from "./ScoreboardView";
 import { fetchVacanciesAsync } from "./ScoreboardState";
 import { loginAsync } from "./AuthState";
 
-function mapStateToProps({ auth, sboard }) {
-  const error = sboard.error || auth.error;
-  const isLoading = sboard.isLoading || auth.isLoading;
+function mapStateToProps({ sboard }) {
+  const { data, error, isLoading } = sboard;
+  let items = [];
+  if (data && data.length > 0) {
+    const { vacancies } = data[0];
+    items.concat(vacancies.objects);
+  }
   return {
-    items: sboard.items,
+    items,
     error,
     isLoading
   };

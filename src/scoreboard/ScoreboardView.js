@@ -5,7 +5,6 @@ import VacancyItem from "../components/VacancyItem";
 function Scoreboard(props) {
   const { getVacansies, logIn } = props;
   useEffect(() => {
-    logIn();
     getVacansies();
   }, [getVacansies, logIn]);
 
