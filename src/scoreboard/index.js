@@ -1,13 +1,15 @@
 import { connect } from "react-redux";
 import ScoreboardView from "./ScoreboardView";
-import { fetchVacanciesAsync, loginAsync } from "./ScoreboardState";
+import { fetchVacanciesAsync } from "./ScoreboardState";
+import { loginAsync } from "./AuthState";
 
-function mapStateToProps(state) {
+function mapStateToProps({ auth, sboard }) {
+  const error = sboard.error || auth.error;
+  const isLoading = sboard.isLoading || auth.isLoading;
   return {
-    isLoading: state.sboard.isLoading,
-    items: state.sboard.items,
-    user: state.sboard.user,
-    error: state.sboard.error
+    items: sboard.items,
+    error,
+    isLoading
   };
 }
 
