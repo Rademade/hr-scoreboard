@@ -1,10 +1,15 @@
-const axios = require("axios");
+import axios from "axios";
 
 const FETCH_VACANCIES = "Scoreboard/FetchVacancies";
 const FETCH_VACANCIES_SUCCESS = "Scoreboard/FetchVacanciesSuccess";
 const FETCH_VACANCIES_FAIL = "Scoreboard/FetchVacanciesFail";
+const LOG_IN_SUCCESS = "Scoreboard/LoginSuccess";
 
-// TODO: check if cookies updated?? how???
+// async function authPing() {
+//   const response = await axios.get("/hr/person/authping");
+//   console.log(authPing, response);
+// }
+
 async function logInFetch() {
   const response = await axios.post("/hr/person/auth", {
     login: "viktor@rademade.com",
@@ -21,13 +26,18 @@ async function logInFetch() {
 }
 
 export function fetchVacanciesAsync() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
+      dispatch({ type: FETCH_VACANCIES });
       /* preforh auth to get cookies,
          fetch data afterwards */
-
-      await logInFetch();
-      dispatch({ type: FETCH_VACANCIES });
+      const { isAuthenticated } = getState().sboard;
+      if (!isAuthenticated) {
+        /* in case of unsuccesfull login fetch
+           functions will throw error */
+        await logInFetch();
+        dispatch({ type: LOG_IN_SUCCESS });
+      }
       const response = await axios.post("/hr/client/get", {
         country: null,
         city: null,
@@ -48,6 +58,7 @@ export function fetchVacanciesAsync() {
 
 const initialState = {
   isLoading: false,
+  isAuthenticated: false,
   data: null,
   error: null
 };
@@ -71,6 +82,11 @@ export default function ScoreboardStateReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         error: action.payload
+      };
+    case LOG_IN_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: true
       };
     default:
       return state;
