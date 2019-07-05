@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Container, Title } from "../components/styled";
+import { Container } from "../components/styled";
+import VacancyItem from "../components/VacancyItem";
 
 function Scoreboard(props) {
-  // console.log("Scoreboard render", props);
   const { getVacansies, logIn } = props;
   useEffect(() => {
     logIn();
@@ -11,7 +11,7 @@ function Scoreboard(props) {
 
   return (
     <Container>
-      <Title>Scoreboard</Title>
+      <VacancyItem />
     </Container>
   );
 }

@@ -19,8 +19,7 @@ export function loginAsync() {
         login: "viktor@rademade.com",
         password: "a343parder433b"
       });
-      console.log("login response", response);
-      dispatch({ type: LOG_IN_SUCESS, payload: {} });
+      dispatch({ type: LOG_IN_SUCESS, payload: response.data.object });
     } catch (error) {
       dispatch({
         type: LOG_IN_FAIL,

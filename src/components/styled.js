@@ -1,7 +1,13 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  text-align: center;
+  display: flex;
+  border: 2px solid black;
+  padding: 20px;
+`;
+
+export const ItemContainer = styled.div`
+  border: 2px solid red;
 `;
 
 export const Title = styled.h1`

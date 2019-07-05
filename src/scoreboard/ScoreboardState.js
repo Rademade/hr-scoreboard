@@ -13,10 +13,9 @@ export function fetchVacanciesAsync() {
         city: null,
         name: null
       });
-      console.log("fetch response", response);
       dispatch({
         type: FETCH_VACANCIES_SUCCESS,
-        payload: []
+        payload: response.data.objects
       });
     } catch (error) {
       dispatch({
