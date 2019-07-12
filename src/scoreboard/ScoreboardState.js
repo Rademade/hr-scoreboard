@@ -1,48 +1,62 @@
 import axios from "axios";
 
+const LOG_IN = "Scoreboard/Login";
+const LOG_IN_SUCCESS = "Scoreboard/LoginSuccess";
+const LOG_IN_FAIL = "Scoreboard/LoginFail";
+
 const FETCH_VACANCIES = "Scoreboard/FetchVacancies";
 const FETCH_VACANCIES_SUCCESS = "Scoreboard/FetchVacanciesSuccess";
 const FETCH_VACANCIES_FAIL = "Scoreboard/FetchVacanciesFail";
-const LOG_IN_SUCCESS = "Scoreboard/LoginSuccess";
 
-// async function authPing() {
-//   const response = await axios.get("/hr/person/authping");
-//   console.log(authPing, response);
-// }
+const initialState = {
+  isLoading: false,
+  isLoggedIn: false,
+  data: null,
+  user: null,
+  error: null
+};
 
-async function logInFetch() {
-  const response = await axios.post("/hr/person/auth", {
-    login: "viktor@rademade.com",
-    password: "a343parder433b"
-  });
-  const { status, code, message } = response.data;
-  if (status === "error") {
-    console.log("---------------------------");
-    console.log("logInFetchError", code);
-    console.log("message:", message);
-    console.log("---------------------------");
-    throw response.data;
-  }
+// hr/person/getAllPersons
+// hr/client/get
+
+export function loginAsync() {
+  return async dispatch => {
+    try {
+      dispatch({ type: LOG_IN });
+      const response = await axios.post("/hr/person/auth", {
+        login: "viktor@rademade.com",
+        password: "a343parder433b"
+      });
+      console.log("loginAsync", response);
+      const { data } = response;
+      if (data.status === "error") {
+        dispatch({
+          type: LOG_IN_FAIL,
+          payload: data.message
+        });
+      } else {
+        dispatch({ type: LOG_IN_SUCCESS, payload: data.object });
+      }
+    } catch (error) {
+      dispatch({
+        type: LOG_IN_FAIL,
+        payload: error.message
+      });
+    }
+  };
 }
 
 export function fetchVacanciesAsync() {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     try {
       dispatch({ type: FETCH_VACANCIES });
-      /* preforh auth to get cookies,
-         fetch data afterwards */
-      const { isAuthenticated } = getState().sboard;
-      if (!isAuthenticated) {
-        /* in case of unsuccesfull login fetch
-           functions will throw error */
-        await logInFetch();
-        dispatch({ type: LOG_IN_SUCCESS });
-      }
-      const response = await axios.post("/hr/client/get", {
-        country: null,
-        city: null,
-        name: null
+      const response = await axios.post("/hr/vacancy/get", {
+        page: {
+          number: 0,
+          count: 15
+        }
       });
+      console.log("fetchVacanciesAsync", response);
       dispatch({
         type: FETCH_VACANCIES_SUCCESS,
         payload: response.data.objects
@@ -50,21 +64,33 @@ export function fetchVacanciesAsync() {
     } catch (error) {
       dispatch({
         type: FETCH_VACANCIES_FAIL,
-        payload: error
+        payload: error.message
       });
     }
   };
 }
 
-const initialState = {
-  isLoading: false,
-  isAuthenticated: false,
-  data: null,
-  error: null
-};
-
 export default function ScoreboardStateReducer(state = initialState, action) {
   switch (action.type) {
+    case LOG_IN:
+      return {
+        ...state,
+        isLoading: true,
+        error: null
+      };
+    case LOG_IN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: true,
+        user: action.payload
+      };
+    case LOG_IN_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
     case FETCH_VACANCIES:
       return {
         ...state,
@@ -82,11 +108,6 @@ export default function ScoreboardStateReducer(state = initialState, action) {
         ...state,
         isLoading: false,
         error: action.payload
-      };
-    case LOG_IN_SUCCESS:
-      return {
-        ...state,
-        isAuthenticated: true
       };
     default:
       return state;

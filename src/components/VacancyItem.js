@@ -11,11 +11,21 @@ function VacancyItem({ item }) {
   );
 }
 
+//TODO: hide vacation if status canceled or completed
 const Status = ({ status }) => {
-  //TODO: status keys are unknown
   switch (status) {
+    case "open":
+      return <p>New</p>;
+    case "expects":
+      return <p>On hold</p>;
     case "inwork":
-      return <p>InWork</p>;
+      return <p>In Progress</p>;
+    case "payment":
+      return <p>Payment</p>;
+    case "replacement":
+      return <p>Replacement</p>;
+    case "recommendation":
+      return <p>Recomendation</p>;
     default:
       return <p>NoStatus</p>;
   }

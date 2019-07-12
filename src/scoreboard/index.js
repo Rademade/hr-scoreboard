@@ -1,10 +1,9 @@
 import { connect } from "react-redux";
 import ScoreboardView from "./ScoreboardView";
-import { fetchVacanciesAsync } from "./ScoreboardState";
-// import { loginAsync } from "./AuthState";
+import { fetchVacanciesAsync, loginAsync } from "./ScoreboardState";
 
 function mapStateToProps({ sboard }) {
-  const { data, error, isLoading } = sboard;
+  const { data, user, error, isLoading } = sboard;
   let items = [];
   if (data && data.length > 0) {
     const { vacancies } = data[0];
@@ -12,15 +11,16 @@ function mapStateToProps({ sboard }) {
   }
   return {
     items,
+    user,
     error,
     isLoading
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  // logIn: () => dispatch(loginAsync())
   return {
-    getVacansies: () => dispatch(fetchVacanciesAsync())
+    getVacansies: personId => dispatch(fetchVacanciesAsync(personId)),
+    logIn: () => dispatch(loginAsync())
   };
 }
 
