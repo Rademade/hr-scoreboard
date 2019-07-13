@@ -5,11 +5,12 @@ import VacancyItem from "../components/VacancyItem";
 
 class Scoreboard extends Component {
   componentDidMount() {
-    this.doLogin();
+    // this.doLogin();
+    this.daVacanciesFetch();
   }
 
   componentDidUpdate(prevProps) {
-    console.log("componentDidUpdate", this.props);
+    // console.log("componentDidUpdate", this.props);
     if (!prevProps.user && this.props.user) {
       this.daVacanciesFetch();
     }
@@ -20,8 +21,7 @@ class Scoreboard extends Component {
   };
 
   daVacanciesFetch = () => {
-    const { getVacansies, user } = this.props;
-    getVacansies(user.personId);
+    this.props.getVacansies();
   };
 
   render() {

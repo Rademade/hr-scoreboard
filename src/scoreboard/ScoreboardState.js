@@ -11,13 +11,10 @@ const FETCH_VACANCIES_FAIL = "Scoreboard/FetchVacanciesFail";
 const initialState = {
   isLoading: false,
   isLoggedIn: false,
-  data: null,
+  items: [],
   user: null,
   error: null
 };
-
-// hr/person/getAllPersons
-// hr/client/get
 
 export function loginAsync() {
   return async dispatch => {
@@ -27,13 +24,9 @@ export function loginAsync() {
         login: "viktor@rademade.com",
         password: "a343parder433b"
       });
-      console.log("loginAsync", response);
       const { data } = response;
       if (data.status === "error") {
-        dispatch({
-          type: LOG_IN_FAIL,
-          payload: data.message
-        });
+        throw new Error(data.message);
       } else {
         dispatch({ type: LOG_IN_SUCCESS, payload: data.object });
       }
@@ -56,11 +49,15 @@ export function fetchVacanciesAsync() {
           count: 15
         }
       });
-      console.log("fetchVacanciesAsync", response);
-      dispatch({
-        type: FETCH_VACANCIES_SUCCESS,
-        payload: response.data.objects
-      });
+      const { data } = response;
+      if (data.status === "error") {
+        throw new Error(data.message);
+      } else {
+        dispatch({
+          type: FETCH_VACANCIES_SUCCESS,
+          payload: data.objects
+        });
+      }
     } catch (error) {
       dispatch({
         type: FETCH_VACANCIES_FAIL,
@@ -101,7 +98,7 @@ export default function ScoreboardStateReducer(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        data: action.payload
+        items: action.payload
       };
     case FETCH_VACANCIES_FAIL:
       return {

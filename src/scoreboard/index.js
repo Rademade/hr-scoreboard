@@ -3,12 +3,7 @@ import ScoreboardView from "./ScoreboardView";
 import { fetchVacanciesAsync, loginAsync } from "./ScoreboardState";
 
 function mapStateToProps({ sboard }) {
-  const { data, user, error, isLoading } = sboard;
-  let items = [];
-  if (data && data.length > 0) {
-    const { vacancies } = data[0];
-    items = vacancies.objects;
-  }
+  const { items, user, error, isLoading } = sboard;
   return {
     items,
     user,
@@ -19,7 +14,7 @@ function mapStateToProps({ sboard }) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getVacansies: personId => dispatch(fetchVacanciesAsync(personId)),
+    getVacansies: () => dispatch(fetchVacanciesAsync()),
     logIn: () => dispatch(loginAsync())
   };
 }
