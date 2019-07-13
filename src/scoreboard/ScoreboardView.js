@@ -1,73 +1,60 @@
-import React, { Component } from "react";
-import { PageContainer } from "../components/styled";
-import Placeholder from "../components/Placeholder";
+import React, { useEffect } from "react";
+import {
+  Container,
+  Text,
+  PlaceholderView,
+  LoadingText,
+  ErrorText
+} from "../components/styled";
 import VacancyItem from "../components/VacancyItem";
 
-class Scoreboard extends Component {
-  componentDidMount() {
-    // this.doLogin();
-    this.daVacanciesFetch();
-  }
+const Wrapper = ({ children }) => <Container>{children()}</Container>;
 
-  componentDidUpdate(prevProps) {
-    // console.log("componentDidUpdate", this.props);
-    if (!prevProps.user && this.props.user) {
-      this.daVacanciesFetch();
-    }
-  }
+function ScoreboardView({
+  isLoading,
+  isEmpty,
+  error,
+  items,
+  logIn,
+  getVacansies
+}) {
+  useEffect(() => {
+    // logIn();
+    getVacansies();
+  }, [logIn, getVacansies]);
 
-  doLogin = () => {
-    this.props.logIn();
-  };
+  return (
+    <Wrapper>
+      {() => {
+        if (error) {
+          return (
+            <PlaceholderView>
+              <ErrorText>{`Something goes wrong...`}</ErrorText>
+              <ErrorText>{`Error: ${error}`}</ErrorText>
+            </PlaceholderView>
+          );
+        }
 
-  daVacanciesFetch = () => {
-    this.props.getVacansies();
-  };
+        if (isLoading || items.length < 1) {
+          return (
+            <PlaceholderView>
+              <LoadingText>Loading vacancies...</LoadingText>
+            </PlaceholderView>
+          );
+        }
 
-  render() {
-    const { isLoading, items, error } = this.props;
+        if (isEmpty) {
+          return (
+            <PlaceholderView>
+              <Text>No vacancies...</Text>
+            </PlaceholderView>
+          );
+        }
 
-    if (error) {
-      console.log("got error", error);
-    }
-
-    if (isLoading || items.length === 0) {
-      return <Placeholder />;
-    }
-
-    return (
-      <PageContainer>
-        {items.map(item => (
-          <VacancyItem key={item.vacancyId} item={item} />
-        ))}
-      </PageContainer>
-    );
-  }
+        return items.map(item => <VacancyItem item={item} />);
+      }}
+    </Wrapper>
+  );
 }
 
-export default Scoreboard;
-
-// hr/stat/getVacancyInterviewDetalInfo
-
-// function Scoreboard({ items, error, isLoading, logIn, getVacansies }) {
-//   useEffect(() => {
-//     // logIn();
-//     getVacansies();
-//   }, [getVacansies, logIn]);
-
-//   if (isLoading || items.length === 0) {
-//     return <Placeholder />;
-//   }
-
-//   if (error) {
-//     console.log("got error", error);
-//   }
-
-//   return (
-//     <Container>
-//       {items.map(item => (
-//         <VacancyItem key={item.vacancyId} item={item} />
-//       ))}
-//     </Container>
-//   );
-// }
+export default ScoreboardView;
