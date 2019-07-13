@@ -1,12 +1,6 @@
 import React from "react";
-import { Provider } from "react-redux";
-import Scoreboard from "./scoreboard";
-import store from "./redux/store";
+import SBoardView from "./sboard/SBoardView";
 
-export default function App() {
-  return (
-    <Provider store={store}>
-      <Scoreboard />
-    </Provider>
-  );
-}
+const App = () => <SBoardView />;
+
+export default App;
