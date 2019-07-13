@@ -1,6 +1,11 @@
 # How to start
  
-### Frontend start
+### Settings up .env file
+
+1. `cp .env .env.local`  
+2. Change username and password values in **.env.local**
+
+### Start app
 
 1. `cd root` - got to root folder
 2. `yarn` - install packages via yarn 

@@ -47,6 +47,8 @@ class Scoreboard extends Component {
 
 export default Scoreboard;
 
+// hr/stat/getVacancyInterviewDetalInfo
+
 // function Scoreboard({ items, error, isLoading, logIn, getVacansies }) {
 //   useEffect(() => {
 //     // logIn();

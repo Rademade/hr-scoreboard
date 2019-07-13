@@ -21,8 +21,8 @@ export function loginAsync() {
     try {
       dispatch({ type: LOG_IN });
       const response = await axios.post("/hr/person/auth", {
-        login: "viktor@rademade.com",
-        password: "a343parder433b"
+        login: process.env.REACT_APP_USERNAME,
+        password: process.env.REACT_APP_PASSWORD
       });
       const { data } = response;
       if (data.status === "error") {
