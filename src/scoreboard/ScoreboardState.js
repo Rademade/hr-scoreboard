@@ -72,8 +72,7 @@ export default function ScoreboardStateReducer(state = initialState, action) {
     case LOG_IN:
       return {
         ...state,
-        isLoading: true,
-        error: null
+        isLoading: true
       };
     case LOG_IN_SUCCESS:
       return {
@@ -91,8 +90,7 @@ export default function ScoreboardStateReducer(state = initialState, action) {
     case FETCH_VACANCIES:
       return {
         ...state,
-        isLoading: true,
-        error: null
+        isLoading: true
       };
     case FETCH_VACANCIES_SUCCESS:
       return {
