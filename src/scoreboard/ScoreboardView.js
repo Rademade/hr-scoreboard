@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container } from "../components/styled";
+import { PageContainer } from "../components/styled";
 import Placeholder from "../components/Placeholder";
 import VacancyItem from "../components/VacancyItem";
 
@@ -36,11 +36,11 @@ class Scoreboard extends Component {
     }
 
     return (
-      <Container>
+      <PageContainer>
         {items.map(item => (
           <VacancyItem key={item.vacancyId} item={item} />
         ))}
-      </Container>
+      </PageContainer>
     );
   }
 }

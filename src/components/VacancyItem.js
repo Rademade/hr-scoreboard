@@ -1,34 +1,44 @@
 import React from "react";
-import { ItemContainer } from "./styled";
+import { ItemContainer, StatusContainer } from "./styled";
 
 function VacancyItem({ item }) {
   // console.log("VacancyItem", item);
+
+  if (item.status === "canceled" || item.status === "completed") {
+    return null;
+  }
+
   return (
     <ItemContainer>
-      <p>{item.position}</p>
-      <Status status={item.status} />
+      <h2>{item.position}</h2>
+      <StatusContainer>
+        <p>{`Status: ${getStatus(item.status)}`}</p>
+        <p>{`Client: ${item.clientId.name}`}</p>
+      </StatusContainer>
+      {item.responsiblesPerson.map((person, index) => (
+        <p key={index.toString()}>{person.responsible.fullName}</p>
+      ))}
     </ItemContainer>
   );
 }
 
-//TODO: hide vacation if status canceled or completed
-const Status = ({ status }) => {
+function getStatus(status) {
   switch (status) {
     case "open":
-      return <p>New</p>;
+      return "New";
     case "expects":
-      return <p>On hold</p>;
+      return "On hold";
     case "inwork":
-      return <p>In Progress</p>;
+      return "In Progress";
     case "payment":
-      return <p>Payment</p>;
+      return "Payment";
     case "replacement":
-      return <p>Replacement</p>;
+      return "Replacement";
     case "recommendation":
-      return <p>Recomendation</p>;
+      return "Recomendation";
     default:
-      return <p>NoStatus</p>;
+      return "NoStatus";
   }
-};
+}
 
 export default VacancyItem;

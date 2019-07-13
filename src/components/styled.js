@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const PageContainer = styled.div`
   display: flex;
   padding: 20px;
 `;
@@ -8,10 +8,13 @@ export const Container = styled.div`
 export const ItemContainer = styled.div`
   border: 2px solid red;
   padding: 10px;
+  width: 300px;
+  margin-right: 20px;
 `;
 
-export const Title = styled.h1`
-  color: green;
+export const StatusContainer = styled.div`
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 export const PlaceholderContainer = styled.div`
