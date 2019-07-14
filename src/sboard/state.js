@@ -1,5 +1,5 @@
 import { useReducer, useEffect } from "react";
-import { apiRequest, fetchStatisticsLoop } from "../utils";
+import { apiRequest, fetchStatisticsLoop, formItemsWithStats } from "../utils";
 
 const FETCH_DATA = "fetchData";
 const LOG_IN_SUCCESS = "loginSuccess";
@@ -12,7 +12,7 @@ const initialState = {
   isLoggedIn: false,
   user: null,
   vacancies: [],
-  itemsWithStat: [],
+  itemsWithStats: [],
   error: null
 };
 
@@ -38,7 +38,7 @@ function sboardReducer(state, action) {
       return {
         ...state,
         isLoading: false,
-        itemsWithStat: action.payload
+        itemsWithStats: action.payload
       };
     case SET_ERROR:
       return {
@@ -57,11 +57,12 @@ export function useSboardState() {
     async function fetchDataAsync() {
       dispatch({ type: FETCH_DATA });
       try {
-        const authData = await apiRequest("post", "/hr/person/auth", {
-          login: process.env.REACT_APP_USERNAME,
-          password: process.env.REACT_APP_PASSWORD
-        });
-        dispatch({ type: LOG_IN_SUCCESS, payload: authData.object });
+        // const authData = await apiRequest("post", "/hr/person/auth", {
+        //   login: process.env.REACT_APP_USERNAME,
+        //   password: process.env.REACT_APP_PASSWORD
+        // });
+        // dispatch({ type: LOG_IN_SUCCESS, payload: authData.object });
+        dispatch({ type: LOG_IN_SUCCESS, payload: {} });
         const vacanciesData = await apiRequest("post", "/hr/vacancy/get", {
           page: {
             number: 0,
@@ -71,8 +72,8 @@ export function useSboardState() {
         const items = vacanciesData.objects;
         dispatch({ type: SET_VACANCIES, payload: items });
         const respArray = await fetchStatisticsLoop(items);
-        const itemDetails = respArray.map(resp => ({ ...resp }));
-        console.log("items", items, itemDetails);
+        const itemsWithStats = formItemsWithStats(items, respArray);
+        dispatch({ type: SET_STATISTICS, payload: itemsWithStats });
       } catch (error) {
         console.log("catch", error);
         dispatch({ type: SET_ERROR, payload: error });

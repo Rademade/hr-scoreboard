@@ -11,7 +11,7 @@ import SBoardItem from "./SBoardItem";
 
 function SBoardView() {
   const state = useSboardState();
-  const { isLoading, isLoggedIn, vacancies, error } = state;
+  const { isLoading, isLoggedIn, vacancies, itemsWithStats, error } = state;
   console.log("render", state);
 
   if (error) {
@@ -41,7 +41,7 @@ function SBoardView() {
 
   return (
     <SboardView>
-      {vacancies.items.map(item => (
+      {itemsWithStats.map(item => (
         <SBoardItem key={item.position} item={item} />
       ))}
     </SboardView>

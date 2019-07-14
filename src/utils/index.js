@@ -41,3 +41,23 @@ export async function fetchStatisticsLoop(items) {
   }
   return await Promise.all(promiseArray);
 }
+
+export function formItemsWithStats(items, respArray) {
+  if (items.length !== respArray.length) {
+    throw new Error("Arrays count dont match");
+  }
+  const itemDetails = respArray.map(resp => ({ ...resp }));
+  const resultArray = items.map((item, index) => {
+    const statItem = itemDetails[index];
+    const vacancyId = JSON.parse(statItem.config.data).vacancyId;
+    if (vacancyId !== item.vacancyId) {
+      console.log("wait... what?", vacancyId, item.vacancyId);
+      return { ...item };
+    }
+    return {
+      ...item,
+      ...statItem.data
+    };
+  });
+  return resultArray;
+}
