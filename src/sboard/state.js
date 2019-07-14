@@ -1,48 +1,84 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useReducer, useEffect } from "react";
+import { apiRequest, fetchStatisticsLoop } from "../utils";
 
-export function useVacancyState() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState({ isAuth: false, data: {} });
-  const [items, setItems] = useState([]);
-  const [error, setError] = useState(null);
+const FETCH_DATA = "fetchData";
+const LOG_IN_SUCCESS = "loginSuccess";
+const SET_VACANCIES = "setVacancies";
+const SET_STATISTICS = "setStatistics";
+const SET_ERROR = "setError";
 
-  // fire only once
+const initialState = {
+  isLoading: false,
+  isLoggedIn: false,
+  user: null,
+  vacancies: [],
+  itemsWithStat: [],
+  error: null
+};
+
+function sboardReducer(state, action) {
+  switch (action.type) {
+    case FETCH_DATA:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case LOG_IN_SUCCESS:
+      return {
+        ...state,
+        isLoggedIn: true,
+        user: action.payload
+      };
+    case SET_VACANCIES:
+      return {
+        ...state,
+        vacancies: action.payload
+      };
+    case SET_STATISTICS:
+      return {
+        ...state,
+        isLoading: false,
+        itemsWithStat: action.payload
+      };
+    case SET_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    default:
+      return state;
+  }
+}
+
+export function useSboardState() {
+  const [state, dispatch] = useReducer(sboardReducer, initialState);
   useEffect(() => {
-    async function post(url, body) {
-      const response = await axios.post(url, body);
-      const { data } = response;
-      if (data.status === "error") {
-        throw new Error(data.message);
-      }
-      return data;
-    }
-
-    async function fetchData() {
-      setIsLoading(true);
+    async function fetchDataAsync() {
+      dispatch({ type: FETCH_DATA });
       try {
-        const authData = await post("/hr/person/auth", {
+        const authData = await apiRequest("post", "/hr/person/auth", {
           login: process.env.REACT_APP_USERNAME,
           password: process.env.REACT_APP_PASSWORD
         });
-        setUser({ isAuth: true, data: authData.object });
-
-        const vacancyData = await post("/hr/vacancy/get", {
+        dispatch({ type: LOG_IN_SUCCESS, payload: authData.object });
+        const vacanciesData = await apiRequest("post", "/hr/vacancy/get", {
           page: {
             number: 0,
             count: 15
           }
         });
-        setItems(vacancyData.objects);
+        const items = vacanciesData.objects;
+        dispatch({ type: SET_VACANCIES, payload: items });
+        const respArray = await fetchStatisticsLoop(items);
+        const itemDetails = respArray.map(resp => ({ ...resp }));
+        console.log("items", items, itemDetails);
       } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
+        console.log("catch", error);
+        dispatch({ type: SET_ERROR, payload: error });
       }
     }
-
-    fetchData();
+    fetchDataAsync();
   }, []);
-
-  return [{ isLoading, user, items, error }];
+  return state;
 }

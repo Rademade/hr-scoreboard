@@ -6,19 +6,13 @@ import {
   NoItemsTitle,
   ErrorText
 } from "../components/styled";
-import { useVacancyState } from "./state";
-import BoardItem from "./BoardItem";
+import { useSboardState } from "./state";
+import SBoardItem from "./SBoardItem";
 
 function SBoardView() {
-  const [{ isLoading, user, items, error }] = useVacancyState();
-
-  if (isLoading || !user.isAuth) {
-    return (
-      <PlaceholderView>
-        <LoadingTitle>Loading vacancies...</LoadingTitle>
-      </PlaceholderView>
-    );
-  }
+  const state = useSboardState();
+  const { isLoading, isLoggedIn, vacancies, error } = state;
+  console.log("render", state);
 
   if (error) {
     return (
@@ -29,7 +23,15 @@ function SBoardView() {
     );
   }
 
-  if (items.length < 1) {
+  if (isLoading || !isLoggedIn) {
+    return (
+      <PlaceholderView>
+        <LoadingTitle>Loading vacancies...</LoadingTitle>
+      </PlaceholderView>
+    );
+  }
+
+  if (vacancies.length < 1) {
     return (
       <PlaceholderView>
         <NoItemsTitle>No vacancies...</NoItemsTitle>
@@ -39,8 +41,8 @@ function SBoardView() {
 
   return (
     <SboardView>
-      {items.map(item => (
-        <BoardItem key={item.position} item={item} />
+      {vacancies.items.map(item => (
+        <SBoardItem key={item.position} item={item} />
       ))}
     </SboardView>
   );
