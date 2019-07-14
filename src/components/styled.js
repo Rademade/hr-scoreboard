@@ -29,8 +29,28 @@ export const ErrorText = styled(Text)`
 
 // board
 export const SboardView = styled.div`
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const ItemView = styled.div`
+  width: 300px;
+  margin: 20px;
   border: solid 2px green;
-  padding: 20px;
-  width: 100%;
+`;
+
+export const ItemTitle = styled.h4`
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+  border-bottom: solid 2px green;
+`;
+
+export const ItemText = styled.h5`
+  margin: 0;
+`;
+
+export const StatusView = styled.div`
+  text-align: left;
+  padding: 10px;
 `;

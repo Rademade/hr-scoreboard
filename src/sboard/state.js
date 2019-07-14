@@ -75,11 +75,11 @@ export function useSboardState() {
         const itemsWithStats = formItemsWithStats(items, respArray);
         dispatch({ type: SET_STATISTICS, payload: itemsWithStats });
       } catch (error) {
-        console.log("catch", error);
         dispatch({ type: SET_ERROR, payload: error });
       }
     }
     fetchDataAsync();
   }, []);
+
   return state;
 }

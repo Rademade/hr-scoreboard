@@ -1,4 +1,5 @@
 import React from "react";
+import { useSboardState } from "./state";
 import {
   SboardView,
   PlaceholderView,
@@ -6,14 +7,10 @@ import {
   NoItemsTitle,
   ErrorText
 } from "../components/styled";
-import { useSboardState } from "./state";
 import SBoardItem from "./SBoardItem";
 
 function SBoardView() {
-  const state = useSboardState();
-  const { isLoading, isLoggedIn, vacancies, itemsWithStats, error } = state;
-  console.log("render", state);
-
+  const { isLoading, isLoggedIn, itemsWithStats, error } = useSboardState();
   if (error) {
     return (
       <PlaceholderView>
@@ -31,7 +28,7 @@ function SBoardView() {
     );
   }
 
-  if (vacancies.length < 1) {
+  if (itemsWithStats.length < 1) {
     return (
       <PlaceholderView>
         <NoItemsTitle>No vacancies...</NoItemsTitle>
@@ -42,7 +39,7 @@ function SBoardView() {
   return (
     <SboardView>
       {itemsWithStats.map(item => (
-        <SBoardItem key={item.position} item={item} />
+        <SBoardItem key={item.position} data={item} />
       ))}
     </SboardView>
   );
