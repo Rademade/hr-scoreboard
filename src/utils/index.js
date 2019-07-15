@@ -1,38 +1,8 @@
 import axios from "axios";
 
-export function getStatusString(status) {
-  switch (status) {
-    case "open":
-      return "New";
-    case "expects":
-      return "On hold";
-    case "inwork":
-      return "In Progress";
-    case "payment":
-      return "Payment";
-    case "replacement":
-      return "Replacement";
-    case "recommendation":
-      return "Recomendation";
-    default:
-      return "NoStatus";
-  }
-}
-
-export function getUserLetters(username) {
-  let string = "";
-  username
-    .split(" ")
-    .map(item => item.slice(0, 1))
-    // eslint-disable-next-line array-callback-return
-    .map(item => {
-      string = string.concat(item);
-    });
-  return string;
-}
-
 export async function apiRequest(method, url, data) {
   const response = await axios({ method, url, data });
+  console.log("resp", response);
   if (response.data.status === "error") {
     throw new Error(data.message);
   }
