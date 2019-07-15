@@ -19,6 +19,18 @@ export function getStatusString(status) {
   }
 }
 
+export function getUserLetters(username) {
+  let string = "";
+  username
+    .split(" ")
+    .map(item => item.slice(0, 1))
+    // eslint-disable-next-line array-callback-return
+    .map(item => {
+      string = string.concat(item);
+    });
+  return string;
+}
+
 export async function apiRequest(method, url, data) {
   const response = await axios({ method, url, data });
   if (response.data.status === "error") {

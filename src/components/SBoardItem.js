@@ -3,22 +3,26 @@ import {
   ItemView,
   StatusView,
   ItemTitle,
-  ItemText
-} from "../components/styled";
+  ItemText,
+  ResponsiblesView
+} from "./styled";
+import PersonItem from "./PersonItem";
 import { getStatusString } from "../utils";
 
 function BoardItem({ data }) {
-  console.log("data", data);
+  // console.log("BoardItem", data);
   const { position, status, responsiblesPerson } = data;
   return (
     <ItemView>
       <ItemTitle>{position}</ItemTitle>
       <StatusView>
         <ItemText>{getStatusString(status)}</ItemText>
-        {responsiblesPerson.map(({ responsible, personId }) => {
-          return <p key={personId}>{responsible.fullName}</p>;
-        })}
       </StatusView>
+      <ResponsiblesView>
+        {responsiblesPerson.map(({ responsible, personId }) => {
+          return <PersonItem key={personId} person={responsible} />;
+        })}
+      </ResponsiblesView>
     </ItemView>
   );
 }

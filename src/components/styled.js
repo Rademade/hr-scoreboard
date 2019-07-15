@@ -54,3 +54,22 @@ export const StatusView = styled.div`
   text-align: left;
   padding: 10px;
 `;
+
+export const ResponsiblesView = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 5px;
+`;
+
+export const PersonView = styled.div`
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  margin: 0px 5px;
+  background-color: lightgray;
+  border-radius: 3px;
+`;
+
+export const Letters = styled(Text)`
+  line-height: 40px;
+`;

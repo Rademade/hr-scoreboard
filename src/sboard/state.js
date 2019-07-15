@@ -57,12 +57,12 @@ export function useSboardState() {
     async function fetchDataAsync() {
       dispatch({ type: FETCH_DATA });
       try {
-        // const authData = await apiRequest("post", "/hr/person/auth", {
-        //   login: process.env.REACT_APP_USERNAME,
-        //   password: process.env.REACT_APP_PASSWORD
-        // });
-        // dispatch({ type: LOG_IN_SUCCESS, payload: authData.object });
-        dispatch({ type: LOG_IN_SUCCESS, payload: {} });
+        const authData = await apiRequest("post", "/hr/person/auth", {
+          login: process.env.REACT_APP_USERNAME,
+          password: process.env.REACT_APP_PASSWORD
+        });
+        dispatch({ type: LOG_IN_SUCCESS, payload: authData.object });
+        // dispatch({ type: LOG_IN_SUCCESS, payload: {} });
         const vacanciesData = await apiRequest("post", "/hr/vacancy/get", {
           page: {
             number: 0,

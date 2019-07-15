@@ -7,7 +7,7 @@ import {
   NoItemsTitle,
   ErrorText
 } from "../components/styled";
-import SBoardItem from "./SBoardItem";
+import SBoardItem from "../components/SBoardItem";
 
 function SBoardView() {
   const { isLoading, isLoggedIn, itemsWithStats, error } = useSboardState();
