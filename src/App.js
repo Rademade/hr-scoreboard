@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, createContext } from "react";
-import axios from "axios";
 import { appReducer, initialState } from "./reducer";
-import { apiRequest, formData } from "./utils";
+import { apiRequest, fetchLoop, formData } from "./utils";
 import Scoreboard from "./components/Scoreboard";
 
 export const AppStateContext = createContext({});
@@ -67,25 +66,13 @@ function App() {
   useEffect(() => {
     async function fetchStatisticsLoop() {
       try {
-        const count = state.vacancies.length;
-        let promiseArray = [];
-        for (let i = 0; i < count; i++) {
-          const item = state.vacancies[i];
-          promiseArray.push(
-            axios.post("/hr/stat/getVacancyInterviewDetalInfo", {
-              vacancyId: item.vacancyId,
-              withCandidatesHistory: true
-            })
-          );
-        }
-        const resolvedArray = await Promise.all(promiseArray);
-        const detailsArray = resolvedArray
-          .map(resp => ({ ...resp }))
-          .map(item => {
-            const vacancyId = JSON.parse(item.config.data).vacancyId;
-            const { data } = item;
-            return { vacancyId, data };
-          });
+        const detailsArray = await fetchLoop(
+          state.vacancies,
+          "/hr/stat/getVacancyInterviewDetalInfo",
+          {
+            withCandidatesHistory: true
+          }
+        );
         dispatch({ type: "SET_STATISTICS", payload: detailsArray });
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error });
@@ -96,13 +83,39 @@ function App() {
     }
   }, [state.vacancies]);
 
-  const { vacancies, stages, statistics } = state;
   useEffect(() => {
-    if (vacancies.length > 0 && stages.length > 0 && statistics.length > 0) {
-      const formedData = formData(vacancies, stages, statistics);
+    async function fetchEvetsLoop() {
+      try {
+        const eventsArray = await fetchLoop(
+          state.vacancies,
+          "/hr/vacancy/interview%2Fget",
+          {
+            page: { number: 0, count: 15 },
+            withCandidatesHistory: true
+          }
+        );
+        dispatch({ type: "SET_EVENTS", payload: eventsArray });
+      } catch (error) {
+        dispatch({ type: "SET_ERROR", payload: error });
+      }
+    }
+    if (state.vacancies.length > 0) {
+      fetchEvetsLoop();
+    }
+  }, [state.vacancies]);
+
+  const { vacancies, stages, statistics, events } = state;
+  useEffect(() => {
+    if (
+      vacancies.length > 0 &&
+      stages.length > 0 &&
+      statistics.length > 0 &&
+      events.length > 0
+    ) {
+      const formedData = formData(vacancies, stages, statistics, events);
       dispatch({ type: "SET_FORMED_DATA", payload: formedData });
     }
-  }, [vacancies, stages, statistics]);
+  }, [vacancies, stages, statistics, events]);
 
   return (
     <AppStateContext.Provider value={state}>
