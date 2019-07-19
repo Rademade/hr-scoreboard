@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import {
   VacancyContainer,
   TitleContainer,
@@ -15,7 +16,7 @@ import {
 function Vacancy(props) {
   // console.log("Vacancy", props);
   const { status, position, index, responsiblesPerson, dc, clientId } = props;
-  const creationDate = new Date(dc);
+  const creationDate = moment(dc).format("MMMM Do YYYY");
 
   if (!(status === "inwork" || status === "open")) {
     return null;
@@ -29,7 +30,7 @@ function Vacancy(props) {
       <InfoContainer>
         <RowContainer>
           <CreatedTitle>Created:</CreatedTitle>
-          <ValueText>{creationDate.toLocaleDateString("en-US")}</ValueText>
+          <ValueText>{creationDate}</ValueText>
         </RowContainer>
         <RowContainer>
           <ClientTitle>Client:</ClientTitle>
