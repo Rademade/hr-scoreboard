@@ -1,19 +1,19 @@
 import React from "react";
 import {
   VacancyContainer,
+  TitleContainer,
   VacancyTitle,
   InfoContainer,
-  PersonText,
-  SmallTitle,
   RowContainer,
-  DefaultText,
+  PersonContainer,
   CreatedTitle,
-  ClientTitle
+  ClientTitle,
+  ResponsibleTitle,
+  ValueText
 } from "./styledComponents";
-// import Funnel from "./Funnel";
 
 function Vacancy(props) {
-  console.log("Vacancy", props);
+  // console.log("Vacancy", props);
   const { status, position, index, responsiblesPerson, dc, clientId } = props;
   const creationDate = new Date(dc);
 
@@ -23,22 +23,35 @@ function Vacancy(props) {
 
   return (
     <VacancyContainer index={index}>
-      <VacancyTitle>{position}</VacancyTitle>
+      <TitleContainer>
+        <VacancyTitle>{position}</VacancyTitle>
+      </TitleContainer>
       <InfoContainer>
         <RowContainer>
           <CreatedTitle>Created:</CreatedTitle>
-          <DefaultText>{creationDate.toLocaleDateString("en-US")}</DefaultText>
+          <ValueText>{creationDate.toLocaleDateString("en-US")}</ValueText>
         </RowContainer>
         <RowContainer>
           <ClientTitle>Client:</ClientTitle>
-          <DefaultText>{clientId.name}</DefaultText>
+          <ValueText>{clientId.name}</ValueText>
         </RowContainer>
-        <SmallTitle>Responsibles</SmallTitle>
-        {responsiblesPerson.map(({ personId, responsible, type }) => {
-          if (type !== "recruiter") return null;
-          return <PersonText key={personId}>{responsible.fullName}</PersonText>;
-        })}
       </InfoContainer>
+      <PersonContainer>
+        <ResponsibleTitle>Responsibles</ResponsibleTitle>
+        <div style={{ display: "flex" }}>
+          {responsiblesPerson
+            .filter(({ type }) => type === "recruiter")
+            .map(({ personId, responsible }, index, array) => {
+              const comma =
+                index < array.length - 1 && array.length > 1 ? "," : "";
+              return (
+                <ValueText key={personId}>
+                  {responsible.fullName + comma}
+                </ValueText>
+              );
+            })}
+        </div>
+      </PersonContainer>
     </VacancyContainer>
   );
 }

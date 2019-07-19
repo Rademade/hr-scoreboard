@@ -19,19 +19,10 @@ function getName(key) {
   }
 }
 
-// function isRejected(key) {
-//   return !(
-//     key === "notafit" ||
-//     key === "declinedoffer" ||
-//     key === "no_response" ||
-//     key === "is_not_looking_for_job"
-//   );
-// }
-
 export async function apiRequest(method, url, data = null) {
   const response = await axios({ method, url, data });
   if (response.data.status === "error") {
-    throw new Error(data.message);
+    throw new Error(response.data.message);
   }
   return response.data;
 }

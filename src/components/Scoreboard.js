@@ -8,7 +8,7 @@ const Scoreboard = () => (
     {({ appInitialize, items, error }) => {
       if (!appInitialize) return <StyledTitle>Loading...</StyledTitle>;
 
-      if (appInitialize && error) return <p>{error}</p>;
+      if (appInitialize && error) return <h3>{error.message}</h3>;
 
       return items.map((item, index) => (
         <Vacancy {...item} index={index} key={item.position} />
