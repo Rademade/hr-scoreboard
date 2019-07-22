@@ -1,4 +1,5 @@
 import axios from "axios";
+import _ from "lodash";
 
 /* 
   /hr/stat/getUserPerformance 
@@ -32,6 +33,7 @@ function getName(key) {
 
 export async function apiRequest(method, url, data = null) {
   const response = await axios({ method, url, data });
+  // console.log("AAAA", response);
   if (response.data.status === "error") {
     throw new Error(response.data.message);
   }
@@ -53,6 +55,18 @@ export async function fetchLoop(items, url, data) {
       const { data } = item;
       return { vacancyId, data };
     });
+}
+
+export function formPersonsArray(vacancies) {
+  const array = [];
+  vacancies.forEach(({ responsiblesPerson }) =>
+    array.push(...responsiblesPerson)
+  );
+  return _.uniq(
+    array
+      .filter(({ type }) => type === "recruiter")
+      .map(({ personId }) => personId)
+  );
 }
 
 export function formData(vacancies, stages, statistics) {

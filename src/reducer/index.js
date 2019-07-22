@@ -5,6 +5,7 @@ export const initialState = {
   stages: [],
   statistics: [],
   items: [],
+  report: null,
   error: null
 };
 
@@ -29,6 +30,11 @@ export function appReducer(state, action) {
       return {
         ...state,
         statistics: action.payload
+      };
+    case "SET_REPORT":
+      return {
+        ...state,
+        report: action.payload
       };
     case "SET_FORMED_DATA":
       return {

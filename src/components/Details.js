@@ -7,7 +7,7 @@ import {
 } from "./styledComponents";
 
 function Details({ detailedInfo }) {
-  console.log("DETAILS", detailedInfo);
+  // console.log("DETAILS", detailedInfo);
   return (
     <DetailsContainer>
       {detailedInfo.map(({ id, description, detailInfo }) => (
