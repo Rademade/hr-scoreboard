@@ -24,7 +24,7 @@ function App() {
         dispatch({ type: "SET_ERROR", payload: error });
       }
     }
-    login(false);
+    login(true);
   }, []);
 
   useEffect(() => {
@@ -83,40 +83,14 @@ function App() {
     }
   }, [state.vacancies]);
 
+  const { vacancies, stages, statistics } = state;
   useEffect(() => {
-    async function fetchEvetsLoop() {
-      try {
-        const eventsArray = await fetchLoop(
-          state.vacancies,
-          "/hr/vacancy/interview%2Fget",
-          {
-            page: { number: 0, count: 15 },
-            withCandidatesHistory: true
-          }
-        );
-        dispatch({ type: "SET_EVENTS", payload: eventsArray });
-      } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
-      }
-    }
-    if (state.vacancies.length > 0) {
-      fetchEvetsLoop();
-    }
-  }, [state.vacancies]);
-
-  const { vacancies, stages, statistics, events } = state;
-  useEffect(() => {
-    if (
-      vacancies.length > 0 &&
-      stages.length > 0 &&
-      statistics.length > 0 &&
-      events.length > 0
-    ) {
-      const formedData = formData(vacancies, stages, statistics, events);
+    if (vacancies.length > 0 && stages.length > 0 && statistics.length > 0) {
+      const formedData = formData(vacancies, stages, statistics);
       dispatch({ type: "SET_FORMED_DATA", payload: formedData });
     }
-  }, [vacancies, stages, statistics, events]);
-
+  }, [vacancies, stages, statistics]);
+  
   return (
     <AppStateContext.Provider value={state}>
       <Scoreboard />

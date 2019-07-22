@@ -55,13 +55,11 @@ export async function fetchLoop(items, url, data) {
     });
 }
 
-export function formData(vacancies, stages, statistics, events) {
+export function formData(vacancies, stages, statistics) {
   return vacancies.map(vacancy => {
     const { vacancyInterviewDetalInfo } = statistics.find(
       item => item.vacancyId === vacancy.vacancyId
     ).data;
-    const eventsData = events.find(item => item.vacancyId === vacancy.vacancyId)
-      .data;
     const details = vacancy.interviewStatus
       .split(",")
       .map(id => {
@@ -79,8 +77,7 @@ export function formData(vacancies, stages, statistics, events) {
       .filter(stage => stage.customType !== "refuse");
     return {
       ...vacancy,
-      detailedInfo: details,
-      events: eventsData.objects
+      detailedInfo: details
     };
   });
 }
