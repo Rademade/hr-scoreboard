@@ -12,10 +12,18 @@ import {
   ResponsibleTitle,
   ValueText
 } from "./styledComponents";
+import Details from "./Details";
 
 function Vacancy(props) {
-  // console.log("Vacancy", props);
-  const { status, position, index, responsiblesPerson, dc, clientId } = props;
+  const {
+    status,
+    position,
+    index,
+    responsiblesPerson,
+    dc,
+    clientId,
+    detailedInfo
+  } = props;
   const creationDate = moment(dc).format("MMMM Do YYYY");
 
   if (!(status === "inwork" || status === "open")) {
@@ -53,6 +61,7 @@ function Vacancy(props) {
             })}
         </div>
       </PersonContainer>
+      <Details detailedInfo={detailedInfo} />
     </VacancyContainer>
   );
 }

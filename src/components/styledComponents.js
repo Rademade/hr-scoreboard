@@ -39,6 +39,22 @@ export const PersonContainer = styled.div`
   flex: 1;
 `;
 
+export const DetailsContainer = styled.div`
+  border-top: solid 1px #ecf0f1;
+  padding-bottom: 40px;
+`;
+
+export const DetailsRow = styled.div`
+  border-bottom: dashed 1px #ecf0f1;
+  padding: 5px 0px;
+  display: flex;
+`;
+
+export const DescriptionContainer = styled.div`
+  width: 40%;
+  text-align: center;
+`;
+
 export const VacancyTitle = styled.h1`
   margin: 0px;
   color: #ecf0f1;
