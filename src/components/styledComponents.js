@@ -41,17 +41,27 @@ export const PersonContainer = styled.div`
 
 export const DetailsContainer = styled.div`
   border-top: solid 1px #ecf0f1;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 `;
 
 export const DetailsRow = styled.div`
   border-bottom: dashed 1px #ecf0f1;
-  padding: 5px 0px;
   display: flex;
+  justify-content: space-between;
+  padding: 10px 0px;
 `;
 
-export const DescriptionContainer = styled.div`
+export const StateView = styled.div`
   width: 40%;
+  text-align: center;
+`;
+
+export const MiddleView = styled.div`
+  padding: 0px 0px;
+`;
+
+export const RightView = styled.div`
+  width: 30%;
   text-align: center;
 `;
 

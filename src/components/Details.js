@@ -3,24 +3,36 @@ import {
   CommonText,
   DetailsContainer,
   DetailsRow,
-  DescriptionContainer
+  StateView,
+  MiddleView,
+  RightView
 } from "./styledComponents";
 
 function Details({ detailedInfo }) {
-  console.log("DETAILS", detailedInfo);
   return (
     <DetailsContainer>
-      {detailedInfo.map(({ id, description, detailInfo, weekDetailInfo }) => (
+      <DetailsRow>
+        <StateView>
+          <CommonText>State</CommonText>
+        </StateView>
+        <MiddleView>
+          <CommonText>Current week</CommonText>
+        </MiddleView>
+        <RightView>
+          <CommonText>All time</CommonText>
+        </RightView>
+      </DetailsRow>
+      {detailedInfo.map(({ id, description, weekDetailInfo, detailInfo }) => (
         <DetailsRow key={id}>
-          <DescriptionContainer>
+          <StateView>
             <CommonText>{description}</CommonText>
-          </DescriptionContainer>
-          <div style={{ paddingLeft: "10px" }}>
-            <CommonText>{detailInfo.length}</CommonText>
-          </div>
-          <div style={{ paddingLeft: "10px" }}>
+          </StateView>
+          <MiddleView>
             <CommonText>{weekDetailInfo.length}</CommonText>
-          </div>
+          </MiddleView>
+          <RightView>
+            <CommonText>{detailInfo.length}</CommonText>
+          </RightView>
         </DetailsRow>
       ))}
     </DetailsContainer>
