@@ -1,17 +1,6 @@
 import axios from "axios";
 import _ from "lodash";
 
-/* 
-  /hr/stat/getUserPerformance 
-  body 
-  dateRangeType: "currentWeek"
-  displayWeeklyStats: false
-  from: 1563742800000
-  personIds: ["8688ddd313104f579e1da69d01d2e420", "c7deb429a04b4a6585ee73d35be78a85",…]
-  to: 1563829199999
-  vacancyIds: ["287b6fad17b34396a5e149d4c3757baa", "3ff12a231f284bc1ba13aa11927003bf"]
-*/
-
 function getName(key) {
   switch (key) {
     case "longlist":
@@ -33,7 +22,6 @@ function getName(key) {
 
 export async function apiRequest(method, url, data = null) {
   const response = await axios({ method, url, data });
-  // console.log("AAAA", response);
   if (response.data.status === "error") {
     throw new Error(response.data.message);
   }
@@ -69,8 +57,50 @@ export function formPersonsArray(vacancies) {
   );
 }
 
-export function formData(vacancies, stages, statistics) {
+const getKeys = object => Object.keys(object);
+
+function formWeekArray(infoMap) {
+  const resObject = {};
+  getKeys(infoMap).forEach(akey => {
+    const info = infoMap[akey];
+    getKeys(info).forEach(bkey => {
+      const stages = info[bkey];
+      getKeys(stages).forEach(ckey => {
+        const resProp = resObject[ckey];
+        if (resProp) {
+          resObject[ckey] = [...resProp, ...stages[ckey]];
+        } else {
+          resObject[ckey] = stages[ckey];
+        }
+      });
+    });
+  });
+  const resArray = [];
+  getKeys(resObject).forEach(key => {
+    resArray.push({
+      id: key,
+      detailedInfo: resObject[key]
+    });
+  });
+  return resArray;
+}
+
+export function formData(vacancies, stages, statistics, reports) {
   return vacancies.map(vacancy => {
+    const { infoMap } = reports.find(
+      report => report.vacancy.vacancyId === vacancy.vacancyId
+    );
+    const weekReport = formWeekArray(infoMap)
+      .map(item => {
+        const customStage = stages.find(
+          stage => stage.customInterviewStateId === item.id
+        );
+        return {
+          ...item,
+          description: customStage ? customStage.name : getName(item.id)
+        };
+      })
+      .filter(stage => stage.description !== "reject");
     const { vacancyInterviewDetalInfo } = statistics.find(
       item => item.vacancyId === vacancy.vacancyId
     ).data;
@@ -91,6 +121,7 @@ export function formData(vacancies, stages, statistics) {
       .filter(stage => stage.customType !== "refuse");
     return {
       ...vacancy,
+      weekDetailedInfo: weekReport,
       detailedInfo: details
     };
   });

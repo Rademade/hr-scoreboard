@@ -91,10 +91,10 @@ function App() {
           "post",
           "/hr/stat/getUserPerformance ",
           {
-            dateRangeType: "currentWeek",
+            dateRangeType: "currentMonth",
             displayWeeklyStats: false,
             from: moment()
-              .startOf("day")
+              .startOf("month")
               .valueOf(),
             personIds: formPersonsArray(state.vacancies),
             to: moment()
@@ -103,7 +103,7 @@ function App() {
             vacancyIds: state.vacancies.map(({ vacancyId }) => vacancyId)
           }
         );
-        dispatch({ type: "SET_REPORT", payload: weekReport });
+        dispatch({ type: "SET_REPORT", payload: weekReport.object.entryList });
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error });
       }
@@ -113,14 +113,19 @@ function App() {
     }
   }, [state.vacancies]);
 
-  const { vacancies, stages, statistics } = state;
+  const { vacancies, stages, statistics, reports } = state;
   useEffect(() => {
-    if (vacancies.length > 0 && stages.length > 0 && statistics.length > 0) {
-      const formedData = formData(vacancies, stages, statistics);
+    if (
+      vacancies.length > 0 &&
+      stages.length > 0 &&
+      statistics.length > 0 &&
+      reports.length > 0
+    ) {
+      const formedData = formData(vacancies, stages, statistics, reports);
       dispatch({ type: "SET_FORMED_DATA", payload: formedData });
     }
-  }, [vacancies, stages, statistics]);
-  console.log("state", state);
+  }, [vacancies, stages, statistics, reports]);
+
   return (
     <AppStateContext.Provider value={state}>
       <Scoreboard />
