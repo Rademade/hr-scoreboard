@@ -7,16 +7,19 @@ import {
 } from "./styledComponents";
 
 function Details({ detailedInfo }) {
-  // console.log("DETAILS", detailedInfo);
+  console.log("DETAILS", detailedInfo);
   return (
     <DetailsContainer>
-      {detailedInfo.map(({ id, description, detailInfo }) => (
+      {detailedInfo.map(({ id, description, detailInfo, weekDetailInfo }) => (
         <DetailsRow key={id}>
           <DescriptionContainer>
             <CommonText>{description}</CommonText>
           </DescriptionContainer>
           <div style={{ paddingLeft: "10px" }}>
             <CommonText>{detailInfo.length}</CommonText>
+          </div>
+          <div style={{ paddingLeft: "10px" }}>
+            <CommonText>{weekDetailInfo.length}</CommonText>
           </div>
         </DetailsRow>
       ))}

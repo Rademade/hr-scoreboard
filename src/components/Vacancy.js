@@ -14,16 +14,15 @@ import {
 } from "./styledComponents";
 import Details from "./Details";
 
-function Vacancy(props) {
-  const {
-    status,
-    position,
-    index,
-    responsiblesPerson,
-    dc,
-    clientId,
-    detailedInfo
-  } = props;
+function Vacancy({
+  status,
+  position,
+  index,
+  responsiblesPerson,
+  dc,
+  clientId,
+  detailedInfo
+}) {
   const creationDate = moment(dc).format("MMMM Do YYYY");
 
   if (!(status === "inwork" || status === "open")) {

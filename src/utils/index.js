@@ -59,7 +59,7 @@ export function formPersonsArray(vacancies) {
 
 const getKeys = object => Object.keys(object);
 
-function formWeekArray(infoMap) {
+function formWeekReport(infoMap) {
   const resObject = {};
   getKeys(infoMap).forEach(akey => {
     const info = infoMap[akey];
@@ -75,14 +75,7 @@ function formWeekArray(infoMap) {
       });
     });
   });
-  const resArray = [];
-  getKeys(resObject).forEach(key => {
-    resArray.push({
-      id: key,
-      detailedInfo: resObject[key]
-    });
-  });
-  return resArray;
+  return resObject;
 }
 
 export function formData(vacancies, stages, statistics, reports) {
@@ -90,17 +83,7 @@ export function formData(vacancies, stages, statistics, reports) {
     const { infoMap } = reports.find(
       report => report.vacancy.vacancyId === vacancy.vacancyId
     );
-    const weekReport = formWeekArray(infoMap)
-      .map(item => {
-        const customStage = stages.find(
-          stage => stage.customInterviewStateId === item.id
-        );
-        return {
-          ...item,
-          description: customStage ? customStage.name : getName(item.id)
-        };
-      })
-      .filter(stage => stage.description !== "reject");
+    const weekReport = formWeekReport(infoMap);
     const { vacancyInterviewDetalInfo } = statistics.find(
       item => item.vacancyId === vacancy.vacancyId
     ).data;
@@ -114,6 +97,7 @@ export function formData(vacancies, stages, statistics, reports) {
           id,
           description: customStage ? customStage.name : getName(id),
           detailInfo: vacancyInterviewDetalInfo[id] || [],
+          weekDetailInfo: weekReport[id],
           customType: customStage ? customStage.type : null
         };
       })
