@@ -91,10 +91,10 @@ function App() {
           "post",
           "/hr/stat/getUserPerformance ",
           {
-            dateRangeType: "currentMonth",
+            dateRangeType: "currentWeek",
             displayWeeklyStats: false,
             from: moment()
-              .startOf("month")
+              .startOf("week")
               .valueOf(),
             personIds: formPersonsArray(state.vacancies),
             to: moment()
@@ -125,7 +125,7 @@ function App() {
       dispatch({ type: "SET_FORMED_DATA", payload: formedData });
     }
   }, [vacancies, stages, statistics, reports]);
-
+  console.log("state", state);
   return (
     <AppStateContext.Provider value={state}>
       <Scoreboard />

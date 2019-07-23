@@ -80,10 +80,10 @@ function formWeekReport(infoMap) {
 
 export function formData(vacancies, stages, statistics, reports) {
   return vacancies.map(vacancy => {
-    const { infoMap } = reports.find(
+    const report = reports.find(
       report => report.vacancy.vacancyId === vacancy.vacancyId
     );
-    const weekReport = formWeekReport(infoMap);
+    const weekReport = report ? formWeekReport(report.infoMap) : {};
     const { vacancyInterviewDetalInfo } = statistics.find(
       item => item.vacancyId === vacancy.vacancyId
     ).data;
@@ -97,7 +97,7 @@ export function formData(vacancies, stages, statistics, reports) {
           id,
           description: customStage ? customStage.name : getName(id),
           detailInfo: vacancyInterviewDetalInfo[id] || [],
-          weekDetailInfo: weekReport[id],
+          weekDetailInfo: weekReport[id] || [],
           customType: customStage ? customStage.type : null
         };
       })
