@@ -25,7 +25,7 @@ function App() {
         dispatch({ type: "SET_ERROR", payload: error });
       }
     }
-    login(true);
+    login(false);
   }, []);
 
   useEffect(() => {
