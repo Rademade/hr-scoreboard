@@ -18,6 +18,7 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/*', (req, res) => {
+  console.log("bbbbb", req);
   res.sendFile(path.join(__dirname, "build', 'index.html"));
 });
 

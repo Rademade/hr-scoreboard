@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
-// TODO: bullshit
-export const StyledTitle = styled.h1`
-  color: green;
-`;
-
 export const RootContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+`;
+
+export const LaunchContainer = styled.div`
+  flex: 1;
+  text-align: center;
+  padding-top: 40px;
 `;
 
 export const VacancyContainer = styled.div`
@@ -63,6 +64,17 @@ export const MiddleView = styled.div`
 export const RightView = styled.div`
   width: 30%;
   text-align: center;
+`;
+
+export const StyledTitle = styled.h1`
+  color: green;
+  font-size: 62px;
+`;
+
+export const ErrorTitle = styled.h2`
+  margin: 0;
+  color: #ecf0f1;
+  margin-top: 20px;
 `;
 
 export const VacancyTitle = styled.h1`
