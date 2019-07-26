@@ -14,11 +14,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "server": "node server.js",
+    "server": "node-env-run server --exec nodemon | pino-colada",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write 'src/**/*.js'"
+    "format": "prettier --write 'src/**/*.js' 'server/**/*.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,6 +43,7 @@
     "node-env-run": "^3.0.2",
     "nodemon": "^1.19.1",
     "npm-run-all": "^4.1.5",
-    "pino-colada": "^1.4.5"
+    "pino-colada": "^1.4.5",
+    "prettier": "^1.18.2"
   }
 }
