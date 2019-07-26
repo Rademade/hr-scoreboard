@@ -18,12 +18,11 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/*', (req, res) => {
-  console.log("bbbbb", req);
   res.sendFile(path.join(__dirname, "build', 'index.html"));
 });
 
 app.get("/hr/person/auth", (req, res) => {
-  console.log("aaaa", req, res);
+  console.log(req);
 });
 
 app.listen(port);
