@@ -1,130 +1,127 @@
 import React, { useEffect, useReducer, createContext } from "react";
-import moment from "moment";
+// import moment from "moment";
+import axios from "axios";
 import { appReducer, initialState } from "./reducer";
-import { apiRequest, fetchLoop, formData, formPersonsArray } from "./utils";
+// import { apiRequest, fetchLoop, formData, formPersonsArray } from "./utils";
 import Scoreboard from "./components/Scoreboard";
 
 export const AppStateContext = createContext({});
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  console.log("app state", state);
 
   useEffect(() => {
-    async function login(nope) {
+    async function login() {
       try {
-        if (nope) {
-          dispatch({ type: "SET_USER", payload: { personId: 1 } });
-        } else {
-          const response = await apiRequest("post", "/hr/person/auth", {
-            login: process.env.REACT_APP_USERNAME,
-            password: process.env.REACT_APP_PASSWORD
-          });
-          dispatch({ type: "SET_USER", payload: response.object });
-        }
+        const response = await axios.get("/api/auth");
+        if (response.data.status === "error") throw response.data.message;
+        console.log("auth response", response);
+        dispatch({ type: "SET_USER", payload: response.data.object });
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error });
       }
     }
-    login(false);
+    login();
   }, []);
 
-  useEffect(() => {
-    async function fetchVacancies() {
-      try {
-        const response = await apiRequest("post", "/hr/vacancy/get", {
-          page: {
-            number: 0,
-            count: 15
-          }
-        });
-        dispatch({ type: "SET_VACANCIES", payload: response.objects });
-      } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
-      }
-    }
-    if (state.user) {
-      fetchVacancies();
-    }
-  }, [state.user]);
+  // useEffect(() => {
+  //   async function fetchVacancies() {
+  //     try {
+  //       const response = await apiRequest("post", "/hr/vacancy/get", {
+  //         page: {
+  //           number: 0,
+  //           count: 15
+  //         }
+  //       });
+  //       dispatch({ type: "SET_VACANCIES", payload: response.objects });
+  //     } catch (error) {
+  //       dispatch({ type: "SET_ERROR", payload: error });
+  //     }
+  //   }
+  //   if (state.user) {
+  //     fetchVacancies();
+  //   }
+  // }, [state.user]);
 
-  useEffect(() => {
-    async function fetchStages() {
-      try {
-        const response = await apiRequest("get", "hr/interviewState/get");
-        dispatch({
-          type: "SET_STAGES",
-          payload: response.object.interviewStates
-        });
-      } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
-      }
-    }
-    if (state.user) {
-      fetchStages();
-    }
-  }, [state.user]);
+  // useEffect(() => {
+  //   async function fetchStages() {
+  //     try {
+  //       const response = await apiRequest("get", "hr/interviewState/get");
+  //       dispatch({
+  //         type: "SET_STAGES",
+  //         payload: response.object.interviewStates
+  //       });
+  //     } catch (error) {
+  //       dispatch({ type: "SET_ERROR", payload: error });
+  //     }
+  //   }
+  //   if (state.user) {
+  //     fetchStages();
+  //   }
+  // }, [state.user]);
 
-  useEffect(() => {
-    async function fetchStatisticsLoop() {
-      try {
-        const detailsArray = await fetchLoop(
-          state.vacancies,
-          "/hr/stat/getVacancyInterviewDetalInfo",
-          {
-            withCandidatesHistory: true
-          }
-        );
-        dispatch({ type: "SET_STATISTICS", payload: detailsArray });
-      } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
-      }
-    }
-    if (state.vacancies.length > 0) {
-      fetchStatisticsLoop();
-    }
-  }, [state.vacancies]);
+  // useEffect(() => {
+  //   async function fetchStatisticsLoop() {
+  //     try {
+  //       const detailsArray = await fetchLoop(
+  //         state.vacancies,
+  //         "/hr/stat/getVacancyInterviewDetalInfo",
+  //         {
+  //           withCandidatesHistory: true
+  //         }
+  //       );
+  //       dispatch({ type: "SET_STATISTICS", payload: detailsArray });
+  //     } catch (error) {
+  //       dispatch({ type: "SET_ERROR", payload: error });
+  //     }
+  //   }
+  //   if (state.vacancies.length > 0) {
+  //     fetchStatisticsLoop();
+  //   }
+  // }, [state.vacancies]);
 
-  useEffect(() => {
-    async function fetchWeekReport() {
-      try {
-        const weekReport = await apiRequest(
-          "post",
-          "/hr/stat/getUserPerformance",
-          {
-            dateRangeType: "currentWeek",
-            displayWeeklyStats: false,
-            from: moment()
-              .startOf("week")
-              .valueOf(),
-            personIds: formPersonsArray(state.vacancies),
-            to: moment()
-              .endOf("day")
-              .valueOf(),
-            vacancyIds: state.vacancies.map(({ vacancyId }) => vacancyId)
-          }
-        );
-        dispatch({ type: "SET_REPORT", payload: weekReport.object.entryList });
-      } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
-      }
-    }
-    if (state.vacancies.length > 0) {
-      fetchWeekReport();
-    }
-  }, [state.vacancies]);
+  // useEffect(() => {
+  //   async function fetchWeekReport() {
+  //     try {
+  //       const weekReport = await apiRequest(
+  //         "post",
+  //         "/hr/stat/getUserPerformance",
+  //         {
+  //           dateRangeType: "currentWeek",
+  //           displayWeeklyStats: false,
+  //           from: moment()
+  //             .startOf("week")
+  //             .valueOf(),
+  //           personIds: formPersonsArray(state.vacancies),
+  //           to: moment()
+  //             .endOf("day")
+  //             .valueOf(),
+  //           vacancyIds: state.vacancies.map(({ vacancyId }) => vacancyId)
+  //         }
+  //       );
+  //       dispatch({ type: "SET_REPORT", payload: weekReport.object.entryList });
+  //     } catch (error) {
+  //       dispatch({ type: "SET_ERROR", payload: error });
+  //     }
+  //   }
+  //   if (state.vacancies.length > 0) {
+  //     fetchWeekReport();
+  //   }
+  // }, [state.vacancies]);
 
-  const { vacancies, stages, statistics, reports } = state;
-  useEffect(() => {
-    if (
-      vacancies.length > 0 &&
-      stages.length > 0 &&
-      statistics.length > 0 &&
-      reports.length > 0
-    ) {
-      const formedData = formData(vacancies, stages, statistics, reports);
-      dispatch({ type: "SET_FORMED_DATA", payload: formedData });
-    }
-  }, [vacancies, stages, statistics, reports]);
+  // const { vacancies, stages, statistics, reports } = state;
+  // useEffect(() => {
+  //   if (
+  //     vacancies.length > 0 &&
+  //     stages.length > 0 &&
+  //     statistics.length > 0 &&
+  //     reports.length > 0
+  //   ) {
+  //     const formedData = formData(vacancies, stages, statistics, reports);
+  //     dispatch({ type: "SET_FORMED_DATA", payload: formedData });
+  //   }
+  // }, [vacancies, stages, statistics, reports]);
 
   return (
     <AppStateContext.Provider value={state}>
