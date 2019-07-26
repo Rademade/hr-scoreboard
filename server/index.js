@@ -6,10 +6,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
-app.get("/api/greeting", (req, res) => {
-  const name = req.query.name || "World";
+app.post("/hr/person/auth", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
+  res.send(JSON.stringify({ user: { personId: 1 } }));
 });
 
 app.listen(3001, () =>
