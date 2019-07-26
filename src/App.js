@@ -89,7 +89,7 @@ function App() {
       try {
         const weekReport = await apiRequest(
           "post",
-          "/hr/stat/getUserPerformance ",
+          "/hr/stat/getUserPerformance",
           {
             dateRangeType: "currentWeek",
             displayWeeklyStats: false,
@@ -125,7 +125,7 @@ function App() {
       dispatch({ type: "SET_FORMED_DATA", payload: formedData });
     }
   }, [vacancies, stages, statistics, reports]);
-  console.log("state", state);
+
   return (
     <AppStateContext.Provider value={state}>
       <Scoreboard />
