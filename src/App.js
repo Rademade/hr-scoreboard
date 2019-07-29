@@ -25,53 +25,43 @@ function App() {
     login();
   }, []);
 
-  // useEffect(() => {
-  //   async function fetchVacancies() {
-  //     try {
-  //       const response = await apiRequest("post", "/hr/vacancy/get", {
-  //         page: {
-  //           number: 0,
-  //           count: 15
-  //         }
-  //       });
-  //       dispatch({ type: "SET_VACANCIES", payload: response.objects });
-  //     } catch (error) {
-  //       dispatch({ type: "SET_ERROR", payload: error });
-  //     }
-  //   }
-  //   if (state.user) {
-  //     fetchVacancies();
-  //   }
-  // }, [state.user]);
+  useEffect(() => {
+    async function fetchVacancies() {
+      try {
+        const response = await axios.get("/api/vacancies");
+        console.log("vacancies response", response);
+        dispatch({ type: "SET_VACANCIES", payload: response.objects });
+      } catch (error) {
+        dispatch({ type: "SET_ERROR", payload: error });
+      }
+    }
+    if (state.user) {
+      fetchVacancies();
+    }
+  }, [state.user]);
 
-  // useEffect(() => {
-  //   async function fetchStages() {
-  //     try {
-  //       const response = await apiRequest("get", "hr/interviewState/get");
-  //       dispatch({
-  //         type: "SET_STAGES",
-  //         payload: response.object.interviewStates
-  //       });
-  //     } catch (error) {
-  //       dispatch({ type: "SET_ERROR", payload: error });
-  //     }
-  //   }
-  //   if (state.user) {
-  //     fetchStages();
-  //   }
-  // }, [state.user]);
+  useEffect(() => {
+    async function fetchStages() {
+      try {
+        const response = await axios.get("/api/interviewState");
+        dispatch({
+          type: "SET_STAGES",
+          payload: response.object.interviewStates
+        });
+      } catch (error) {
+        dispatch({ type: "SET_ERROR", payload: error });
+      }
+    }
+    if (state.user) {
+      fetchStages();
+    }
+  }, [state.user]);
 
   // useEffect(() => {
   //   async function fetchStatisticsLoop() {
   //     try {
-  //       const detailsArray = await fetchLoop(
-  //         state.vacancies,
-  //         "/hr/stat/getVacancyInterviewDetalInfo",
-  //         {
-  //           withCandidatesHistory: true
-  //         }
-  //       );
-  //       dispatch({ type: "SET_STATISTICS", payload: detailsArray });
+  //       const response = await axios.get("/api/statistics");
+  //       dispatch({ type: "SET_STATISTICS", payload: response.data });
   //     } catch (error) {
   //       dispatch({ type: "SET_ERROR", payload: error });
   //     }
@@ -84,23 +74,8 @@ function App() {
   // useEffect(() => {
   //   async function fetchWeekReport() {
   //     try {
-  //       const weekReport = await apiRequest(
-  //         "post",
-  //         "/hr/stat/getUserPerformance",
-  //         {
-  //           dateRangeType: "currentWeek",
-  //           displayWeeklyStats: false,
-  //           from: moment()
-  //             .startOf("week")
-  //             .valueOf(),
-  //           personIds: formPersonsArray(state.vacancies),
-  //           to: moment()
-  //             .endOf("day")
-  //             .valueOf(),
-  //           vacancyIds: state.vacancies.map(({ vacancyId }) => vacancyId)
-  //         }
-  //       );
-  //       dispatch({ type: "SET_REPORT", payload: weekReport.object.entryList });
+  //       const response = await axios.get("/api/performance");
+  //       dispatch({ type: "SET_REPORT", payload: response });
   //     } catch (error) {
   //       dispatch({ type: "SET_ERROR", payload: error });
   //     }

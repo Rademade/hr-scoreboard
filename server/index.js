@@ -12,7 +12,7 @@ const URL = "https://cleverstaff.net";
 app.get("/api/auth", (req, res) => {
   axios
     .post(URL + "/hr/person/auth", {
-      login: "example@mail.com",
+      login: "example@rademade.com",
       password: "password"
     })
     .then(response => {
@@ -24,22 +24,62 @@ app.get("/api/auth", (req, res) => {
     });
 });
 
-app.post("/hr/vacancy/get", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ objects: [] }));
+app.get("/api/vacancies", (req, res) => {
+  axios
+    .post("/hr/vacancy/get", {
+      page: {
+        number: 0,
+        count: 15
+      }
+    })
+    .then(response => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({ ...response.data }));
+    })
+    .catch(error => {
+      console.log("vacancy error", error);
+    });
 });
 
-app.get("/hr/interviewState/get", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ object: { interviewStates: [] } }));
+app.get("/api/interviewState", (req, res) => {
+  axios
+    .get("/api/interviewState")
+    .then(response => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({ ...response.data }));
+    })
+    .catch(error => {
+      console.log("states error", error);
+    });
 });
 
-app.post("/hr/stat/getVacancyInterviewDetalInfo", (req, res) => {
+app.post("/api/statistics", (req, res) => {
+  // "/hr/stat/getVacancyInterviewDetalInfo"
+  // {
+  //   withCandidatesHistory: true
+  // }
   res.setHeader("Content-Type", "application/json");
   res.send(JSON.stringify({ detailedInfo: {} }));
 });
 
-app.post("/hr/stat/getUserPerformance", (req, res) => {
+app.post("/api/performance", (req, res) => {
+  // const weekReport = await apiRequest(
+  //   "post",
+  //   "/hr/stat/getUserPerformance",
+  //   {
+  //     dateRangeType: "currentWeek",
+  //     displayWeeklyStats: false,
+  //     from: moment()
+  //       .startOf("week")
+  //       .valueOf(),
+  //     personIds: formPersonsArray(state.vacancies),
+  //     to: moment()
+  //       .endOf("day")
+  //       .valueOf(),
+  //     vacancyIds: state.vacancies.map(({ vacancyId }) => vacancyId)
+  //   }
+  // );
+
   res.setHeader("Content-Type", "application/json");
   res.send(JSON.stringify({ object: { entryList: [] } }));
 });
