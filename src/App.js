@@ -19,14 +19,14 @@ function App() {
         console.log("auth response", response);
         dispatch({ type: "SET_USER", payload: response.data.object });
       } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
+        dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
     login();
   }, []);
 
   useEffect(() => {
-    async function fetchVacancies() {
+    async function fetchVacancies(doFetch) {
       try {
         const response = await axios.get("/api/vacancies");
         console.log("vacancies response", response);
@@ -40,22 +40,22 @@ function App() {
     }
   }, [state.user]);
 
-  useEffect(() => {
-    async function fetchStages() {
-      try {
-        const response = await axios.get("/api/interviewState");
-        dispatch({
-          type: "SET_STAGES",
-          payload: response.object.interviewStates
-        });
-      } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
-      }
-    }
-    if (state.user) {
-      fetchStages();
-    }
-  }, [state.user]);
+  // useEffect(() => {
+  //   async function fetchStages() {
+  //     try {
+  //       const response = await axios.get("/api/interviewState");
+  //       dispatch({
+  //         type: "SET_STAGES",
+  //         payload: response.object.interviewStates
+  //       });
+  //     } catch (error) {
+  //       dispatch({ type: "SET_ERROR", payload: error });
+  //     }
+  //   }
+  //   if (state.user) {
+  //     fetchStages();
+  //   }
+  // }, [state.user]);
 
   // useEffect(() => {
   //   async function fetchStatisticsLoop() {
