@@ -74,7 +74,7 @@ function App() {
           }
         });
         const result = resolvedArray.map(item => {
-          const vacancyId = JSON.parse(item.config.data).vacancyId;
+          const vacancyId = JSON.parse(item.config.data).id;
           const { data } = item;
           return { vacancyId, data };
         });
