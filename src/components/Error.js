@@ -6,7 +6,7 @@ function Error({ error }) {
   return (
     <LaunchContainer>
       <img src={errorImage} alt="error" width="200" height="200" />
-      <ErrorTitle>{error.message}</ErrorTitle>
+      <ErrorTitle>{error}</ErrorTitle>
     </LaunchContainer>
   );
 }

@@ -1,34 +1,122 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
+const axios = require("axios");
+const moment = require("moment");
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(pino);
 
-app.post("/hr/person/auth", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ object: { personId: 1 } }));
+const URL = process.env.API_URL;
+let cookie = null;
+
+app.get("/api/auth", (req, res) => {
+  // res.setHeader("Content-Type", "application/json");
+  // res.send(JSON.stringify({ object: { userId: 1 } }));
+  axios
+    .post(URL + "/hr/person/auth", {
+      login: process.env.USERNAME,
+      password: process.env.PASSWORD
+    })
+    .then(response => {
+      cookie = response.headers["set-cookie"][0].split(
+        /JSESSIONID=(.*?);/gi
+      )[1];
+      console.log("cookie!", cookie);
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({ ...response.data }));
+    })
+    .catch(error => {
+      console.log("auth error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
+    });
 });
 
-app.post("/hr/vacancy/get", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ objects: [] }));
+app.get("/api/vacancies", (req, res) => {
+  axios
+    .post(
+      URL + "/hr/vacancy/get",
+      {
+        page: {
+          number: 0,
+          count: 15
+        }
+      },
+      { headers: { Cookie: "JSESSIONID=" + cookie } }
+    )
+    .then(response => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({ ...response.data }));
+    })
+    .catch(error => {
+      console.log("vacancy error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
+    });
 });
 
-app.get("/hr/interviewState/get", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ object: { interviewStates: [] } }));
+app.get("/api/interviewState", (req, res) => {
+  axios
+    .get(URL + "/hr/interviewState/get", {
+      headers: { Cookie: "JSESSIONID=" + cookie }
+    })
+    .then(response => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({ ...response.data }));
+    })
+    .catch(error => {
+      console.log("states error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
+    });
 });
 
-app.post("/hr/stat/getVacancyInterviewDetalInfo", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ detailedInfo: {} }));
+app.post("/api/statistics", (req, res) => {
+  axios
+    .post(
+      URL + "/hr/stat/getVacancyInterviewDetalInfo",
+      {
+        vacancyId: req.body.id,
+        withCandidatesHistory: true
+      },
+      { headers: { Cookie: "JSESSIONID=" + cookie } }
+    )
+    .then(response => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({ ...response.data }));
+    })
+    .catch(error => {
+      console.log("statistics error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
+    });
 });
 
-app.post("/hr/stat/getUserPerformance", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ object: { entryList: [] } }));
+app.post("/api/performance", (req, res) => {
+  axios
+    .post(
+      URL + "/hr/stat/getUserPerformance",
+      {
+        dateRangeType: "currentWeek",
+        displayWeeklyStats: false,
+        from: moment()
+          .startOf("week")
+          .valueOf(),
+        personIds: req.body.personIds,
+        to: moment()
+          .endOf("day")
+          .valueOf(),
+        vacancyIds: req.body.vacancyIds
+      },
+      { headers: { Cookie: "JSESSIONID=" + cookie } }
+    )
+    .then(response => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({ ...response.data }));
+    })
+    .catch(error => {
+      console.log("performance error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
+    });
 });
 
 app.listen(3001, () =>

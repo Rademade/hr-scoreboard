@@ -1,45 +1,36 @@
 import React, { useEffect, useReducer, createContext } from "react";
-import moment from "moment";
+import axios from "axios";
 import { appReducer, initialState } from "./reducer";
-import { apiRequest, fetchLoop, formData, formPersonsArray } from "./utils";
+import { formPersonsArray, formData } from "./utils";
 import Scoreboard from "./components/Scoreboard";
 
 export const AppStateContext = createContext({});
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  console.log("app state", state);
 
   useEffect(() => {
-    async function login(nope) {
+    async function login() {
       try {
-        if (nope) {
-          dispatch({ type: "SET_USER", payload: { personId: 1 } });
-        } else {
-          const response = await apiRequest("post", "/hr/person/auth", {
-            login: process.env.REACT_APP_USERNAME,
-            password: process.env.REACT_APP_PASSWORD
-          });
-          dispatch({ type: "SET_USER", payload: response.object });
-        }
+        const response = await axios.get("/api/auth");
+        if (response.data.status === "error") throw response.data;
+        dispatch({ type: "SET_USER", payload: response.data.object });
       } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
+        dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
-    login(false);
+    login();
   }, []);
 
   useEffect(() => {
     async function fetchVacancies() {
       try {
-        const response = await apiRequest("post", "/hr/vacancy/get", {
-          page: {
-            number: 0,
-            count: 15
-          }
-        });
-        dispatch({ type: "SET_VACANCIES", payload: response.objects });
+        const response = await axios.get("/api/vacancies");
+        if (response.data.status === "error") throw response.data;
+        dispatch({ type: "SET_VACANCIES", payload: response.data.objects });
       } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
+        dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
     if (state.user) {
@@ -50,13 +41,14 @@ function App() {
   useEffect(() => {
     async function fetchStages() {
       try {
-        const response = await apiRequest("get", "hr/interviewState/get");
+        const response = await axios.get("/api/interviewState");
+        if (response.data.status === "error") throw response.data;
         dispatch({
           type: "SET_STAGES",
-          payload: response.object.interviewStates
+          payload: response.data.object.interviewStates
         });
       } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
+        dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
     if (state.user) {
@@ -65,47 +57,54 @@ function App() {
   }, [state.user]);
 
   useEffect(() => {
-    async function fetchStatisticsLoop() {
+    async function fetchStatistics() {
       try {
-        const detailsArray = await fetchLoop(
-          state.vacancies,
-          "/hr/stat/getVacancyInterviewDetalInfo",
-          {
-            withCandidatesHistory: true
+        let promiseArray = [];
+        state.vacancies.forEach(item => {
+          promiseArray.push(
+            axios.post("/api/statistics", {
+              id: item.vacancyId
+            })
+          );
+        });
+        const resolvedArray = await Promise.all(promiseArray);
+        resolvedArray.forEach(response => {
+          if (response.data.status === "error") {
+            throw response.data;
           }
-        );
-        dispatch({ type: "SET_STATISTICS", payload: detailsArray });
+        });
+        const result = resolvedArray.map(item => {
+          const vacancyId = JSON.parse(item.config.data).id;
+          const { data } = item;
+          return { vacancyId, data };
+        });
+        dispatch({
+          type: "SET_STATISTICS",
+          payload: result
+        });
       } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
+        dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
     if (state.vacancies.length > 0) {
-      fetchStatisticsLoop();
+      fetchStatistics();
     }
   }, [state.vacancies]);
 
   useEffect(() => {
     async function fetchWeekReport() {
       try {
-        const weekReport = await apiRequest(
-          "post",
-          "/hr/stat/getUserPerformance",
-          {
-            dateRangeType: "currentWeek",
-            displayWeeklyStats: false,
-            from: moment()
-              .startOf("week")
-              .valueOf(),
-            personIds: formPersonsArray(state.vacancies),
-            to: moment()
-              .endOf("day")
-              .valueOf(),
-            vacancyIds: state.vacancies.map(({ vacancyId }) => vacancyId)
-          }
-        );
-        dispatch({ type: "SET_REPORT", payload: weekReport.object.entryList });
+        const response = await axios.post("/api/performance", {
+          personIds: formPersonsArray(state.vacancies),
+          vacancyIds: state.vacancies.map(item => item.vacancyId)
+        });
+        if (response.data.status === "error") throw response.data;
+        dispatch({
+          type: "SET_REPORT",
+          payload: response.data.object.entryList
+        });
       } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error });
+        dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
     if (state.vacancies.length > 0) {

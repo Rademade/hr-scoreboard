@@ -1,5 +1,16 @@
-import axios from "axios";
 import _ from "lodash";
+
+export function formPersonsArray(vacancies) {
+  const array = [];
+  vacancies.forEach(({ responsiblesPerson }) =>
+    array.push(...responsiblesPerson)
+  );
+  return _.uniq(
+    array
+      .filter(({ type }) => type === "recruiter")
+      .map(({ personId }) => personId)
+  );
+}
 
 function getName(key) {
   switch (key) {
@@ -18,43 +29,6 @@ function getName(key) {
     default:
       return "reject";
   }
-}
-
-export async function apiRequest(method, url, data = null) {
-  const response = await axios({ method, url, data });
-  if (response.data.status === "error") {
-    throw new Error(response.data.message);
-  }
-  return response.data;
-}
-
-export async function fetchLoop(items, url, data) {
-  const count = items.length;
-  let promiseArray = [];
-  for (let i = 0; i < count; i++) {
-    const item = items[i];
-    promiseArray.push(axios.post(url, { ...data, vacancyId: item.vacancyId }));
-  }
-  const resolvedArray = await Promise.all(promiseArray);
-  return resolvedArray
-    .map(resp => ({ ...resp }))
-    .map(item => {
-      const vacancyId = JSON.parse(item.config.data).vacancyId;
-      const { data } = item;
-      return { vacancyId, data };
-    });
-}
-
-export function formPersonsArray(vacancies) {
-  const array = [];
-  vacancies.forEach(({ responsiblesPerson }) =>
-    array.push(...responsiblesPerson)
-  );
-  return _.uniq(
-    array
-      .filter(({ type }) => type === "recruiter")
-      .map(({ personId }) => personId)
-  );
 }
 
 const getKeys = object => Object.keys(object);
