@@ -68,9 +68,16 @@ function App() {
           );
         });
         const resolvedArray = await Promise.all(promiseArray);
+        resolvedArray.forEach(response => {
+          if (response.data.status === "error") {
+            throw response.data;
+          }
+        });
         dispatch({
           type: "SET_STATISTICS",
-          payload: resolvedArray.map(item => item.data.detailedInfo)
+          payload: resolvedArray.map(
+            item => item.data.vacancyInterviewDetalInfo
+          )
         });
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error.message });
@@ -88,7 +95,11 @@ function App() {
           personIds: formPersonsArray(state.vacancies),
           vacancyIds: state.vacancies.map(item => item.vacancyId)
         });
-        dispatch({ type: "SET_REPORT", payload: response.data.object });
+        if (response.data.status === "error") throw response.data;
+        dispatch({
+          type: "SET_REPORT",
+          payload: response.data.object.entryList
+        });
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error.message });
       }

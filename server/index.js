@@ -5,7 +5,8 @@ const axios = require("axios");
 const moment = require("moment");
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(pino);
 
 const URL = process.env.API_URL;
@@ -52,7 +53,7 @@ app.get("/api/vacancies", (req, res) => {
 
 app.get("/api/interviewState", (req, res) => {
   axios
-    .get(URL + "/api/interviewState", {
+    .get(URL + "/hr/interviewState/get", {
       headers: { Cookie: "JSESSIONID=" + cookie }
     })
     .then(response => {
