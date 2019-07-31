@@ -1,5 +1,4 @@
 const express = require("express");
-const favicon = require("express-favicon");
 const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const axios = require("axios");
@@ -124,8 +123,6 @@ app.post("/api/performance", (req, res) => {
 
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
-  app.use(favicon(__dirname + "/build/favicon.ico"));
-  app.use(express.static(__dirname));
   app.use(express.static(path.join(__dirname, "build")));
 
   // Handle React routing, return all requests to React app
