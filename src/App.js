@@ -73,11 +73,14 @@ function App() {
             throw response.data;
           }
         });
+        const result = resolvedArray.map(item => {
+          const vacancyId = JSON.parse(item.config.data).vacancyId;
+          const { data } = item;
+          return { vacancyId, data };
+        });
         dispatch({
           type: "SET_STATISTICS",
-          payload: resolvedArray.map(
-            item => item.data.vacancyInterviewDetalInfo
-          )
+          payload: result
         });
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error.message });

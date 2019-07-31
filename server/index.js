@@ -13,6 +13,8 @@ const URL = process.env.API_URL;
 let cookie = null;
 
 app.get("/api/auth", (req, res) => {
+  // res.setHeader("Content-Type", "application/json");
+  // res.send(JSON.stringify({ object: { userId: 1 } }));
   axios
     .post(URL + "/hr/person/auth", {
       login: process.env.USERNAME,
@@ -22,11 +24,13 @@ app.get("/api/auth", (req, res) => {
       cookie = response.headers["set-cookie"][0].split(
         /JSESSIONID=(.*?);/gi
       )[1];
+      console.log("cookie!", cookie);
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify({ ...response.data }));
     })
     .catch(error => {
-      console.log("auth error", error.message);
+      console.log("auth error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
@@ -47,7 +51,8 @@ app.get("/api/vacancies", (req, res) => {
       res.send(JSON.stringify({ ...response.data }));
     })
     .catch(error => {
-      console.log("vacancy error", error.message);
+      console.log("vacancy error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
@@ -61,7 +66,8 @@ app.get("/api/interviewState", (req, res) => {
       res.send(JSON.stringify({ ...response.data }));
     })
     .catch(error => {
-      console.log("states error", error.message);
+      console.log("states error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
@@ -80,7 +86,8 @@ app.post("/api/statistics", (req, res) => {
       res.send(JSON.stringify({ ...response.data }));
     })
     .catch(error => {
-      console.log("statistics error", error.message);
+      console.log("statistics error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
@@ -107,7 +114,8 @@ app.post("/api/performance", (req, res) => {
       res.send(JSON.stringify({ ...response.data }));
     })
     .catch(error => {
-      console.log("performance error", error.message);
+      console.log("performance error", error.response.status, error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
