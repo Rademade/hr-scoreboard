@@ -1,23 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
 const pino = require("express-pino-logger")();
 const axios = require("axios");
 const moment = require("moment");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(pino);
 
-const URL = "https://cleverstaff.net";
+const URL = process.env.API_URL;
 let cookie = null;
 
 app.get("/api/auth", (req, res) => {
   axios
     .post(URL + "/hr/person/auth", {
-      login: "viktor@rademade.com",
-      password: "a343parder433b"
+      login: process.env.USERNAME,
+      password: process.env.PASSWORD
     })
     .then(response => {
       cookie = response.headers["set-cookie"][0].split(

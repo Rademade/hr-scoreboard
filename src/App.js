@@ -68,7 +68,6 @@ function App() {
           );
         });
         const resolvedArray = await Promise.all(promiseArray);
-        console.log("AAAAAA", resolvedArray);
         dispatch({
           type: "SET_STATISTICS",
           payload: resolvedArray.map(item => item.data.detailedInfo)
