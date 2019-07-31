@@ -13,9 +13,11 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server",
+    "start-dev": "react-scripts start",
+    "heroku-postbuild": "npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "server": "node-env-run server --env .env.local --exec nodemon | pino-colada",
-    "dev": "run-p server start",
+    "dev": "run-p server start-dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

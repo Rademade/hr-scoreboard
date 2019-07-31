@@ -3,14 +3,16 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const axios = require("axios");
 const moment = require("moment");
+const path = require("path");
 
 const app = express();
+const port = process.env.PORT || 3001;
+const URL = process.env.API_URL;
+let cookie = null;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(pino);
-
-const URL = process.env.API_URL;
-let cookie = null;
 
 app.get("/api/auth", (req, res) => {
   // res.setHeader("Content-Type", "application/json");
@@ -119,6 +121,16 @@ app.post("/api/performance", (req, res) => {
     });
 });
 
-app.listen(3001, () =>
-  console.log("Express server is running on localhost:3001")
+if (process.env.NODE_ENV === "production") {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, "build")));
+
+  // Handle React routing, return all requests to React app
+  app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+}
+
+app.listen(port, () =>
+  console.log("Express server is running on localhost:", port)
 );
