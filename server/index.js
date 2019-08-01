@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(pino);
 
+console.log("CREDS:::::::", process.env.USERNAME, process.env.PASSWORD);
 app.get("/api/auth", (req, res) => {
   // res.setHeader("Content-Type", "application/json");
   // res.send(JSON.stringify({ object: { userId: 1 } }));
