@@ -7,7 +7,7 @@ const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 3001;
-const URL = process.env.API_URL;
+const URL = "https://cleverstaff.net";
 let cookie = null;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,7 +32,7 @@ app.get("/api/auth", (req, res) => {
     })
     .catch(error => {
       console.log("auth error", error);
-      res.status(500).send(error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
@@ -53,8 +53,8 @@ app.get("/api/vacancies", (req, res) => {
       res.send(JSON.stringify({ ...response.data }));
     })
     .catch(error => {
-      // console.log("vacancy error", error.response.status, error.message);
-      res.status(500).send(error.message);
+      console.log("vacancy error", error);
+      res.status(error.response.status).send(error.message);
     });
 });
 
@@ -69,7 +69,7 @@ app.get("/api/interviewState", (req, res) => {
     })
     .catch(error => {
       console.log("states error", error);
-      res.status(500).send(error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
@@ -89,7 +89,7 @@ app.post("/api/statistics", (req, res) => {
     })
     .catch(error => {
       console.log("statistics error", error);
-      res.status(500).send(error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
@@ -117,7 +117,7 @@ app.post("/api/performance", (req, res) => {
     })
     .catch(error => {
       console.log("performance error", error);
-      res.status(500).send(error.message);
+      res.status(error.response.status).send(error.message);
     });
 });
 
