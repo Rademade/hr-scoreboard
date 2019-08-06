@@ -13,13 +13,13 @@ export const LaunchContainer = styled.div`
 `;
 
 export const VacancyContainer = styled.div`
-  flex: 1;
+  width: 550px;
   border-bottom: solid 1px #ecf0f1;
-  border-right: ${({ index }) =>
-    (index === 0 || index % 2 === 0) && "solid 1px #ecf0f1"};
+  border-right: solid 1px #ecf0f1;
 `;
 
 export const TitleContainer = styled.div`
+  width: 50%;
   text-align: center;
   padding: 20px 0px;
 `;

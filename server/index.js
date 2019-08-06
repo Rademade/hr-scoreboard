@@ -8,7 +8,6 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3001;
 const URL = "https://cleverstaff.net";
-let cookie = process.env.COOKIE;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -16,6 +15,8 @@ app.use(pino);
 
 console.log("CREDS:::::::", process.env.USERNAME, process.env.PASSWORD);
 app.get("/api/auth", (req, res) => {
+  let cookie = process.env.COOKIE;
+  console.log("cookie!", cookie);
   if (cookie === "null") {
     axios
       .post(URL + "/hr/person/auth", {
@@ -26,7 +27,6 @@ app.get("/api/auth", (req, res) => {
         process.env.COOKIE = response.headers["set-cookie"][0].split(
           /JSESSIONID=(.*?);/gi
         )[1];
-        console.log("cookie!", process.env.COOKIE);
         res.setHeader("Content-Type", "application/json");
         res.send(JSON.stringify({ ...response.data }));
       })
@@ -35,6 +35,7 @@ app.get("/api/auth", (req, res) => {
         res.status(error.response.status).send(error.message);
       });
   } else {
+    console.log("Cookie here!");
     res.setHeader("Content-Type", "application/json");
     res.send(JSON.stringify({ object: { userId: 1 } }));
   }
