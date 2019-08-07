@@ -10,18 +10,18 @@ function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   console.log("app state", state);
 
-  useEffect(() => {
-    async function login() {
-      try {
-        const response = await axios.get("/api/auth");
-        if (response.data.status === "error") throw response.data;
-        dispatch({ type: "SET_USER", payload: response.data.object });
-      } catch (error) {
-        dispatch({ type: "SET_ERROR", payload: error.message });
-      }
-    }
-    login();
-  }, []);
+  // useEffect(() => {
+  //   async function login() {
+  //     try {
+  //       const response = await axios.get("/api/auth");
+  //       if (response.data.status === "error") throw response.data;
+  //       dispatch({ type: "SET_USER", payload: response.data.object });
+  //     } catch (error) {
+  //       dispatch({ type: "SET_ERROR", payload: error.message });
+  //     }
+  //   }
+  //   login();
+  // }, []);
 
   useEffect(() => {
     async function fetchVacancies() {
@@ -33,10 +33,8 @@ function App() {
         dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
-    if (state.user) {
-      fetchVacancies();
-    }
-  }, [state.user]);
+    fetchVacancies();
+  }, []);
 
   useEffect(() => {
     async function fetchStages() {
@@ -51,10 +49,8 @@ function App() {
         dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
-    if (state.user) {
-      fetchStages();
-    }
-  }, [state.user]);
+    fetchStages();
+  }, []);
 
   useEffect(() => {
     async function fetchStatistics() {

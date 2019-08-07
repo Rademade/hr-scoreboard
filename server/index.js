@@ -13,33 +13,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(pino);
 
-console.log("CREDS:::::::", process.env.USERNAME, process.env.PASSWORD);
-app.get("/api/auth", (req, res) => {
-  let cookie = process.env.COOKIE;
-  console.log("cookie!", cookie);
-  if (cookie === "null") {
-    axios
-      .post(URL + "/hr/person/auth", {
-        login: process.env.USERNAME,
-        password: process.env.PASSWORD
-      })
-      .then(response => {
-        process.env.COOKIE = response.headers["set-cookie"][0].split(
-          /JSESSIONID=(.*?);/gi
-        )[1];
-        res.setHeader("Content-Type", "application/json");
-        res.send(JSON.stringify({ ...response.data }));
-      })
-      .catch(error => {
-        console.log("auth error", error.response.status, error.message);
-        res.status(error.response.status).send(error.message);
-      });
-  } else {
-    console.log("Cookie here!");
-    res.setHeader("Content-Type", "application/json");
-    res.send(JSON.stringify({ object: { userId: 1 } }));
-  }
-});
+console.log(
+  "CREDS:::::::",
+  process.env.USERNAME,
+  process.env.PASSWORD,
+  process.env.COOKIE
+);
+
+// const cookie = "9D2E3F0C9A34133D345EBD62EDC454D4";
+// app.get("/api/auth", (req, res) => {
+//   axios
+//     .post(URL + "/hr/person/auth", {
+//       login: process.env.USERNAME,
+//       password: process.env.PASSWORD
+//     })
+//     .then(response => {
+//       process.env.COOKIE = response.headers["set-cookie"][0].split(
+//         /JSESSIONID=(.*?);/gi
+//       )[1];
+//       res.setHeader("Content-Type", "application/json");
+//       res.send(JSON.stringify({ ...response.data }));
+//     })
+//     .catch(error => {
+//       console.log("auth error", error.response.status, error.message);
+//       res.status(error.response.status).send(error.message);
+//     });
+// });
 
 app.get("/api/vacancies", (req, res) => {
   axios

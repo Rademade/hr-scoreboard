@@ -29,6 +29,12 @@ function Vacancy({
     return null;
   }
 
+  // return (
+  //   <div style={{ border: "solid 1px white" }}>
+  //     <h4>{position}</h4>
+  //   </div>
+  // );
+
   return (
     <VacancyContainer index={index}>
       <TitleContainer>
