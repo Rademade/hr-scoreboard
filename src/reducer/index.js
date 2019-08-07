@@ -1,6 +1,6 @@
 export const initialState = {
   appInitialize: false,
-  user: null,
+  isAuthenticated: false,
   vacancies: [],
   stages: [],
   statistics: [],
@@ -11,10 +11,10 @@ export const initialState = {
 
 export function appReducer(state, action) {
   switch (action.type) {
-    case "SET_USER":
+    case "SET_AUTH":
       return {
         ...state,
-        user: action.payload
+        isAuthenticated: action.payload
       };
     case "SET_VACANCIES":
       return {

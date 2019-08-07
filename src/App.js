@@ -9,19 +9,20 @@ export const AppStateContext = createContext({});
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   console.log("app state", state);
+  const { isAuthenticated, vacancies, stages, statistics, reports } = state;
 
-  // useEffect(() => {
-  //   async function login() {
-  //     try {
-  //       const response = await axios.get("/api/auth");
-  //       if (response.data.status === "error") throw response.data;
-  //       dispatch({ type: "SET_USER", payload: response.data.object });
-  //     } catch (error) {
-  //       dispatch({ type: "SET_ERROR", payload: error.message });
-  //     }
-  //   }
-  //   login();
-  // }, []);
+  useEffect(() => {
+    async function auth() {
+      try {
+        const response = await axios.get("/api/auth");
+        console.log("FRONT AUTH", response);
+        dispatch({ type: "SET_AUTH", payload: true });
+      } catch (error) {
+        dispatch({ type: "SET_ERROR", payload: error.message });
+      }
+    }
+    auth();
+  }, []);
 
   useEffect(() => {
     async function fetchVacancies() {
@@ -33,8 +34,10 @@ function App() {
         dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
-    fetchVacancies();
-  }, []);
+    if (isAuthenticated) {
+      fetchVacancies();
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     async function fetchStages() {
@@ -108,7 +111,6 @@ function App() {
     }
   }, [state.vacancies]);
 
-  const { vacancies, stages, statistics, reports } = state;
   useEffect(() => {
     if (
       vacancies.length > 0 &&

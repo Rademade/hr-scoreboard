@@ -20,29 +20,40 @@ console.log(
   process.env.COOKIE
 );
 
-// const cookie = "9D2E3F0C9A34133D345EBD62EDC454D4";
-// app.get("/api/auth", (req, res) => {
-//   axios
-//     .post(URL + "/hr/person/auth", {
-//       login: process.env.USERNAME,
-//       password: process.env.PASSWORD
-//     })
-//     .then(response => {
-//       process.env.COOKIE = response.headers["set-cookie"][0].split(
-//         /JSESSIONID=(.*?);/gi
-//       )[1];
-//       res.setHeader("Content-Type", "application/json");
-//       res.send(JSON.stringify({ ...response.data }));
-//     })
-//     .catch(error => {
-//       console.log("auth error", error.response.status, error.message);
-//       res.status(error.response.status).send(error.message);
-//     });
-// });
+const doAuth = async () => {
+  const authResp = await axios.post(URL + "/hr/person/auth", {
+    login: process.env.USERNAME,
+    password: process.env.PASSWORD
+  });
+  const cookie = authResp.headers["set-cookie"][0].split(
+    /JSESSIONID=(.*?);/gi
+  )[1];
+  process.env.COOKIE = cookie;
+  console.log("Cookie!", cookie);
+};
 
-app.get("/api/vacancies", (req, res) => {
-  axios
-    .post(
+app.get("/api/auth", async (req, res) => {
+  try {
+    let cookie = process.env.COOKIE;
+    if (cookie.length > 0) {
+      const resp = await axios.get("hr/person/authping", {
+        headers: { Cookie: "JSESSIONID=" + process.env.COOKIE }
+      });
+      console.log("ping response", resp);
+    } else {
+      await doAuth();
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify({ auth: true }));
+    }
+  } catch (error) {
+    console.log("auth error", error.response.status, error.message);
+    res.status(error.response.status).send(error.message);
+  }
+});
+
+app.get("/api/vacancies", async (req, res) => {
+  try {
+    const vacanciesResp = await axios.post(
       URL + "/hr/vacancy/get",
       {
         page: {
@@ -51,55 +62,49 @@ app.get("/api/vacancies", (req, res) => {
         }
       },
       { headers: { Cookie: "JSESSIONID=" + process.env.COOKIE } }
-    )
-    .then(response => {
-      res.setHeader("Content-Type", "application/json");
-      res.send(JSON.stringify({ ...response.data }));
-    })
-    .catch(error => {
-      console.log("vacancy error", error.response.status, error.message);
-      res.status(error.response.status).send(error.message);
-    });
+    );
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify({ ...vacanciesResp.data }));
+  } catch (error) {
+    console.log("vacancy error", error.response.status, error.message);
+    res.status(error.response.status).send(error.message);
+  }
 });
 
-app.get("/api/interviewState", (req, res) => {
-  axios
-    .get(URL + "/hr/interviewState/get", {
+app.get("/api/interviewState", async (req, res) => {
+  try {
+    const stateResp = await axios.get(URL + "/hr/interviewState/get", {
       headers: { Cookie: "JSESSIONID=" + process.env.COOKIE }
-    })
-    .then(response => {
-      res.setHeader("Content-Type", "application/json");
-      res.send(JSON.stringify({ ...response.data }));
-    })
-    .catch(error => {
-      console.log("states error", error.response.status, error.message);
-      res.status(error.response.status).send(error.message);
     });
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify({ ...stateResp.data }));
+  } catch (error) {
+    console.log("states error", error.response.status, error.message);
+    res.status(error.response.status).send(error.message);
+  }
 });
 
-app.post("/api/statistics", (req, res) => {
-  axios
-    .post(
+app.post("/api/statistics", async (req, res) => {
+  try {
+    const statsResp = await axios.post(
       URL + "/hr/stat/getVacancyInterviewDetalInfo",
       {
         vacancyId: req.body.id,
         withCandidatesHistory: true
       },
       { headers: { Cookie: "JSESSIONID=" + process.env.COOKIE } }
-    )
-    .then(response => {
-      res.setHeader("Content-Type", "application/json");
-      res.send(JSON.stringify({ ...response.data }));
-    })
-    .catch(error => {
-      console.log("statistics error", error.response.status, error.message);
-      res.status(error.response.status).send(error.message);
-    });
+    );
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify({ ...statsResp.data }));
+  } catch (error) {
+    console.log("statistics error", error.response.status, error.message);
+    res.status(error.response.status).send(error.message);
+  }
 });
 
-app.post("/api/performance", (req, res) => {
-  axios
-    .post(
+app.post("/api/performance", async (req, res) => {
+  try {
+    const performResp = await axios.post(
       URL + "/hr/stat/getUserPerformance",
       {
         dateRangeType: "currentWeek",
@@ -114,15 +119,13 @@ app.post("/api/performance", (req, res) => {
         vacancyIds: req.body.vacancyIds
       },
       { headers: { Cookie: "JSESSIONID=" + process.env.COOKIE } }
-    )
-    .then(response => {
-      res.setHeader("Content-Type", "application/json");
-      res.send(JSON.stringify({ ...response.data }));
-    })
-    .catch(error => {
-      console.log("performance error", error.response.status, error.message);
-      res.status(error.response.status).send(error.message);
-    });
+    );
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify({ ...performResp.data }));
+  } catch (error) {
+    console.log("performance error", error.response.status, error.message);
+    res.status(error.response.status).send(error.message);
+  }
 });
 
 if (process.env.NODE_ENV === "production") {
