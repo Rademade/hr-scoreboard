@@ -1,23 +1,10 @@
 import React from "react";
 import moment from "moment";
-import {
-  VacancyContainer,
-  TitleContainer,
-  VacancyTitle,
-  InfoContainer,
-  RowContainer,
-  PersonContainer,
-  CreatedTitle,
-  ClientTitle,
-  ResponsibleTitle,
-  ValueText
-} from "./styledComponents";
-import Details from "./Details";
+// import Details from "./Details";
 
 function Vacancy({
   status,
   position,
-  index,
   responsiblesPerson,
   dc,
   clientId,
@@ -36,22 +23,18 @@ function Vacancy({
   // );
 
   return (
-    <VacancyContainer index={index}>
-      <TitleContainer>
-        <VacancyTitle>{position}</VacancyTitle>
-      </TitleContainer>
-      <InfoContainer>
-        <RowContainer>
-          <CreatedTitle>Created:</CreatedTitle>
-          <ValueText>{creationDate}</ValueText>
-        </RowContainer>
-        <RowContainer>
-          <ClientTitle>Client:</ClientTitle>
-          <ValueText>{clientId.name}</ValueText>
-        </RowContainer>
-      </InfoContainer>
-      <PersonContainer>
-        <ResponsibleTitle>Responsibles</ResponsibleTitle>
+    <div style={{ border: "solid 1px white" }}>
+      <h4 style={{ margin: 0 }}>{position}</h4>
+      <div style={{ display: "flex" }}>
+        <p style={{ margin: 0 }}>Created:</p>
+        <p style={{ margin: 0 }}>{creationDate}</p>
+      </div>
+      <div style={{ display: "flex" }}>
+        <p style={{ margin: 0 }}>Client:</p>
+        <p style={{ margin: 0 }}>{clientId.name}</p>
+      </div>
+      <div>
+        <p style={{ margin: 0 }}>Responsibles</p>
         <div style={{ display: "flex" }}>
           {responsiblesPerson
             .filter(({ type }) => type === "recruiter")
@@ -59,15 +42,32 @@ function Vacancy({
               const comma =
                 index < array.length - 1 && array.length > 1 ? "," : "";
               return (
-                <ValueText key={personId}>
+                <p style={{ margin: 0 }} key={personId}>
                   {responsible.fullName + comma}
-                </ValueText>
+                </p>
               );
             })}
         </div>
-      </PersonContainer>
-      <Details detailedInfo={detailedInfo} />
-    </VacancyContainer>
+      </div>
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <p style={{ margin: 0 }}>State</p>
+          <p style={{ margin: 0 }}>Current Week</p>
+          <p style={{ margin: 0 }}>All</p>
+        </div>
+        <div>
+          {detailedInfo.map(
+            ({ id, description, weekDetailInfo, detailInfo }) => (
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p style={{ margin: 0 }}>{description}</p>
+                <p style={{ margin: 0 }}>{weekDetailInfo.length}</p>
+                <p style={{ margin: 0 }}>{detailInfo.length}</p>
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
