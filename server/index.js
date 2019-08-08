@@ -21,12 +21,15 @@ console.log(
 );
 
 const doAuth = async () => {
-  console.log("DEBUB doAuth", process.env.COOKIE);
   try {
     const authResp = await axios.post(URL + "/hr/person/auth", {
       login: process.env.USERNAME,
       password: process.env.PASSWORD
     });
+    if (authResp.data.status === "error") {
+      console.log("Got error, throw");
+      throw new Error(authResp.data.message);
+    }
     const cookie = authResp.headers["set-cookie"][0].split(
       /JSESSIONID=(.*?);/gi
     )[1];
@@ -38,34 +41,49 @@ const doAuth = async () => {
   }
 };
 
+const doPing = async cookie => {
+  try {
+    const resp = await axios.get(URL + "/hr/person/authping", {
+      headers: { Cookie: "JSESSIONID=" + cookie }
+    });
+    console.log("ping response", resp);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
 app.get("/api/auth", async (req, res) => {
   try {
+    res.setHeader("Content-Type", "application/json");
     let cookie = process.env.COOKIE;
     if (cookie) {
-      const resp = await axios.get(URL + "/hr/person/authping", {
-        headers: { Cookie: "JSESSIONID=" + cookie }
-      });
-      if (resp.data.status === "ok") {
-        res.setHeader("Content-Type", "application/json");
+      console.log("ping req");
+      const ping = await doPing(cookie);
+      if (ping) {
         res.send(JSON.stringify({ auth: true }));
       } else {
         const isAuth = await doAuth();
-        res.setHeader("Content-Type", "application/json");
         res.send(JSON.stringify({ auth: isAuth }));
       }
     } else {
+      console.log("auth req");
       const isAuth = await doAuth();
-      res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify({ auth: isAuth }));
     }
   } catch (error) {
-    console.log("auth error", error.response.status, error.message);
-    res.status(error.response.status).send(error.message);
+    if (error.response) {
+      res.status(error.response.status).send(error.message);
+    } else {
+      console.log("else auth error", error);
+      res.send(
+        JSON.stringify({ auth: false, error: { message: error.message } })
+      );
+    }
   }
 });
 
 app.get("/api/vacancies", async (req, res) => {
-  console.log("vac", process.env.COOKIE);
   try {
     const vacanciesResp = await axios.post(
       URL + "/hr/vacancy/get",
@@ -86,7 +104,6 @@ app.get("/api/vacancies", async (req, res) => {
 });
 
 app.get("/api/interviewState", async (req, res) => {
-  console.log("state", process.env.COOKIE);
   try {
     const stateResp = await axios.get(URL + "/hr/interviewState/get", {
       headers: { Cookie: "JSESSIONID=" + process.env.COOKIE }

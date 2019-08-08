@@ -16,15 +16,9 @@ function Vacancy({
     return null;
   }
 
-  // return (
-  //   <div style={{ border: "solid 1px white" }}>
-  //     <h4>{position}</h4>
-  //   </div>
-  // );
-
   return (
     <div style={{ border: "solid 1px white" }}>
-      <h4 style={{ margin: 0 }}>{position}</h4>
+      <h4 style={{ margin: 0, width: "255px" }}>{position}</h4>
       <div style={{ display: "flex" }}>
         <p style={{ margin: 0 }}>Created:</p>
         <p style={{ margin: 0 }}>{creationDate}</p>

@@ -14,10 +14,12 @@ function App() {
   useEffect(() => {
     async function auth() {
       try {
-        console.log("DEBUB");
         const response = await axios.get("/api/auth");
-        console.log("FRONT AUTH", response);
-        dispatch({ type: "SET_AUTH", payload: true });
+        if (response.data.auth) {
+          dispatch({ type: "SET_AUTH", payload: response.data.auth });
+        } else {
+          throw response.data.error;
+        }
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error.message });
       }
