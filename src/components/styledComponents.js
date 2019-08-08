@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const RootContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
 `;
 
 export const LaunchContainer = styled.div`

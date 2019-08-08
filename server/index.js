@@ -13,13 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(pino);
 
-console.log(
-  "CREDS:::::::",
-  process.env.USERNAME,
-  process.env.PASSWORD,
-  process.env.COOKIE
-);
-
 const doAuth = async () => {
   try {
     const authResp = await axios.post(URL + "/hr/person/auth", {
@@ -55,6 +48,12 @@ const doPing = async cookie => {
 
 app.get("/api/auth", async (req, res) => {
   try {
+    console.log(
+      "CREDS:::::::",
+      process.env.USERNAME,
+      process.env.PASSWORD,
+      process.env.COOKIE
+    );
     res.setHeader("Content-Type", "application/json");
     let cookie = process.env.COOKIE;
     if (cookie) {
