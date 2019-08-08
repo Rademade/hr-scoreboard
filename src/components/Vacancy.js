@@ -20,9 +20,7 @@ function Vacancy({
     <div style={{ width: "25%" }}>
       <div
         style={{
-          borderBottom: "solid 1px white",
-          borderLeft: "solid 1px white",
-          height: "100%"
+          border: "solid 1px white"
         }}
       >
         <h4 style={{ margin: 0 }}>{position}</h4>

@@ -15,6 +15,7 @@ function App() {
     async function auth() {
       try {
         const response = await axios.get("/api/auth");
+        console.log("FONT REPS", response);
         if (response.data.auth) {
           dispatch({ type: "SET_AUTH", payload: response.data.auth });
         } else {

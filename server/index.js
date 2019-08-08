@@ -67,7 +67,7 @@ app.get("/api/auth", async (req, res) => {
     if (error.status) {
       res.status(error.response.status).send(error.message);
     } else {
-      res.send(JSON.stringify({ auth: false, message: error }));
+      res.send(JSON.stringify({ auth: false, message: error.message }));
     }
   }
 });
