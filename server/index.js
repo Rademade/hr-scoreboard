@@ -21,29 +21,41 @@ console.log(
 );
 
 const doAuth = async () => {
-  const authResp = await axios.post(URL + "/hr/person/auth", {
-    login: process.env.USERNAME,
-    password: process.env.PASSWORD
-  });
-  const cookie = authResp.headers["set-cookie"][0].split(
-    /JSESSIONID=(.*?);/gi
-  )[1];
-  process.env.COOKIE = cookie;
-  console.log("Cookie!", cookie);
+  try {
+    const authResp = await axios.post(URL + "/hr/person/auth", {
+      login: process.env.USERNAME,
+      password: process.env.PASSWORD
+    });
+    const cookie = authResp.headers["set-cookie"][0].split(
+      /JSESSIONID=(.*?);/gi
+    )[1];
+    process.env.COOKIE = cookie;
+    console.log("Cookie!", cookie);
+    return true;
+  } catch (error) {
+    throw error;
+  }
 };
 
 app.get("/api/auth", async (req, res) => {
   try {
     let cookie = process.env.COOKIE;
-    if (cookie.length > 0) {
-      const resp = await axios.get("hr/person/authping", {
-        headers: { Cookie: "JSESSIONID=" + process.env.COOKIE }
+    if (cookie) {
+      const resp = await axios.get(URL + "/hr/person/authping", {
+        headers: { Cookie: "JSESSIONID=" + cookie }
       });
-      console.log("ping response", resp);
+      if (resp.data.status === "ok") {
+        res.setHeader("Content-Type", "application/json");
+        res.send(JSON.stringify({ auth: true }));
+      } else {
+        const isAuth = await doAuth();
+        res.setHeader("Content-Type", "application/json");
+        res.send(JSON.stringify({ auth: isAuth }));
+      }
     } else {
-      await doAuth();
+      const isAuth = await doAuth();
       res.setHeader("Content-Type", "application/json");
-      res.send(JSON.stringify({ auth: true }));
+      res.send(JSON.stringify({ auth: isAuth }));
     }
   } catch (error) {
     console.log("auth error", error.response.status, error.message);

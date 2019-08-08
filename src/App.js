@@ -14,6 +14,7 @@ function App() {
   useEffect(() => {
     async function auth() {
       try {
+        console.log("DEBUB");
         const response = await axios.get("/api/auth");
         console.log("FRONT AUTH", response);
         dispatch({ type: "SET_AUTH", payload: true });
@@ -52,8 +53,10 @@ function App() {
         dispatch({ type: "SET_ERROR", payload: error.message });
       }
     }
-    fetchStages();
-  }, []);
+    if (isAuthenticated) {
+      fetchStages();
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     async function fetchStatistics() {
