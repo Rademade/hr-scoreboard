@@ -13,71 +13,61 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(pino);
 
-const doAuth = async () => {
-  try {
-    const authResp = await axios.post(URL + "/hr/person/auth", {
-      login: process.env.USERNAME,
-      password: process.env.PASSWORD
-    });
-    if (authResp.data.status === "error") {
-      console.log("Got error, throw");
-      throw new Error(authResp.data.message);
-    }
-    const cookie = authResp.headers["set-cookie"][0].split(
-      /JSESSIONID=(.*?);/gi
-    )[1];
-    process.env.COOKIE = cookie;
-    console.log("Cookie!", cookie);
-    return true;
-  } catch (error) {
-    throw error;
-  }
-};
-
 const doPing = async cookie => {
   try {
+    console.log("do ping");
     const resp = await axios.get(URL + "/hr/person/authping", {
       headers: { Cookie: "JSESSIONID=" + cookie }
     });
     console.log("ping response", resp);
     return true;
   } catch (error) {
+    console.log("ping error", error);
     return false;
   }
 };
 
+const doAuth = async () => {
+  console.log("do auth");
+  const authResp = await axios.post(URL + "/hr/person/auth", {
+    login: process.env.USERNAME,
+    password: process.env.PASSWORD
+  });
+  console.log("auth resp", authResp.status);
+  if (authResp.data.status === "error") {
+    throw new Error(authResp.data.message);
+  }
+  const cookie = authResp.headers["set-cookie"][0].split(
+    /JSESSIONID=(.*?);/gi
+  )[1];
+  return { isAuth: true, cookie };
+};
+
 app.get("/api/auth", async (req, res) => {
   try {
-    console.log(
-      "CREDS:::::::",
-      process.env.USERNAME,
-      process.env.PASSWORD,
-      process.env.COOKIE
-    );
-    res.setHeader("Content-Type", "application/json");
     let cookie = process.env.COOKIE;
+    res.setHeader("Content-Type", "application/json");
+    console.log("env cookie", cookie);
     if (cookie) {
-      console.log("ping req");
-      const ping = await doPing(cookie);
-      if (ping) {
+      const pingRes = await doPing(cookie);
+      if (pingRes) {
         res.send(JSON.stringify({ auth: true }));
       } else {
-        const isAuth = await doAuth();
-        res.send(JSON.stringify({ auth: isAuth }));
+        const authRes = await doAuth();
+        process.env.COOKIE = authRes.cookie;
+        res.send(JSON.stringify({ auth: authRes.isAuth }));
       }
     } else {
-      console.log("auth req");
-      const isAuth = await doAuth();
-      res.send(JSON.stringify({ auth: isAuth }));
+      const authRes = await doAuth();
+      process.env.COOKIE = authRes.cookie;
+      res.send(JSON.stringify({ auth: authRes.isAuth }));
     }
   } catch (error) {
-    if (error.response) {
+    console.log("api auth error", error.message);
+    if (error.status) {
       res.status(error.response.status).send(error.message);
     } else {
-      console.log("else auth error", error);
-      res.send(
-        JSON.stringify({ auth: false, error: { message: error.message } })
-      );
+      res.send(JSON.stringify({ auth: false, message: error }));
     }
   }
 });
@@ -169,6 +159,12 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(port, () =>
-  console.log("Express server is running on localhost:", port)
-);
+app.listen(port, () => {
+  console.log("Express server is running on localhost:", port);
+  console.log(
+    "CREDS:::::::",
+    process.env.USERNAME,
+    process.env.PASSWORD,
+    process.env.COOKIE
+  );
+});

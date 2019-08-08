@@ -18,7 +18,7 @@ function App() {
         if (response.data.auth) {
           dispatch({ type: "SET_AUTH", payload: response.data.auth });
         } else {
-          throw response.data.error;
+          throw new Error(response.data.message);
         }
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error.message });
