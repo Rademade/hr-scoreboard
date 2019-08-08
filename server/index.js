@@ -21,6 +21,7 @@ console.log(
 );
 
 const doAuth = async () => {
+  console.log("DEBUB doAuth", process.env.COOKIE);
   try {
     const authResp = await axios.post(URL + "/hr/person/auth", {
       login: process.env.USERNAME,
@@ -64,6 +65,7 @@ app.get("/api/auth", async (req, res) => {
 });
 
 app.get("/api/vacancies", async (req, res) => {
+  console.log("vac", process.env.COOKIE);
   try {
     const vacanciesResp = await axios.post(
       URL + "/hr/vacancy/get",
@@ -84,6 +86,7 @@ app.get("/api/vacancies", async (req, res) => {
 });
 
 app.get("/api/interviewState", async (req, res) => {
+  console.log("state", process.env.COOKIE);
   try {
     const stateResp = await axios.get(URL + "/hr/interviewState/get", {
       headers: { Cookie: "JSESSIONID=" + process.env.COOKIE }
