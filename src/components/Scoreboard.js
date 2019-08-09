@@ -25,7 +25,7 @@ const Scoreboard = () => (
       }
 
       return items.map((item, index) => (
-        <Vacancy {...item} key={item.position} isRight={index === 3} />
+        <Vacancy {...item} key={item.position} hlight={(index + 1) % 2 === 0} />
       ));
     }}
   </Wrapper>

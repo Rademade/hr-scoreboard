@@ -11,7 +11,7 @@ const Vacancy = ({
   dc,
   clientId,
   detailedInfo,
-  isRight
+  hlight
 }) => {
   const creationDate = moment(dc).format("MMMM Do YYYY");
 
@@ -21,7 +21,7 @@ const Vacancy = ({
 
   return (
     <Container>
-      <Content isRight={isRight}>
+      <Content hlight={hlight}>
         <PositionInfo
           position={position}
           creationDate={creationDate}
@@ -39,9 +39,8 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 5px 2px;
-  /* border-right: ${({ isRight }) => (!isRight ? "solid 1px #ecf0f1" : null)};
-  border-bottom: solid 1px #ecf0f1; */
+  padding: 5px 5px;
+  background: ${({ hlight }) => (hlight ? "#2b3a4a" : null)};
 `;
 
 export default Vacancy;
