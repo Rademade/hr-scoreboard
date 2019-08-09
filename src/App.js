@@ -6,7 +6,7 @@ import Scoreboard from "./components/Scoreboard";
 
 export const AppStateContext = createContext({});
 
-function App() {
+const App = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   console.log("app state", state);
   const { isAuthenticated, vacancies, stages, statistics, reports } = state;
@@ -141,6 +141,6 @@ function App() {
       <Scoreboard />
     </AppStateContext.Provider>
   );
-}
+};
 
 export default App;
