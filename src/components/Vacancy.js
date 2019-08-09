@@ -20,7 +20,9 @@ function Vacancy({
     <div style={{ width: "25%" }}>
       <div
         style={{
-          border: "solid 1px white"
+          borderRight: "solid 1px white",
+          borderBottom: "solid 1px white",
+          height: "100%"
         }}
       >
         <h4 style={{ margin: 0 }}>{position}</h4>
@@ -58,6 +60,7 @@ function Vacancy({
             {detailedInfo.map(
               ({ id, description, weekDetailInfo, detailInfo }) => (
                 <div
+                  key={id}
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <p style={{ margin: 0 }}>{description}</p>

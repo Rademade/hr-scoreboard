@@ -14,12 +14,18 @@ function App() {
   useEffect(() => {
     async function auth() {
       try {
-        const response = await axios.get("/api/auth");
-        console.log("FONT REPS", response);
-        if (response.data.auth) {
-          dispatch({ type: "SET_AUTH", payload: response.data.auth });
-        } else {
+        const cookie = localStorage.getItem("cookie");
+        console.log("auth cookie", cookie);
+        const response = await axios.post("/api/auth", {
+          cookie
+        });
+        if (!response.data.isAuth) {
           throw new Error(response.data.message);
+        } else {
+          if (response.data.newCookie) {
+            localStorage.setItem("cookie", response.data.newCookie);
+          }
+          dispatch({ type: "SET_AUTH", payload: response.data.isAuth });
         }
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error.message });
@@ -125,6 +131,7 @@ function App() {
       reports.length > 0
     ) {
       const formedData = formData(vacancies, stages, statistics, reports);
+      localStorage.setItem("items", JSON.stringify(formedData));
       dispatch({ type: "SET_FORMED_DATA", payload: formedData });
     }
   }, [vacancies, stages, statistics, reports]);

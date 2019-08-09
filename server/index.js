@@ -19,7 +19,7 @@ const doPing = async cookie => {
     const resp = await axios.get(URL + "/hr/person/authping", {
       headers: { Cookie: "JSESSIONID=" + cookie }
     });
-    console.log("ping response", resp);
+    console.log("ping response", resp.data);
     return true;
   } catch (error) {
     console.log("ping error", error);
@@ -33,41 +33,43 @@ const doAuth = async () => {
     login: process.env.USERNAME,
     password: process.env.PASSWORD
   });
-  console.log("auth resp", authResp.status);
   if (authResp.data.status === "error") {
     throw new Error(authResp.data.message);
   }
   const cookie = authResp.headers["set-cookie"][0].split(
     /JSESSIONID=(.*?);/gi
   )[1];
-  return { isAuth: true, cookie };
+  return { isAuth: true, newCookie: cookie };
 };
 
-app.get("/api/auth", async (req, res) => {
+app.post("/api/auth", async (req, res) => {
   try {
-    let cookie = process.env.COOKIE;
-    res.setHeader("Content-Type", "application/json");
-    console.log("env cookie", cookie);
+    const cookie = req.body.cookie;
+    console.log("/api/auth", cookie);
     if (cookie) {
-      const pingRes = await doPing(cookie);
+      const pingRes = doPing(cookie);
       if (pingRes) {
-        res.send(JSON.stringify({ auth: true }));
+        process.env.COOKIE = cookie;
+        res.setHeader("Content-Type", "application/json");
+        res.send(JSON.stringify({ isAuth: true }));
       } else {
         const authRes = await doAuth();
-        process.env.COOKIE = authRes.cookie;
-        res.send(JSON.stringify({ auth: authRes.isAuth }));
+        console.log("authResp", authRes);
+        res.setHeader("Content-Type", "application/json");
+        res.send(JSON.stringify(authRes));
       }
     } else {
       const authRes = await doAuth();
-      process.env.COOKIE = authRes.cookie;
-      res.send(JSON.stringify({ auth: authRes.isAuth }));
+      console.log("authResp", authRes);
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify(authRes));
     }
   } catch (error) {
     console.log("api auth error", error.message);
     if (error.status) {
       res.status(error.response.status).send(error.message);
     } else {
-      res.send(JSON.stringify({ auth: false, message: error.message }));
+      res.send(JSON.stringify({ isAuth: false, message: error.message }));
     }
   }
 });
@@ -159,12 +161,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(port, () => {
-  console.log("Express server is running on localhost:", port);
-  console.log(
-    "CREDS:::::::",
-    process.env.USERNAME,
-    process.env.PASSWORD,
-    process.env.COOKIE
-  );
-});
+app.listen(port, () =>
+  console.log("Express server is running on localhost:", port)
+);
