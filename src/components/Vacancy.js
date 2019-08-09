@@ -39,7 +39,7 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  padding: 5px 10px 5px 10px;
+  padding: 5px 2px;
   /* border-right: ${({ isRight }) => (!isRight ? "solid 1px #ecf0f1" : null)};
   border-bottom: solid 1px #ecf0f1; */
 `;

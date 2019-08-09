@@ -41,16 +41,16 @@ const View = styled.div`
 
 const RawRow = styled.div`
   display: flex;
+  align-items: flex-end;
 `;
 
 const Row = styled(RawRow)`
-  align-items: flex-end;
   margin-top: 5px;
 `;
 
 const Text = styled.p`
   margin: 0px;
-  font-size: 18px;
+  font-size: 16px;
   color: #ecf0f1;
 `;
 
@@ -62,6 +62,7 @@ const Title = styled.h2`
 
 const ItemText = styled(Text)`
   margin-left: 5px;
+  margin-bottom: 1px;
 `;
 
 const Created = styled.h3`
