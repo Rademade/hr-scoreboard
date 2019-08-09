@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-// import Details from "./Details";
 
 function Vacancy({
   status,
