@@ -22,7 +22,7 @@ const doPing = async cookie => {
     console.log("ping response", resp.data);
     return true;
   } catch (error) {
-    console.log("ping error", error);
+    console.log("ping error", error.message);
     return false;
   }
 };
@@ -47,7 +47,8 @@ app.post("/api/auth", async (req, res) => {
     const cookie = req.body.cookie;
     console.log("/api/auth", cookie);
     if (cookie) {
-      const pingRes = doPing(cookie);
+      const pingRes = await doPing(cookie);
+      console.log("DEBUB", pingRes);
       if (pingRes) {
         process.env.COOKIE = cookie;
         res.setHeader("Content-Type", "application/json");
@@ -55,6 +56,7 @@ app.post("/api/auth", async (req, res) => {
       } else {
         const authRes = await doAuth();
         console.log("authResp", authRes);
+        process.env.COOKIE = authRes.newCookie;
         res.setHeader("Content-Type", "application/json");
         res.send(JSON.stringify(authRes));
       }

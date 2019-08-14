@@ -21,7 +21,7 @@ const Vacancy = ({
 
   return (
     <Container>
-      <Content hlight={hlight}>
+      <Content hlight={false}>
         <PositionInfo
           position={position}
           creationDate={creationDate}
