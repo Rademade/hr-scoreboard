@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
@@ -63,6 +65,7 @@ app.post("/api/auth", async (req, res) => {
     } else {
       const authRes = await doAuth();
       console.log("authResp", authRes);
+      process.env.COOKIE = authRes.newCookie;
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.stringify(authRes));
     }
