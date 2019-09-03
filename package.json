@@ -30,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write 'src/**/*.js' 'server/**/*.js'"
+    "format": "prettier --write 'src/**/*.js' 'server/**/*.js' 'functions/**/*.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
