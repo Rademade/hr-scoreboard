@@ -21,6 +21,7 @@ const App = () => {
         })
         console.log("auth resp", response)
       } catch (error) {
+        console.log(error)
         dispatch({ type: "SET_ERROR", payload: error.message })
       }
     }

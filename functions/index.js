@@ -18,6 +18,11 @@ exports.auth = functions.https.onRequest((req, res) => {
       })
       .then(response => {
         console.log("auth axios response", response.data)
+        if (response.data.status === "error") {
+          return res.status(500).json({
+            message: response.data.message
+          })
+        }
         // const cookie = response.headers["set-cookie"][0].split(
         //   /JSESSIONID=(.*?);/gi
         // )[1];
@@ -25,9 +30,9 @@ exports.auth = functions.https.onRequest((req, res) => {
           data: response.data.object
         })
       })
-      .catch(e => {
-        return res.status(500).json({
-          error: e
+      .catch(error => {
+        return res.status(error.code).json({
+          message: `Something went wrong ${error.message}`
         })
       })
   })
