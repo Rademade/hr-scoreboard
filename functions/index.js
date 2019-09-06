@@ -1,26 +1,39 @@
-const functions = require("firebase-functions");
-const axios = require("axios");
-const config = functions.config();
+const functions = require("firebase-functions")
+const axios = require("axios")
+const cors = require("cors")({ origin: true })
+const config = functions.config()
 
-exports.auth = functions.https.onCall((data, context) => {
-  // console.log("auth", data, context);
-  return axios
-    .post(config.api.url + "/hr/person/auth", {
-      login: data.username,
-      password: data.password
-    })
-    .then(response => {
-      console.log("auth axios response", response.data);
-      const cookie = response.headers["set-cookie"][0].split(
-        /JSESSIONID=(.*?);/gi
-      )[1];
-      return {
-        data: response.data.object,
-        cookie
-      };
-    });
-});
+exports.auth = functions.https.onRequest((req, res) => {
+  return cors(req, res, () => {
+    if (req.method !== "POST") {
+      return res.status(401).json({
+        message: "Not allowed"
+      })
+    }
+    console.log("request body", req.body)
+    return axios
+      .post(config.api.url + "/hr/person/auth", {
+        login: req.body.username,
+        password: req.body.password
+      })
+      .then(response => {
+        console.log("auth axios response", response.data)
+        // const cookie = response.headers["set-cookie"][0].split(
+        //   /JSESSIONID=(.*?);/gi
+        // )[1];
+        return res.status(200).json({
+          data: response.data.object
+        })
+      })
+      .catch(e => {
+        return res.status(500).json({
+          error: e
+        })
+      })
+  })
+})
 
-exports.vacancies = functions.https.onCall((data, context) => {
-  console.log("vacancies", data, context);
-});
+exports.vacancies = functions.https.onRequest((req, res) => {
+  console.log("vacancies", req, res)
+  res.send("vacancies")
+})
