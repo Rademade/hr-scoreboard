@@ -3,7 +3,7 @@ import firebase from "firebase"
 import axios from "axios"
 import { appReducer, initialState } from "./reducer"
 import Scoreboard from "./components/Scoreboard"
-import { API_URL, firebaseConfig } from "./config"
+import { firebaseConfig } from "./config"
 
 firebase.initializeApp(firebaseConfig)
 export const AppStateContext = createContext({})
@@ -15,12 +15,17 @@ const App = () => {
   useEffect(() => {
     async function doAuth() {
       try {
-        const response = await axios.get(API_URL + "/authPing")
-        // const response = await axios.post(API_URL + "/auth", {
-        //   username: process.env.REACT_APP_USERNAME,
-        //   password: process.env.REACT_APP_PASSWORD
-        // })
-        console.log("response", response)
+        // const response = await axios.get(API_URL + "/authPing")
+        const response = await axios.post(
+          "/auth",
+          {
+            username: process.env.REACT_APP_USERNAME,
+            password: process.env.REACT_APP_PASSWORD
+          },
+          { withCredentials: true }
+        )
+        console.log("headers", response.headers)
+        console.log("response", response.headers["set-cookie"])
       } catch (error) {
         console.log(error)
         dispatch({ type: "SET_ERROR", payload: error.message })

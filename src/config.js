@@ -1,4 +1,4 @@
-export const API_URL = "https://us-central1-hr-scoreboard.cloudfunctions.net"
+// export const API_URL = "https://us-central1-hr-scoreboard.cloudfunctions.net"
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDVpYImIj_UVaqniMW8VZ0KYhaY1ABe9Qw",

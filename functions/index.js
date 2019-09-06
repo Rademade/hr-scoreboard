@@ -42,9 +42,10 @@ exports.auth = functions.https.onRequest((req, res) => {
             message: response.data.message
           })
         }
-        // const cookie = response.headers["set-cookie"][0].split(
-        //   /JSESSIONID=(.*?);/gi
-        // )[1];
+        const cookie = response.headers["set-cookie"][0].split(
+          /JSESSIONID=(.*?);/gi
+        )[1]
+        res.cookie("JSESSIONID", cookie, { path: "/", httpOnly: false })
         return res.status(200).json({
           user: response.data.object
         })
