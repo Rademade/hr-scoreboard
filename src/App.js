@@ -15,11 +15,12 @@ const App = () => {
   useEffect(() => {
     async function doAuth() {
       try {
-        const response = await axios.post(API_URL + "/auth", {
-          username: process.env.REACT_APP_USERNAME,
-          password: process.env.REACT_APP_PASSWORD
-        })
-        console.log("auth resp", response)
+        const response = await axios.get(API_URL + "/authPing")
+        // const response = await axios.post(API_URL + "/auth", {
+        //   username: process.env.REACT_APP_USERNAME,
+        //   password: process.env.REACT_APP_PASSWORD
+        // })
+        console.log("response", response)
       } catch (error) {
         console.log(error)
         dispatch({ type: "SET_ERROR", payload: error.message })
