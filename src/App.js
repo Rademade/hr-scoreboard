@@ -12,8 +12,12 @@ const App = () => {
   useEffect(() => {
     async function doAuth() {
       try {
-        const response = await auth({ username: "viktor" });
+        const response = await auth({
+          username: process.env.REACT_APP_USERNAME,
+          password: process.env.REACT_APP_PASSWORD
+        });
         console.log("auth resp", response);
+        // const data = await vacancies({ id: 3 });
       } catch (error) {
         dispatch({ type: "SET_ERROR", payload: error.message });
       }

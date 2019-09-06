@@ -22,8 +22,8 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
-    "start": "node-env-run server --env .env.prod",
-    "start-dev": "react-scripts start",
+    "start-prod": "node-env-run server --env .env.prod",
+    "start": "react-scripts start",
     "heroku-postbuild": "yarn && yarn build",
     "server": "node-env-run server --env .env.local --exec nodemon | pino-colada",
     "dev": "run-p server start-dev",

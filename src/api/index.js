@@ -10,4 +10,6 @@ firebase.initializeApp({
   appId: "1:922022018245:web:8f055fba5d51f30b"
 });
 
-export const auth = firebase.functions().httpsCallable("auth");
+const functions = firebase.functions();
+export const auth = functions.httpsCallable("auth");
+export const vacancies = functions.httpsCallable("vacancies");
