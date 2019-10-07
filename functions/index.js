@@ -5,7 +5,7 @@ const config = functions.config()
 
 exports.authPing = functions.https.onRequest((req, res) => {
   return cors(req, res, () => {
-    console.log("request", req)
+    console.log("request", req.cookies)
     return axios
       .get(config.api.url + "/hr/person/authping")
       .then(response => {
