@@ -22,11 +22,8 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
-    "start-prod": "node-env-run server --env .env.prod",
     "start": "react-scripts start",
-    "heroku-postbuild": "yarn && yarn build",
     "server": "node-env-run server --env .env.local --exec nodemon | pino-colada",
-    "dev": "run-p server start-dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -35,7 +32,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://us-central1-hr-scoreboard.cloudfunctions.net",
+  "proxy": "http://localhost:5000/hr-scoreboard/us-central1",
   "browserslist": {
     "production": [
       ">0.2%",
