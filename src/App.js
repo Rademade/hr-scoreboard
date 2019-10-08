@@ -1,57 +1,30 @@
-import React, { useReducer, createContext } from "react"
-import firebase from "firebase"
-// import axios from "axios"
-import { appReducer, initialState } from "./reducer"
-import Scoreboard from "./components/Scoreboard"
-import { firebaseConfig } from "./config"
+import React, { useEffect } from "react";
+import firebase from "firebase";
+import {
+  RootContainer,
+  LaunchContainer,
+  StyledTitle
+} from "./components/Scoreboard";
+import { firebaseConfig } from "./config";
+import store from "./state/store";
+import { auth } from "./state/actions";
 
-firebase.initializeApp(firebaseConfig)
-export const AppStateContext = createContext({})
+firebase.initializeApp(firebaseConfig);
 
 const App = () => {
-  const [state] = useReducer(appReducer, initialState)
-  console.log("app state", state)
+  console.log("app", store);
 
-  // useEffect(() => {
-  //   async function pingAuth() {
-  //     try {
-  //       const response = await axios.get("/authPing", { withCredentials: true })
-  //       console.log("response", response.data)
-  //     } catch(error) {
-  //       console.log(error)
-  //       dispatch({ type: "SET_ERROR", payload: error.message })
-  //     }
-  //   }
-  //   pingAuth()
-  // }, [])
-
-  // useEffect(() => {
-  //   async function doAuth() {
-  //     try {
-        
-  //       const response = await axios.post(
-  //         "/auth",
-  //         {
-  //           username: process.env.REACT_APP_USERNAME,
-  //           password: process.env.REACT_APP_PASSWORD
-  //         },
-  //         { withCredentials: true }
-  //       )
-  //       console.log("headers", response.headers)
-  //       console.log("response", response.data)
-  //     } catch (error) {
-  //       console.log(error)
-  //       dispatch({ type: "SET_ERROR", payload: error.message })
-  //     }
-  //   }
-  //   doAuth()
-  // }, [])
+  useEffect(() => {
+    store.dispatch(auth({ login: "sss", password: "sss" }));
+  }, []);
 
   return (
-    <AppStateContext.Provider value={state}>
-      <Scoreboard />
-    </AppStateContext.Provider>
-  )
-}
+    <RootContainer>
+      <LaunchContainer>
+        <StyledTitle>HR Scoreboard</StyledTitle>
+      </LaunchContainer>
+    </RootContainer>
+  );
+};
 
-export default App
+export default App;
