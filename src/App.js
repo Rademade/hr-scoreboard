@@ -7,16 +7,18 @@ import {
 } from "./components/Scoreboard";
 import { firebaseConfig } from "./config";
 import store from "./state/store";
-import { authPing } from "./state/actions";
+import { startSync } from "./state/actions";
 
 firebase.initializeApp(firebaseConfig);
-
 const App = () => {
-  console.log("app", store);
-
   useEffect(() => {
-    // store.dispatch(auth());
-    store.dispatch(authPing());
+    const { dispatch, getState } = store;
+    const { isInitialize } = getState();
+    if (!isInitialize) {
+      dispatch(startSync());
+    }
+    const interval = setInterval(() => dispatch(startSync()), 3600 * 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

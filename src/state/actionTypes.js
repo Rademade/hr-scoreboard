@@ -1,4 +1,4 @@
-export const AUTH = "Scoreboard.Auth";
-export const SET_AUTH = "Scoreboard.SetAuth";
-export const AUTH_PING = "Scoreboard.AuthPing";
-export const SET_ERROR = "Scoreboard.SetError";
+export const START_SYNC = "App.StartSync";
+export const SET_ON_SYNC = "App.StartOnSync";
+export const SET_AUTH_STATUS = "Auth.SetAuthStatus";
+export const SET_USER_DATA = "Auth.SetUserData";

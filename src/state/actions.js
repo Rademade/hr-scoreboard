@@ -1,20 +1,20 @@
 import * as actionTypes from "./actionTypes";
 
-export const auth = payload => ({
-  type: actionTypes.AUTH,
+export const startSync = () => ({
+  type: actionTypes.START_SYNC
+});
+
+export const setOnSync = payload => ({
+  type: actionTypes.SET_ON_SYNC,
   payload
 });
 
-export const setAuth = payload => ({
-  type: actionTypes.SET_AUTH,
+export const setAuthStatus = payload => ({
+  type: actionTypes.SET_AUTH_STATUS,
   payload
 });
 
-export const authPing = () => ({
-  type: actionTypes.AUTH_PING
-});
-
-export const setError = payload => ({
-  type: actionTypes.SET_ERROR,
+export const setUserData = payload => ({
+  type: actionTypes.SET_USER_DATA,
   payload
 });

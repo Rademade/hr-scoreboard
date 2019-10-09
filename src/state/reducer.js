@@ -3,24 +3,30 @@ import * as actionTypes from "./actionTypes";
 const initialState = {
   isInitialize: false,
   isAuthenticated: false,
-  error: null
+  isOnSync: false,
+  userData: null
 };
 
-export const reducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.SET_AUTH:
+    case actionTypes.SET_ON_SYNC:
+      return {
+        ...state,
+        isOnSync: action.payload
+      };
+    case actionTypes.SET_AUTH_STATUS:
       return {
         ...state,
         isAuthenticated: action.payload
       };
-    case actionTypes.SET_ERROR:
+    case actionTypes.SET_USER_DATA:
       return {
         ...state,
-        error: action.payload
+        userData: action.payload
       };
     default:
       return state;
   }
 };
 
-export default reducer;
+export default appReducer;
