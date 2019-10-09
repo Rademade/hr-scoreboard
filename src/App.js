@@ -7,7 +7,7 @@ import {
 } from "./components/Scoreboard";
 import { firebaseConfig } from "./config";
 import store from "./state/store";
-import { auth } from "./state/actions";
+import { authPing } from "./state/actions";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -15,7 +15,8 @@ const App = () => {
   console.log("app", store);
 
   useEffect(() => {
-    store.dispatch(auth({ login: "sss", password: "sss" }));
+    // store.dispatch(auth());
+    store.dispatch(authPing());
   }, []);
 
   return (
