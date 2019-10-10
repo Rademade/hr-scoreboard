@@ -4,8 +4,12 @@ export const startSync = () => ({
   type: actionTypes.START_SYNC
 });
 
-export const setOnSync = payload => ({
-  type: actionTypes.SET_ON_SYNC,
+export const endSync = () => ({
+  type: actionTypes.END_SYNC
+});
+
+export const setFirstLaunch = payload => ({
+  type: actionTypes.SET_FIRST_LAUNCH,
   payload
 });
 
@@ -20,6 +24,6 @@ export const setUserData = payload => ({
 });
 
 export const setVacancies = payload => ({
-    type: actionTypes.SET_VACANCIES,
-    payload
-})
+  type: actionTypes.SET_VACANCIES,
+  payload
+});

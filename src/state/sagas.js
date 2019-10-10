@@ -1,11 +1,16 @@
-import { call, put, takeLatest } from "redux-saga/effects";
-import * as actionTypes from "./actionTypes";
-import { setOnSync, setAuthStatus, setUserData, setVacancies } from "./actions";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import { authRequest, vacanciesRequest } from "../api";
+import { START_SYNC } from "./actionTypes";
+import {
+  endSync,
+  setAuthStatus,
+  setUserData,
+  setVacancies,
+  setFirstLaunch
+} from "./actions";
 
 function* appSyncSaga() {
   try {
-    yield put(setOnSync(true));
     if (false) {
       const username = process.env.REACT_APP_USERNAME;
       const password = process.env.REACT_APP_PASSWORD;
@@ -16,19 +21,21 @@ function* appSyncSaga() {
       }
     }
 
-    const vacanciesResponse = yield call(vacanciesRequest)
-    yield put(setVacancies(vacanciesResponse.data.objects))
-
-    // vacanciesRequest
+    const vacanciesResponse = yield call(vacanciesRequest);
+    yield put(setVacancies(vacanciesResponse.data.objects));
   } catch (error) {
     console.log(error);
   } finally {
-    yield put(setOnSync(false));
+    yield put(endSync());
+    const isFirstLaunch = yield select(state => state.isFirstLaunch);
+    if (isFirstLaunch) {
+      yield put(setFirstLaunch(false));
+    }
   }
 }
 
 function* rootSaga() {
-  yield takeLatest(actionTypes.START_SYNC, appSyncSaga);
+  yield takeLatest(START_SYNC, appSyncSaga);
 }
 
 export default rootSaga;

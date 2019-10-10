@@ -13,8 +13,8 @@ firebase.initializeApp(firebaseConfig);
 const App = () => {
   useEffect(() => {
     const { dispatch, getState } = store;
-    const { isInitialize } = getState();
-    if (!isInitialize) {
+    const { isFirstLaunch } = getState();
+    if (isFirstLaunch) {
       dispatch(startSync());
     }
     const interval = setInterval(() => dispatch(startSync()), 3600 * 1000);
