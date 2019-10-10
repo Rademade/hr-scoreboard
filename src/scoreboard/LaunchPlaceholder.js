@@ -2,19 +2,19 @@ import React from "react"
 import styled from "styled-components"
 
 const LaunchPlaceholder = () => (
-  <LaunchContainer>
-    <StyledTitle>HR Scoreboard</StyledTitle>
-  </LaunchContainer>
+  <Container>
+    <Title>HR Scoreboard</Title>
+  </Container>
 )
 
-const LaunchContainer = styled.div`
+const Container = styled.div`
   flex: 1;
   text-align: center;
   padding-top: 40px;
 `
 
-const StyledTitle = styled.h1`
-  color: green;
+const Title = styled.h1`
+  color: #1ec882;
   font-size: 62px;
 `
 
