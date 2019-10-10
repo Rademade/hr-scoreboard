@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"
 
 export const authRequest = creds =>
   axios.post(
@@ -8,7 +8,7 @@ export const authRequest = creds =>
       password: creds.password
     },
     { withCredentials: true }
-  );
+  )
 
 export const vacanciesRequest = () =>
-  axios.get("/vacancies", { withCredentials: true });
+  axios.get("/vacancies", { withCredentials: true })

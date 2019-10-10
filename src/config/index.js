@@ -8,4 +8,4 @@ export const firebaseConfig = {
   storageBucket: "",
   messagingSenderId: "922022018245",
   appId: "1:922022018245:web:8f055fba5d51f30b"
-};
+}
