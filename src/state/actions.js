@@ -18,3 +18,8 @@ export const setUserData = payload => ({
   type: actionTypes.SET_USER_DATA,
   payload
 });
+
+export const setVacancies = payload => ({
+    type: actionTypes.SET_VACANCIES,
+    payload
+})

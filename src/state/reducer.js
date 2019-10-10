@@ -4,7 +4,8 @@ const initialState = {
   isInitialize: false,
   isAuthenticated: false,
   isOnSync: false,
-  userData: null
+  userData: null,
+  vacancies: []
 };
 
 const appReducer = (state = initialState, action) => {
@@ -23,6 +24,11 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: action.payload
+      };
+    case actionTypes.SET_VACANCIES:
+      return {
+        ...state,
+        vacancies: action.payload
       };
     default:
       return state;

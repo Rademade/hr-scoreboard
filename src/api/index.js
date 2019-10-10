@@ -9,3 +9,5 @@ export const authRequest = creds =>
     },
     { withCredentials: true }
   );
+
+export const vacanciesRequest = () => axios.get("/vacancies", { withCredentials: true })
