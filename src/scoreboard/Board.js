@@ -1,15 +1,13 @@
 import React from "react"
 import styled from "styled-components"
+import { useSelector } from "react-redux"
 import Text from "../components/Text"
 import Category from "../components/Category"
+import VacancyItem from "../components/VacancyItem"
 
-const BoardItem = props => {
-  const list = [
-    { title: "Long-List", value: 213 },
-    { title: "Calling", value: 13 },
-    { title: "Interview", value: 3 },
-    { title: "Offer", value: 1 }
-  ]
+const Board = props => {
+  const categories = useSelector(state => state.mockCategories)
+  const vacancyList = useSelector(state => state.mockVacancyList)
   return (
     <ItemContainer>
       <HeaderContainer>
@@ -17,7 +15,7 @@ const BoardItem = props => {
           <ImagePlaceholder />
           <NameText>{props.title}</NameText>
         </UserContainer>
-        {list.map((item, index) => (
+        {categories.map((item, index) => (
           <Category
             key={index.toString()}
             title={item.title}
@@ -25,12 +23,18 @@ const BoardItem = props => {
           />
         ))}
       </HeaderContainer>
+      <VacancyContainer>
+        {vacancyList.map((item, index) => (
+          <VacancyItem key={index.toString()} title={item.title} />
+        ))}
+      </VacancyContainer>
     </ItemContainer>
   )
 }
 
 const ItemContainer = styled.div`
   display: flex;
+  flex-direction: column;
   flex: 1;
   margin: 0px 22px 0px 22px;
   border-radius: 12px;
@@ -51,6 +55,10 @@ const UserContainer = styled.div`
   align-items: center;
 `
 
+const VacancyContainer = styled.div`
+  padding: 25px 40px 5px 40px;
+`
+
 const ImagePlaceholder = styled.div`
   height: 78px;
   width: 78px;
@@ -64,4 +72,4 @@ const NameText = styled(Text)`
   margin-left: 20px;
 `
 
-export default BoardItem
+export default Board

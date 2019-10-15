@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useSelector } from "react-redux"
 import LaunchPlaceholder from "../components/LaunchPlaceholder"
 import Header from "./Header"
-import BoardItem from "./BoardItem"
+import Board from "./Board"
 
 const Scoreboard = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
@@ -18,7 +18,7 @@ const Scoreboard = () => {
       <Header />
       <BoardContainer>
         {users.map((item, index) => (
-          <BoardItem title={item.name} key={index.toString()} />
+          <Board title={item.name} key={index.toString()} />
         ))}
       </BoardContainer>
     </Fragment>

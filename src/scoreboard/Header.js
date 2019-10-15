@@ -36,6 +36,9 @@ const HeaderContainer = styled.div`
 
 const InfoContainer = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 const Title = styled(Text)`

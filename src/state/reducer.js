@@ -15,6 +15,11 @@ const initialState = {
     { title: "Calling", value: 13 },
     { title: "Interview", value: 3 },
     { title: "Offer", value: 1 }
+  ],
+  mockVacancyList: [
+    { title: "Senior Magento Developer (Remote)" },
+    { title: "Senior Java Developer with DevOps skills" },
+    { title: "Lead Generator" }
   ]
 }
 
