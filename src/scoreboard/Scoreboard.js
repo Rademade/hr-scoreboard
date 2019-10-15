@@ -1,13 +1,13 @@
 import React, { Fragment } from "react"
 import styled from "styled-components"
 import { useSelector } from "react-redux"
-import LaunchPlaceholder from "./LaunchPlaceholder"
+import LaunchPlaceholder from "../components/LaunchPlaceholder"
 import Header from "./Header"
 import BoardItem from "./BoardItem"
 
 const Scoreboard = () => {
-  const items = [{ name: "Julia Ruden" }, { name: "Kate Vakulenko" }]
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
+  const users = useSelector(state => state.mockUsers)
 
   if (isFirstLaunch) {
     return <LaunchPlaceholder />
@@ -17,7 +17,7 @@ const Scoreboard = () => {
     <Fragment>
       <Header />
       <BoardContainer>
-        {items.map((item, index) => (
+        {users.map((item, index) => (
           <BoardItem title={item.name} key={index.toString()} />
         ))}
       </BoardContainer>

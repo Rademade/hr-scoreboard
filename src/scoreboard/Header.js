@@ -5,12 +5,7 @@ import Text from "../components/Text"
 import HeaderCategory from "../components/HeaderCategory"
 
 const Header = () => {
-  const list = [
-    { title: "Long-List", value: 213 },
-    { title: "Calling", value: 13 },
-    { title: "Interview", value: 3 },
-    { title: "Offer", value: 1 }
-  ]
+  const categories = useSelector(state => state.mockCategories)
   const startDate = useSelector(state => state.startDate)
   const endDate = useSelector(state => state.endDate)
   const dateFormat = "MM.D.YYYY"
@@ -23,7 +18,7 @@ const Header = () => {
         <Title>Recruitment statistics</Title>
         <DateString>{rangeString}</DateString>
       </InfoContainer>
-      {list.map((item, index) => (
+      {categories.map((item, index) => (
         <HeaderCategory
           key={index.toString()}
           title={item.title}

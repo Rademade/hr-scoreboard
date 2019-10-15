@@ -8,7 +8,14 @@ const initialState = {
   vacancies: [],
   statistics: null,
   startDate: null,
-  endDate: null
+  endDate: null,
+  mockUsers: [{ name: "Julia Ruden" }, { name: "Kate Vakulenko" }],
+  mockCategories: [
+    { title: "Long-List", value: 213 },
+    { title: "Calling", value: 13 },
+    { title: "Interview", value: 3 },
+    { title: "Offer", value: 1 }
+  ]
 }
 
 const appReducer = (state = initialState, action) => {
