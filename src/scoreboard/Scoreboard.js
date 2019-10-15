@@ -1,13 +1,12 @@
 import React, { Fragment } from "react"
 import styled from "styled-components"
 import { useSelector } from "react-redux"
-import { Container } from "../components/styled"
 import LaunchPlaceholder from "./LaunchPlaceholder"
 import Header from "./Header"
 import BoardItem from "./BoardItem"
 
 const Scoreboard = () => {
-  const items = [{ title: "first" }, { title: "second" }]
+  const items = [{ name: "Julia Ruden" }, { name: "Kate Vakulenko" }]
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
 
   if (isFirstLaunch) {
@@ -19,15 +18,16 @@ const Scoreboard = () => {
       <Header />
       <BoardContainer>
         {items.map((item, index) => (
-          <BoardItem title={item.title} key={index.toString()} />
+          <BoardItem title={item.name} key={index.toString()} />
         ))}
       </BoardContainer>
     </Fragment>
   )
 }
 
-const BoardContainer = styled(Container)`
-  padding: 40px 38px 0px 38px;
+const BoardContainer = styled.div`
+  display: flex;
+  padding: 70px 38px 0px 38px;
 `
 
 export default Scoreboard

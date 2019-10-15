@@ -1,8 +1,8 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
-import { Text, Container } from "../components/styled"
-import StatItem from "../components/StatsItem"
+import Text from "../components/Text"
+import HeaderCategory from "../components/HeaderCategory"
 
 const Header = () => {
   const list = [
@@ -24,7 +24,7 @@ const Header = () => {
         <DateString>{rangeString}</DateString>
       </InfoContainer>
       {list.map((item, index) => (
-        <StatItem
+        <HeaderCategory
           key={index.toString()}
           title={item.title}
           value={item.value}
@@ -34,7 +34,8 @@ const Header = () => {
   )
 }
 
-const HeaderContainer = styled(Container)`
+const HeaderContainer = styled.div`
+  display: flex;
   padding: 40px 60px 0px 60px;
 `
 

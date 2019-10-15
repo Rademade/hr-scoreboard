@@ -1,30 +1,54 @@
 import React from "react"
 import styled from "styled-components"
-import { Container } from "../components/styled"
-import { Text } from "../components/styled"
+import Text from "../components/Text"
+import Category from "../components/Category"
 
 const BoardItem = props => {
+  const list = [
+    { title: "Long-List", value: 213 },
+    { title: "Calling", value: 13 },
+    { title: "Interview", value: 3 },
+    { title: "Offer", value: 1 }
+  ]
   return (
     <ItemContainer>
       <HeaderContainer>
-        <ImagePlaceholder />
-        <NameText>Julia Ruden</NameText>
+        <UserContainer>
+          <ImagePlaceholder />
+          <NameText>{props.title}</NameText>
+        </UserContainer>
+        {list.map((item, index) => (
+          <Category
+            key={index.toString()}
+            title={item.title}
+            value={item.value}
+          />
+        ))}
       </HeaderContainer>
     </ItemContainer>
   )
 }
 
-const ItemContainer = styled(Container)`
+const ItemContainer = styled.div`
+  display: flex;
   flex: 1;
   margin: 0px 22px 0px 22px;
   border-radius: 12px;
   background: #23283b;
 `
 
-const HeaderContainer = styled(Container)`
+const HeaderContainer = styled.div`
+  display: flex;
   flex: 1;
   align-items: center;
-  padding: 22px 40px 0px 40px;
+  padding: 28px 40px 0px 40px;
+`
+
+const UserContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
 `
 
 const ImagePlaceholder = styled.div`

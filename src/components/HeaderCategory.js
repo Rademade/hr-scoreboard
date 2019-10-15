@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import { Text } from "./styled"
+import Text from "./Text"
 
-const StatItem = ({ value, title }) => (
+const HeaderCategories = ({ value, title }) => (
   <Container>
     <ValueContainer>
       <ValueText>{value}</ValueText>
@@ -12,9 +12,9 @@ const StatItem = ({ value, title }) => (
   </Container>
 )
 
-StatItem.propTypes = {
-  value: PropTypes.number,
-  title: PropTypes.string
+HeaderCategories.propTypes = {
+  value: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 const Container = styled.div`
@@ -35,15 +35,16 @@ const ValueContainer = styled.div`
 `
 
 const TitileText = styled(Text)`
+  font-weight: bold;
   color: #1ec882;
   font-size: 18px;
   margin-top: 10px;
 `
 
 const ValueText = styled(Text)`
+  font-weight: bold;
   color: #1ec882;
   font-size: 32px;
-  opacity: 1;
 `
 
-export default StatItem
+export default HeaderCategories

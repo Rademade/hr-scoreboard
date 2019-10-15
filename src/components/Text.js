@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const Text = styled.p`
+const Text = styled.p`
   @font-face {
     font-family: "SFProDisplay-Medium";
     src: local("SFProDisplay-Medium"),
@@ -10,6 +10,4 @@ export const Text = styled.p`
   font-size: 28px;
   color: #ffffff;
 `
-export const Container = styled.div`
-  display: flex;
-`
+export default Text
