@@ -6,4 +6,5 @@ export const Text = styled.p`
     src: local("SFProDisplay-Medium"),
       url(../assets/fonts/SFProDisplay-Medium.ttf) format("ttf");
   }
+  margin: 0;
 `
