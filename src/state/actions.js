@@ -27,3 +27,13 @@ export const setVacancies = payload => ({
   type: actionTypes.SET_VACANCIES,
   payload
 })
+
+export const setDatesRange = payload => ({
+  type: actionTypes.SET_DATES_RANGE,
+  payload
+})
+
+export const setStatistics = payload => ({
+  type: actionTypes.SET_STATISCTICS,
+  payload
+})

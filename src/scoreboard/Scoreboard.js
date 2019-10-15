@@ -19,9 +19,7 @@ const Scoreboard = () => {
 }
 
 const Container = styled.div`
-  padding-top: 40px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 30px;
 `
 
 export default Scoreboard

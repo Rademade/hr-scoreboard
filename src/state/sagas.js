@@ -1,11 +1,15 @@
 import { call, put, select, takeLatest } from "redux-saga/effects"
-import { authRequest, vacanciesRequest } from "../api"
+import moment from "moment"
+import { formPersonsArray } from "../utils"
+import { authRequest, vacanciesRequest, statisticsRequest } from "../api"
 import { START_SYNC } from "./actionTypes"
 import {
   endSync,
   setAuthStatus,
   setUserData,
   setVacancies,
+  setDatesRange,
+  setStatistics,
   setFirstLaunch
 } from "./actions"
 
@@ -23,6 +27,19 @@ function* appSyncSaga() {
 
     const vacanciesResponse = yield call(vacanciesRequest)
     yield put(setVacancies(vacanciesResponse.data.objects))
+
+    const vacancies = yield select(state => state.vacancies)
+    const startDate = moment().startOf("week")
+    const endDate = moment().endOf("day")
+    yield put(setDatesRange({ startDate, endDate }))
+
+    const statisticsResponse = yield call(statisticsRequest, {
+      personIds: formPersonsArray(vacancies),
+      vacancyIds: vacancies.map(item => item.vacancyId),
+      fromTimestamp: startDate.valueOf(),
+      toTimestamp: endDate.valueOf()
+    })
+    yield put(setStatistics(statisticsResponse.data.object))
   } catch (error) {
     console.log(error)
   } finally {

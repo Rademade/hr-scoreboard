@@ -1,16 +1,15 @@
-// import _ from "lodash";
+import _ from "lodash"
 
-// export function formPersonsArray(vacancies) {
-//   const array = [];
-//   vacancies.forEach(({ responsiblesPerson }) =>
-//     array.push(...responsiblesPerson)
-//   );
-//   return _.uniq(
-//     array
-//       .filter(({ type }) => type === "recruiter")
-//       .map(({ personId }) => personId)
-//   );
-// }
+export function formPersonsArray(vacancies) {
+  const array = vacancies.map(({ responsiblesPerson }) => ({
+    ...responsiblesPerson
+  }))
+  return _.uniq(
+    array
+      .filter(({ type }) => type === "recruiter")
+      .map(({ personId }) => personId)
+  )
+}
 
 // function getName(key) {
 //   switch (key) {

@@ -5,7 +5,10 @@ const initialState = {
   isAuthenticated: false,
   isOnSync: false,
   userData: null,
-  vacancies: []
+  vacancies: [],
+  statistics: null,
+  startDate: null,
+  endDate: null
 }
 
 const appReducer = (state = initialState, action) => {
@@ -40,6 +43,17 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         vacancies: payload
+      }
+    case actionTypes.SET_DATES_RANGE:
+      return {
+        ...state,
+        startDate: payload.startDate,
+        endDate: payload.endDate
+      }
+    case actionTypes.SET_STATISCTICS:
+      return {
+        ...state,
+        statistics: payload
       }
     default:
       return state

@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { BoldText } from "../components/styled"
+import { Text } from "../components/styled"
 
 const Header = () => (
   <Container>
@@ -11,9 +11,10 @@ const Header = () => (
 const Container = styled.div`
   border: solid 1px white;
 `
-const Title = styled(BoldText)`
+const Title = styled(Text)`
   margin: 0px;
   font-size: 38px;
+  font-weight: bold;
   letter-spacing: -0.2px;
   color: #ffffff;
 `

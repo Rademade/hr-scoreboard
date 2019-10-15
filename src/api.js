@@ -12,3 +12,20 @@ export const authRequest = creds =>
 
 export const vacanciesRequest = () =>
   axios.get("/vacancies", { withCredentials: true })
+
+export const statisticsRequest = ({
+  personIds,
+  vacancyIds,
+  fromTimestamp,
+  toTimestamp
+}) =>
+  axios.post(
+    "/statistics",
+    {
+      personIds,
+      vacancyIds,
+      fromTimestamp,
+      toTimestamp
+    },
+    { withCredentials: true }
+  )
