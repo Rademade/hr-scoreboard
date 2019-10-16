@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "./Text"
+import { ReactComponent as FireLogo } from "../assets/images/fire.svg"
 
 const VacancyItem = ({ title, startDate, endDate, categories }) => {
   const dateFormat = "MM.D.YYYY"
@@ -12,6 +13,7 @@ const VacancyItem = ({ title, startDate, endDate, categories }) => {
     <Container>
       <TitleContainer>
         <Text>{title}</Text>
+        <FireLogo />
       </TitleContainer>
       <StatsContainer>
         <PeriodContainer>
@@ -19,7 +21,7 @@ const VacancyItem = ({ title, startDate, endDate, categories }) => {
           <GreyText>Active period</GreyText>
         </PeriodContainer>
         {categories.map((item, index) => (
-          <CategoryContainer key={index.toString()}>
+          <CategoryContainer key={index.toString()} noBorder={false}>
             <ValueText>{item.value}</ValueText>
             <GreyText>{item.title}</GreyText>
           </CategoryContainer>
@@ -42,6 +44,8 @@ const Container = styled.div`
 `
 
 const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
   padding-bottom: 24px;
   border-bottom: 1px solid #353b53;
 `
@@ -49,7 +53,7 @@ const TitleContainer = styled.div`
 const StatsContainer = styled.div`
   display: flex;
   padding-top: 16px;
-  height: 50px;
+  height: 59px;
 `
 
 const CategoryContainer = styled.div`
@@ -57,8 +61,8 @@ const CategoryContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 109px;
-  border-right: 1px solid #353b53;
+  width: 119px;
+  border-right: ${props => (props.noBorder ? null : "1px solid #353b53")};
 `
 
 const PeriodContainer = styled.div`
