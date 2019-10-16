@@ -9,6 +9,7 @@ const initialState = {
   statistics: null,
   startDate: null,
   endDate: null,
+  interviewStates: [],
   mockUsers: [{ name: "Julia Ruden" }, { name: "Kate Vakulenko" }],
   mockCategories: [
     { title: "Long-List", value: 213 },
@@ -66,6 +67,11 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         statistics: payload
+      }
+    case actionTypes.SET_STATES:
+      return {
+        ...state,
+        interviewStates: payload
       }
     default:
       return state

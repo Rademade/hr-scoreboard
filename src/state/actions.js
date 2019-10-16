@@ -37,3 +37,8 @@ export const setStatistics = payload => ({
   type: actionTypes.SET_STATISCTICS,
   payload
 })
+
+export const setStates = payload => ({
+  type: actionTypes.SET_STATES,
+  payload
+})

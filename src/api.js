@@ -29,3 +29,6 @@ export const statisticsRequest = ({
     },
     { withCredentials: true }
   )
+
+export const statesRequest = () =>
+  axios.get("/states", { withCredentials: true })
