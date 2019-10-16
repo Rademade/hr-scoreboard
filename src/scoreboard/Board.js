@@ -8,6 +8,8 @@ import VacancyItem from "../components/VacancyItem"
 const Board = props => {
   const categories = useSelector(state => state.mockCategories)
   const vacancyList = useSelector(state => state.mockVacancyList)
+  const startDate = useSelector(state => state.startDate)
+  const endDate = useSelector(state => state.endDate)
   return (
     <ItemContainer>
       <HeaderContainer>
@@ -25,7 +27,13 @@ const Board = props => {
       </HeaderContainer>
       <VacancyContainer>
         {vacancyList.map((item, index) => (
-          <VacancyItem key={index.toString()} title={item.title} />
+          <VacancyItem
+            key={index.toString()}
+            title={item.title}
+            startDate={startDate}
+            endDate={endDate}
+            categories={categories}
+          />
         ))}
       </VacancyContainer>
     </ItemContainer>
