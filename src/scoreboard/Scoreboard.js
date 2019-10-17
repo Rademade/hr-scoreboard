@@ -3,13 +3,16 @@ import styled from "styled-components"
 import { useSelector } from "react-redux"
 import LaunchPlaceholder from "../components/LaunchPlaceholder"
 import Header from "./Header"
-import RecruterBoard from "./RecruterBoard"
 import Error from "../components/Error"
+import VacancyItem from "../components/VacancyItem"
 
 const Scoreboard = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
   const error = useSelector(state => state.error)
-  const recruters = useSelector(state => state.recruters)
+  // const recruters = useSelector(state => state.recruters)
+  const vacancies = useSelector(state => state.vacancies)
+  // mock
+  const categories = useSelector(state => state.mockCategories)
 
   if (isFirstLaunch) {
     return <LaunchPlaceholder />
@@ -29,8 +32,12 @@ const Scoreboard = () => {
     <Fragment>
       <Header />
       <BoardContainer>
-        {recruters.map((recruter, index) => (
-          <RecruterBoard recruter={recruter} key={index.toString()} />
+        {vacancies.map((vacancy, index) => (
+          <VacancyItem
+            key={index.toString()}
+            data={vacancy}
+            categories={categories}
+          />
         ))}
       </BoardContainer>
     </Fragment>
@@ -39,7 +46,12 @@ const Scoreboard = () => {
 
 const BoardContainer = styled.div`
   display: flex;
-  padding: 70px 38px 0px 38px;
+  flex: 1;
+  flex-wrap: wrap;
+  margin: 70px 40px 0px 40px;
+  padding-bottom: 20px;
+  border-radius: 12px;
+  background: #23283b;
 `
 
 export default Scoreboard

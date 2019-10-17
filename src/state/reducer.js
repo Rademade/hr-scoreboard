@@ -68,10 +68,7 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.SET_VACANCIES:
       return {
         ...state,
-        vacancies: {
-          ...state.vacancies,
-          [payload.personId]: payload.vacancyList
-        }
+        vacancies: payload
       }
     case actionTypes.SET_STATISCTICS:
       return {

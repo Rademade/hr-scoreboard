@@ -19,9 +19,13 @@ function* appSyncSaga() {
     const allPersonsResponse = yield call(api.allPersonsRequest)
     const allPersons = allPersonsResponse.data.object
     yield put(actions.setRecruters(filterRecruters(allPersons)))
+
     const startDate = moment().startOf("week")
     const endDate = moment().endOf("day")
     yield put(actions.setDatesRange({ startDate, endDate }))
+
+    const allVacancyResponse = yield call(api.vacanciesRequest)
+    yield put(actions.setVacancies(allVacancyResponse.data.objects))
 
     // const vacancies = yield select(state => state.vacancies)
     // const statisticsResponse = yield call(api.statisticsRequest, {

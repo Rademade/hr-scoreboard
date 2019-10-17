@@ -16,7 +16,7 @@ const VacancyItem = ({ data, categories }) => {
   return (
     <Container>
       <TitleContainer>
-        <Text>{position}</Text>
+        <PositionText>{position}</PositionText>
         <FireLogo />
       </TitleContainer>
       <StatsContainer>
@@ -40,8 +40,10 @@ VacancyItem.propTypes = {
 }
 
 const Container = styled.div`
+  width: 30%;
+  margin-left: 20px;
+  margin-top: 20px;
   padding: 24px 32px 20px 32px;
-  margin-bottom: 32px;
   background: #2a2f45;
   border-radius: 12px;
   box-shadow: 0px 20px 68px rgba(0, 0, 0, 0.2);
@@ -76,12 +78,16 @@ const PeriodContainer = styled.div`
   justify-content: space-between;
 `
 
+const PositionText = styled(Text)`
+  font-size: 32px;
+`
+
 const ValueText = styled(Text)`
-  font-size: 18px;
+  font-size: 22px;
 `
 
 const GreyText = styled(Text)`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   color: #636b8b;
 `
