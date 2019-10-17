@@ -4,24 +4,19 @@ const initialState = {
   isFirstLaunch: true,
   isAuthenticated: false,
   isOnSync: false,
-  userData: null,
-  recruters: [],
-  vacancies: [],
-  statistics: null,
   startDate: null,
   endDate: null,
+  userData: null,
+  recruters: [],
+  vacancies: null,
   interviewStates: [],
+  statistics: [],
   error: null,
   mockCategories: [
     { title: "Long-List", value: 213 },
     { title: "Calling", value: 13 },
     { title: "Interview", value: 3 },
     { title: "Offer", value: 1 }
-  ],
-  mockVacancyList: [
-    { title: "Senior Magento Developer (Remote)" },
-    { title: "Senior Java Developer with DevOps skills" },
-    { title: "Lead Generator" }
   ]
 }
 
@@ -64,16 +59,19 @@ const appReducer = (state = initialState, action) => {
         ...state,
         recruters: payload
       }
-    case actionTypes.SET_VACANCIES:
-      return {
-        ...state,
-        vacancies: payload
-      }
     case actionTypes.SET_DATES_RANGE:
       return {
         ...state,
         startDate: payload.startDate,
         endDate: payload.endDate
+      }
+    case actionTypes.SET_VACANCIES:
+      return {
+        ...state,
+        vacancies: {
+          ...state.vacancies,
+          [payload.personId]: payload.vacancyList
+        }
       }
     case actionTypes.SET_STATISCTICS:
       return {

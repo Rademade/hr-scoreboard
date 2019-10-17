@@ -1,8 +1,5 @@
 import React from "react"
 import ReactDOM from "react-dom"
-// import "./assets/fonts/SFProDisplay-Medium.ttf"
-// import "./assets/fonts/SFProDisplay-Bold.ttf"
-// import "./assets/fonts/SFProDisplay-Light.ttf"
 import "./index.css"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"

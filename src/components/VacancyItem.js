@@ -1,18 +1,22 @@
 import React from "react"
+import { useSelector } from "react-redux"
+import moment from "moment"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "./Text"
 import { ReactComponent as FireLogo } from "../assets/images/fire.svg"
 
-const VacancyItem = ({ title, startDate, endDate, categories }) => {
+const VacancyItem = ({ data, categories }) => {
+  const { position, dc } = data
+  const endDate = useSelector(state => state.endDate)
   const dateFormat = "MM.D.YYYY"
-  const rangeString = `${startDate.format(dateFormat)} - ${endDate.format(
+  const rangeString = `${moment(dc).format(dateFormat)} - ${endDate.format(
     dateFormat
   )}`
   return (
     <Container>
       <TitleContainer>
-        <Text>{title}</Text>
+        <Text>{position}</Text>
         <FireLogo />
       </TitleContainer>
       <StatsContainer>
@@ -32,7 +36,7 @@ const VacancyItem = ({ title, startDate, endDate, categories }) => {
 }
 
 VacancyItem.propTypes = {
-  title: PropTypes.string
+  data: PropTypes.object.isRequired
 }
 
 const Container = styled.div`

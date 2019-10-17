@@ -30,7 +30,7 @@ const Scoreboard = () => {
       <Header />
       <BoardContainer>
         {recruters.map((recruter, index) => (
-          <RecruterBoard title={recruter.fullName} key={index.toString()} />
+          <RecruterBoard recruter={recruter} key={index.toString()} />
         ))}
       </BoardContainer>
     </Fragment>

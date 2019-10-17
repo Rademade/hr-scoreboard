@@ -1,21 +1,34 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
-import { useSelector } from "react-redux"
+import { useSelector, connect } from "react-redux"
+import PropTypes from "prop-types"
 import Text from "../components/Text"
 import Category from "../components/Category"
 import VacancyItem from "../components/VacancyItem"
+import { getVacancyList } from "../state/actions"
 
-const RecruterBoard = props => {
-  const categories = useSelector(state => state.mockCategories)
-  const vacancyList = useSelector(state => state.mockVacancyList)
-  const startDate = useSelector(state => state.startDate)
+const RecruterBoard = ({ recruter, getVacancyList }) => {
+  const { fullName, personId } = recruter
+  const vacancyList = useSelector(state =>
+    state.vacancies && state.vacancies[personId]
+      ? state.vacancies[personId]
+      : []
+  )
   const endDate = useSelector(state => state.endDate)
+
+  // mock
+  const categories = useSelector(state => state.mockCategories)
+
+  useEffect(() => {
+    getVacancyList(personId)
+  }, [getVacancyList, personId])
+
   return (
     <ItemContainer>
       <HeaderContainer>
         <UserContainer>
           <ImagePlaceholder />
-          <NameText>{props.title}</NameText>
+          <NameText>{fullName}</NameText>
         </UserContainer>
         {categories.map((item, index) => (
           <Category
@@ -26,11 +39,10 @@ const RecruterBoard = props => {
         ))}
       </HeaderContainer>
       <VacancyContainer>
-        {vacancyList.map((item, index) => (
+        {vacancyList.map((vacancy, index) => (
           <VacancyItem
             key={index.toString()}
-            title={item.title}
-            startDate={startDate}
+            data={vacancy}
             endDate={endDate}
             categories={categories}
           />
@@ -38,6 +50,14 @@ const RecruterBoard = props => {
       </VacancyContainer>
     </ItemContainer>
   )
+}
+
+RecruterBoard.propTypes = {
+  recruter: PropTypes.object.isRequired
+}
+
+const mapDispatchToProps = {
+  getVacancyList
 }
 
 const ItemContainer = styled.div`
@@ -80,4 +100,7 @@ const NameText = styled(Text)`
   margin-left: 20px;
 `
 
-export default RecruterBoard
+export default connect(
+  null,
+  mapDispatchToProps
+)(RecruterBoard)

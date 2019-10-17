@@ -7,7 +7,7 @@ export const authRequest = data => post("/auth", data)
 
 export const allPersonsRequest = () => get("/allPersons")
 
-export const vacanciesRequest = () => get("/vacancies")
+export const vacanciesRequest = data => post("/vacancies", data)
 
 export const statisticsRequest = data => post("/statistics", data)
 

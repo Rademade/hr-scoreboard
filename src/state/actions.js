@@ -33,6 +33,11 @@ export const setRecruters = payload => ({
   payload
 })
 
+export const getVacancyList = personId => ({
+  type: actionTypes.GET_VACANCY_LIST,
+  personId
+})
+
 export const setVacancies = payload => ({
   type: actionTypes.SET_VACANCIES,
   payload
