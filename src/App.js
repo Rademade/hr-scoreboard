@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { Provider } from "react-redux"
 import firebase from "firebase"
 import Scoreboard from "./scoreboard/Scoreboard"
-import { firebaseConfig } from "./config"
+import { firebaseConfig } from "./services/config"
 import store from "./state/store"
 import { startSync } from "./state/actions"
 

@@ -11,6 +11,10 @@ export function formPersonsArray(vacancies) {
   )
 }
 
+// export function filterInterviewStates(states) {
+//   return states.filter(state => )
+// }
+
 // function getName(key) {
 //   switch (key) {
 //     case "longlist":
