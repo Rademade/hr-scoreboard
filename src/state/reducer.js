@@ -10,6 +10,7 @@ const initialState = {
   startDate: null,
   endDate: null,
   interviewStates: [],
+  error: null,
   mockUsers: [{ name: "Julia Ruden" }, { name: "Kate Vakulenko" }],
   mockCategories: [
     { title: "Long-List", value: 213 },
@@ -30,7 +31,8 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.START_SYNC:
       return {
         ...state,
-        isOnSync: true
+        isOnSync: true,
+        error: null
       }
     case actionTypes.END_SYNC:
       return {
@@ -41,6 +43,11 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         isFirstLaunch: payload
+      }
+    case actionTypes.SET_ERROR:
+      return {
+        ...state,
+        error: action.payload
       }
     case actionTypes.SET_AUTH_STATUS:
       return {

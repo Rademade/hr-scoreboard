@@ -1,34 +1,14 @@
 import axios from "axios"
 
-export const authRequest = creds =>
-  axios.post(
-    "/auth",
-    {
-      username: creds.username,
-      password: creds.password
-    },
-    { withCredentials: true }
-  )
+const get = url => axios.get(url, { withCredentials: true })
+const post = (url, data) => axios.post(url, data, { withCredentials: true })
 
-export const vacanciesRequest = () =>
-  axios.get("/vacancies", { withCredentials: true })
+export const authRequest = data => post("/auth", data)
 
-export const statisticsRequest = ({
-  personIds,
-  vacancyIds,
-  fromTimestamp,
-  toTimestamp
-}) =>
-  axios.post(
-    "/statistics",
-    {
-      personIds,
-      vacancyIds,
-      fromTimestamp,
-      toTimestamp
-    },
-    { withCredentials: true }
-  )
+export const allPersonsRequest = () => get("/allPersons")
 
-export const statesRequest = () =>
-  axios.get("/states", { withCredentials: true })
+export const vacanciesRequest = () => get("/vacancies")
+
+export const statisticsRequest = data => post("/statistics", data)
+
+export const statesRequest = () => get("/states")

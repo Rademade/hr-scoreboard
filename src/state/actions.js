@@ -13,6 +13,11 @@ export const setFirstLaunch = payload => ({
   payload
 })
 
+export const setError = payload => ({
+  type: actionTypes.SET_ERROR,
+  payload
+})
+
 export const setAuthStatus = payload => ({
   type: actionTypes.SET_AUTH_STATUS,
   payload

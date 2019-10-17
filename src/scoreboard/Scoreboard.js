@@ -4,13 +4,19 @@ import { useSelector } from "react-redux"
 import LaunchPlaceholder from "../components/LaunchPlaceholder"
 import Header from "./Header"
 import Board from "./Board"
+import Error from "../components/Error"
 
 const Scoreboard = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
+  const error = useSelector(state => state.error)
   const users = useSelector(state => state.mockUsers)
 
   if (isFirstLaunch) {
     return <LaunchPlaceholder />
+  }
+
+  if (error) {
+    return <Error message={error.response.data.message || error.message} />
   }
 
   return (
