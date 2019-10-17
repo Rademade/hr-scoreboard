@@ -3,13 +3,13 @@ import styled from "styled-components"
 import { useSelector } from "react-redux"
 import LaunchPlaceholder from "../components/LaunchPlaceholder"
 import Header from "./Header"
-import Board from "./Board"
+import RecruterBoard from "./RecruterBoard"
 import Error from "../components/Error"
 
 const Scoreboard = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
   const error = useSelector(state => state.error)
-  const users = useSelector(state => state.mockUsers)
+  const recruters = useSelector(state => state.recruters)
 
   if (isFirstLaunch) {
     return <LaunchPlaceholder />
@@ -29,8 +29,8 @@ const Scoreboard = () => {
     <Fragment>
       <Header />
       <BoardContainer>
-        {users.map((item, index) => (
-          <Board title={item.name} key={index.toString()} />
+        {recruters.map((recruter, index) => (
+          <RecruterBoard title={recruter.fullName} key={index.toString()} />
         ))}
       </BoardContainer>
     </Fragment>

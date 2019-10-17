@@ -5,7 +5,7 @@ import Text from "../components/Text"
 import Category from "../components/Category"
 import VacancyItem from "../components/VacancyItem"
 
-const Board = props => {
+const RecruterBoard = props => {
   const categories = useSelector(state => state.mockCategories)
   const vacancyList = useSelector(state => state.mockVacancyList)
   const startDate = useSelector(state => state.startDate)
@@ -80,4 +80,4 @@ const NameText = styled(Text)`
   margin-left: 20px;
 `
 
-export default Board
+export default RecruterBoard

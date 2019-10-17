@@ -12,7 +12,6 @@ const initialState = {
   endDate: null,
   interviewStates: [],
   error: null,
-  mockUsers: [{ name: "Julia Ruden" }, { name: "Kate Vakulenko" }],
   mockCategories: [
     { title: "Long-List", value: 213 },
     { title: "Calling", value: 13 },
