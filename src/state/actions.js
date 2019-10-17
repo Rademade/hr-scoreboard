@@ -28,6 +28,11 @@ export const setUserData = payload => ({
   payload
 })
 
+export const setRecruters = payload => ({
+  type: actionTypes.SET_RECRUTERS,
+  payload
+})
+
 export const setVacancies = payload => ({
   type: actionTypes.SET_VACANCIES,
   payload

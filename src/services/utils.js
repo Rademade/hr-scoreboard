@@ -11,6 +11,18 @@ export function formPersonsArray(vacancies) {
   )
 }
 
+export function filterRecruters(recruiters) {
+  const arr = []
+  Object.keys(recruiters).forEach(key => {
+    const recruter = recruiters[key]
+    const { recrutRole } = recruter
+    if (recrutRole === "admin" || recrutRole === "recruter") {
+      arr.push(recruter)
+    }
+  })
+  return arr
+}
+
 // export function filterInterviewStates(states) {
 //   return states.filter(state => )
 // }

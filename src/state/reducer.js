@@ -5,6 +5,7 @@ const initialState = {
   isAuthenticated: false,
   isOnSync: false,
   userData: null,
+  recruters: [],
   vacancies: [],
   statistics: null,
   startDate: null,
@@ -58,6 +59,11 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: payload
+      }
+    case actionTypes.SET_RECRUTERS:
+      return {
+        ...state,
+        recruters: payload
       }
     case actionTypes.SET_VACANCIES:
       return {

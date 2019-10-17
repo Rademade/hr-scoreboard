@@ -16,7 +16,13 @@ const Scoreboard = () => {
   }
 
   if (error) {
-    return <Error message={error.response.data.message || error.message} />
+    return (
+      <Error
+        message={
+          (error.response && error.response.data.message) || error.message
+        }
+      />
+    )
   }
 
   return (

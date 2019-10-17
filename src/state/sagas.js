@@ -4,6 +4,7 @@ import { formPersonsArray } from "../services/utils"
 import * as api from "../services/api"
 import { START_SYNC } from "./actionTypes"
 import * as actions from "./actions"
+import { filterRecruters } from "../services/utils"
 
 function* appSyncSaga() {
   try {
@@ -17,8 +18,9 @@ function* appSyncSaga() {
       }
     }
 
-    // const allPersonsResponse = yield call(api.allPersonsRequest)
-    // console.log("allPersonsResponse", allPersonsResponse)
+    const allPersonsResponse = yield call(api.allPersonsRequest)
+    const allPersons = allPersonsResponse.data.object
+    yield put(actions.setRecruters(filterRecruters(allPersons)))
 
     const vacanciesResponse = yield call(api.vacanciesRequest)
     yield put(actions.setVacancies(vacanciesResponse.data.objects))
