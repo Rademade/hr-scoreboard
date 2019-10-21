@@ -5,7 +5,12 @@ import Text from "../components/Text"
 import HeaderCategory from "../components/HeaderCategory"
 
 const Header = () => {
-  const categories = useSelector(state => state.mockCategories)
+  const categories = [
+    { title: "Long-List", value: 0 },
+    { title: "Calling", value: 0 },
+    { title: "Interview", value: 0 },
+    { title: "Offer", value: 0 }
+  ]
   const startDate = useSelector(state => state.startDate)
   const endDate = useSelector(state => state.endDate)
   const dateFormat = "MM.D.YYYY"

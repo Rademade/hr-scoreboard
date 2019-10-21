@@ -12,13 +12,7 @@ const initialState = {
   details: null,
   interviewStates: [],
   statistics: [],
-  error: null,
-  mockCategories: [
-    { title: "Long-List", value: 213 },
-    { title: "Calling", value: 13 },
-    { title: "Interview", value: 3 },
-    { title: "Offer", value: 1 }
-  ]
+  error: null
 }
 
 const appReducer = (state = initialState, action) => {

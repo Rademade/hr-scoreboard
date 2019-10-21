@@ -6,18 +6,22 @@ import PropTypes from "prop-types"
 import Text from "../components/Text"
 import { ReactComponent as FireLogo } from "../assets/images/fire.svg"
 import { getVacancyDetails } from "../state/actions"
+import { appendCategoriesWithInfo } from "../services/utils"
 
-const VacancyItem = ({ data, categories, getVacancyDetails }) => {
-  const { position, dc } = data
+const VacancyItem = ({ data, getVacancyDetails }) => {
+  const { position, dc, vacancyId } = data
   const endDate = useSelector(state => state.endDate)
+  const detailedInfo = useSelector(state =>
+    state.details && state.details[vacancyId] ? state.details[vacancyId] : []
+  )
   const dateFormat = "MM.D.YYYY"
   const rangeString = `${moment(dc).format(dateFormat)} - ${endDate.format(
     dateFormat
   )}`
 
   useEffect(() => {
-    getVacancyDetails(data.vacancyId)
-  }, [getVacancyDetails, data])
+    getVacancyDetails(vacancyId)
+  }, [getVacancyDetails, vacancyId])
 
   return (
     <Container>
@@ -30,7 +34,7 @@ const VacancyItem = ({ data, categories, getVacancyDetails }) => {
           <ValueText>{rangeString}</ValueText>
           <GreyText>Active period</GreyText>
         </PeriodContainer>
-        {categories.map((item, index) => (
+        {appendCategoriesWithInfo(detailedInfo).map((item, index) => (
           <CategoryContainer key={index.toString()} noBorder={false}>
             <ValueText>{item.value}</ValueText>
             <GreyText>{item.title}</GreyText>
@@ -42,7 +46,8 @@ const VacancyItem = ({ data, categories, getVacancyDetails }) => {
 }
 
 VacancyItem.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  getVacancyDetails: PropTypes.func
 }
 
 const mapDispatchToProps = {

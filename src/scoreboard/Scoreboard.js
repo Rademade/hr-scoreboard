@@ -10,8 +10,6 @@ const Scoreboard = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
   const error = useSelector(state => state.error)
   const vacancies = useSelector(state => state.vacancies)
-  // mock
-  const categories = useSelector(state => state.mockCategories)
 
   if (isFirstLaunch) {
     return <LaunchPlaceholder />
@@ -32,11 +30,7 @@ const Scoreboard = () => {
       <Header />
       <BoardContainer>
         {vacancies.map((vacancy, index) => (
-          <VacancyItem
-            key={index.toString()}
-            data={vacancy}
-            categories={categories}
-          />
+          <VacancyItem key={index.toString()} data={vacancy} />
         ))}
       </BoardContainer>
     </Fragment>

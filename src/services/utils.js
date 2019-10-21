@@ -23,6 +23,16 @@ export function filterRecruters(recruiters) {
   return arr
 }
 
+export function appendCategoriesWithInfo(detailsInfo) {
+  console.log("detailsInfo", detailsInfo)
+  return [
+    { title: "Long-List", value: 0 },
+    { title: "Calling", value: 0 },
+    { title: "Interview", value: 0 },
+    { title: "Offer", value: 0 }
+  ]
+}
+
 // export function filterInterviewStates(states) {
 //   return states.filter(state => )
 // }
