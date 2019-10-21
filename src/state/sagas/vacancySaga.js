@@ -1,21 +1,30 @@
-import { call, put } from "redux-saga/effects"
-import { setVacancyDetails, setError } from "../actions"
-import { detailsRequest } from "../../services/api"
+import { call, put, all } from "redux-saga/effects"
+import moment from "moment"
+import { getVacancyStatistic, getVacancies } from "../../services/api"
+import { setVacancies } from "../actions"
 
-function* vacancySaga(action) {
-  try {
-    const vacanciesResponse = yield call(detailsRequest, {
-      vacancyId: action.vacancyId
-    })
-    yield put(
-      setVacancyDetails({
-        vacancyId: action.vacancyId,
-        detailedInfo: vacanciesResponse.data.vacancyInterviewDetalInfo
-      })
-    )
-  } catch (error) {
-    yield put(setError(error))
+function* appendWithStatisticsSaga(vacancyData) {
+  const { vacancyId, dc, dm, position, status } = vacancyData
+  const response = yield call(getVacancyStatistic, { vacancyId })
+  console.log("StatisticsSaga", response)
+  const detailedInfo = {}
+  return {
+    vacancyId,
+    position,
+    status,
+    created: moment(dc),
+    modified: moment(dm),
+    detailedInfo
   }
+}
+
+function* vacancySaga() {
+  const allVacancyResponse = yield call(getVacancies)
+  const vacancies = allVacancyResponse.data.objects
+  const preparedVacancyList = yield all(
+    vacancies.map(vacancy => call(appendWithStatisticsSaga, vacancy))
+  )
+  yield put(setVacancies(preparedVacancyList))
 }
 
 export default vacancySaga

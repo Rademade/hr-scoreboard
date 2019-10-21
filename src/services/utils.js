@@ -23,8 +23,8 @@ export function filterRecruters(recruiters) {
   return arr
 }
 
-export function appendCategoriesWithInfo(detailsInfo) {
-  console.log("detailsInfo", detailsInfo)
+export function appendCategoriesWithInfo() {
+  // console.log("detailsInfo", detailsInfo)
   return [
     { title: "Long-List", value: 0 },
     { title: "Calling", value: 0 },

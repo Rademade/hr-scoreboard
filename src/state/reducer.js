@@ -4,14 +4,13 @@ const initialState = {
   isFirstLaunch: true,
   isAuthenticated: false,
   isOnSync: false,
-  startDate: null,
-  endDate: null,
-  userData: null,
-  recruters: [],
+  datesRange: {
+    startDate: null,
+    endDate: null
+  },
+  interviewStates: null,
   vacancies: [],
-  details: null,
-  interviewStates: [],
-  statistics: [],
+  recruters: [],
   error: null
 }
 
@@ -44,44 +43,26 @@ const appReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: payload
       }
-    case actionTypes.SET_USER_DATA:
-      return {
-        ...state,
-        userData: payload
-      }
-    case actionTypes.SET_RECRUTERS:
-      return {
-        ...state,
-        recruters: payload
-      }
     case actionTypes.SET_DATES_RANGE:
       return {
         ...state,
         startDate: payload.startDate,
         endDate: payload.endDate
       }
+    case actionTypes.SET_STATES:
+      return {
+        ...state,
+        interviewStates: payload
+      }
     case actionTypes.SET_VACANCIES:
       return {
         ...state,
         vacancies: payload
       }
-    case actionTypes.SET_VACANCY_DETAILS:
+    case actionTypes.SET_RECRUTERS:
       return {
         ...state,
-        details: {
-          ...state.details,
-          [payload.vacancyId]: payload.detailedInfo
-        }
-      }
-    case actionTypes.SET_STATISCTICS:
-      return {
-        ...state,
-        statistics: payload
-      }
-    case actionTypes.SET_STATES:
-      return {
-        ...state,
-        interviewStates: payload
+        recruters: payload
       }
     default:
       return state

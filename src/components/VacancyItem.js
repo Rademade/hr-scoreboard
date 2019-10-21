@@ -1,27 +1,16 @@
-import React, { useEffect } from "react"
-import { useSelector, connect } from "react-redux"
-import moment from "moment"
+import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import Text from "../components/Text"
+import Text from "./Text"
 import { ReactComponent as FireLogo } from "../assets/images/fire.svg"
-import { getVacancyDetails } from "../state/actions"
 import { appendCategoriesWithInfo } from "../services/utils"
 
-const VacancyItem = ({ data, getVacancyDetails }) => {
-  const { position, dc, vacancyId } = data
-  const endDate = useSelector(state => state.endDate)
-  const detailedInfo = useSelector(state =>
-    state.details && state.details[vacancyId] ? state.details[vacancyId] : []
-  )
+const VacancyItem = ({ data }) => {
+  const { position, created, modified } = data
   const dateFormat = "MM.D.YYYY"
-  const rangeString = `${moment(dc).format(dateFormat)} - ${endDate.format(
+  const rangeString = `${created.format(dateFormat)} - ${modified.format(
     dateFormat
   )}`
-
-  useEffect(() => {
-    getVacancyDetails(vacancyId)
-  }, [getVacancyDetails, vacancyId])
 
   return (
     <Container>
@@ -34,7 +23,7 @@ const VacancyItem = ({ data, getVacancyDetails }) => {
           <ValueText>{rangeString}</ValueText>
           <GreyText>Active period</GreyText>
         </PeriodContainer>
-        {appendCategoriesWithInfo(detailedInfo).map((item, index) => (
+        {appendCategoriesWithInfo().map((item, index) => (
           <CategoryContainer key={index.toString()} noBorder={false}>
             <ValueText>{item.value}</ValueText>
             <GreyText>{item.title}</GreyText>
@@ -46,12 +35,7 @@ const VacancyItem = ({ data, getVacancyDetails }) => {
 }
 
 VacancyItem.propTypes = {
-  data: PropTypes.object.isRequired,
-  getVacancyDetails: PropTypes.func
-}
-
-const mapDispatchToProps = {
-  getVacancyDetails
+  data: PropTypes.object.isRequired
 }
 
 const Container = styled.div`
@@ -107,7 +91,4 @@ const GreyText = styled(Text)`
   color: #636b8b;
 `
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(VacancyItem)
+export default VacancyItem

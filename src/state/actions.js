@@ -1,7 +1,5 @@
 import * as actionTypes from "./actionTypes"
 
-// fetch actions
-
 export const startSync = () => ({
   type: actionTypes.START_SYNC
 })
@@ -9,13 +7,6 @@ export const startSync = () => ({
 export const endSync = () => ({
   type: actionTypes.END_SYNC
 })
-
-export const getVacancyDetails = vacancyId => ({
-  type: actionTypes.GET_VACANCY_DETAILS,
-  vacancyId
-})
-
-// set actions
 
 export const setFirstLaunch = payload => ({
   type: actionTypes.SET_FIRST_LAUNCH,
@@ -32,8 +23,8 @@ export const setAuthStatus = payload => ({
   payload
 })
 
-export const setUserData = payload => ({
-  type: actionTypes.SET_USER_DATA,
+export const setDatesRange = payload => ({
+  type: actionTypes.SET_DATES_RANGE,
   payload
 })
 
@@ -44,16 +35,6 @@ export const setRecruters = payload => ({
 
 export const setVacancies = payload => ({
   type: actionTypes.SET_VACANCIES,
-  payload
-})
-
-export const setVacancyDetails = payload => ({
-  type: actionTypes.SET_VACANCY_DETAILS,
-  payload
-})
-
-export const setDatesRange = payload => ({
-  type: actionTypes.SET_DATES_RANGE,
   payload
 })
 

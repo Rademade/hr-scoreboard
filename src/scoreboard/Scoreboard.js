@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import LaunchPlaceholder from "../components/LaunchPlaceholder"
 import Header from "./Header"
 import Error from "../components/Error"
-import VacancyItem from "./VacancyItem"
+import VacancyItem from "../components/VacancyItem"
 
 const Scoreboard = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
