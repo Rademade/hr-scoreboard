@@ -10,6 +10,8 @@ export const allPersonsRequest = () => get("/allPersons")
 
 export const vacanciesRequest = () => get("/vacancies")
 
+export const detailsRequest = data => post("/vacancyDetails", data)
+
 export const statisticsRequest = data => post("/statistics", data)
 
 export const statesRequest = () => get("/states")

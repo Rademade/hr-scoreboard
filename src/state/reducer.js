@@ -8,7 +8,8 @@ const initialState = {
   endDate: null,
   userData: null,
   recruters: [],
-  vacancies: null,
+  vacancies: [],
+  details: null,
   interviewStates: [],
   statistics: [],
   error: null,
@@ -69,6 +70,14 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         vacancies: payload
+      }
+    case actionTypes.SET_VACANCY_DETAILS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [payload.vacancyId]: payload.detailedInfo
+        }
       }
     case actionTypes.SET_STATISCTICS:
       return {

@@ -4,12 +4,11 @@ import { useSelector } from "react-redux"
 import LaunchPlaceholder from "../components/LaunchPlaceholder"
 import Header from "./Header"
 import Error from "../components/Error"
-import VacancyItem from "../components/VacancyItem"
+import VacancyItem from "./VacancyItem"
 
 const Scoreboard = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
   const error = useSelector(state => state.error)
-  // const recruters = useSelector(state => state.recruters)
   const vacancies = useSelector(state => state.vacancies)
   // mock
   const categories = useSelector(state => state.mockCategories)

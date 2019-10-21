@@ -27,6 +27,9 @@ function* appSyncSaga() {
     const allVacancyResponse = yield call(api.vacanciesRequest)
     yield put(actions.setVacancies(allVacancyResponse.data.objects))
 
+    const statesResponse = yield call(api.statesRequest)
+    yield put(actions.setStates(statesResponse.data.object.interviewStates))
+
     // const vacancies = yield select(state => state.vacancies)
     // const statisticsResponse = yield call(api.statisticsRequest, {
     //   personIds: formPersonsArray(vacancies),
@@ -35,9 +38,6 @@ function* appSyncSaga() {
     //   toTimestamp: endDate.valueOf()
     // })
     // yield put(actions.setStatistics(statisticsResponse.data.object))
-
-    // const statesResponse = yield call(api.statesRequest)
-    // yield put(actions.setStates(statesResponse.data.object.interviewStates))
   } catch (error) {
     yield put(actions.setError(error))
   } finally {

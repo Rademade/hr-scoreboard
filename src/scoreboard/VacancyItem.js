@@ -1,18 +1,24 @@
-import React from "react"
-import { useSelector } from "react-redux"
+import React, { useEffect } from "react"
+import { useSelector, connect } from "react-redux"
 import moment from "moment"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import Text from "./Text"
+import Text from "../components/Text"
 import { ReactComponent as FireLogo } from "../assets/images/fire.svg"
+import { getVacancyDetails } from "../state/actions"
 
-const VacancyItem = ({ data, categories }) => {
+const VacancyItem = ({ data, categories, getVacancyDetails }) => {
   const { position, dc } = data
   const endDate = useSelector(state => state.endDate)
   const dateFormat = "MM.D.YYYY"
   const rangeString = `${moment(dc).format(dateFormat)} - ${endDate.format(
     dateFormat
   )}`
+
+  useEffect(() => {
+    getVacancyDetails(data.vacancyId)
+  }, [getVacancyDetails, data])
+
   return (
     <Container>
       <TitleContainer>
@@ -37,6 +43,10 @@ const VacancyItem = ({ data, categories }) => {
 
 VacancyItem.propTypes = {
   data: PropTypes.object.isRequired
+}
+
+const mapDispatchToProps = {
+  getVacancyDetails
 }
 
 const Container = styled.div`
@@ -92,4 +102,7 @@ const GreyText = styled(Text)`
   color: #636b8b;
 `
 
-export default VacancyItem
+export default connect(
+  null,
+  mapDispatchToProps
+)(VacancyItem)
