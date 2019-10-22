@@ -3,30 +3,24 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "./Text"
 import { ReactComponent as FireLogo } from "../assets/images/fire.svg"
-import { appendCategoriesWithInfo } from "../services/utils"
 
 const VacancyItem = ({ data }) => {
-  const { position, created, modified } = data
-  const dateFormat = "MM.D.YYYY"
-  const rangeString = `${created.format(dateFormat)} - ${modified.format(
-    dateFormat
-  )}`
-
+  const { position, created, statistics } = data
   return (
     <Container>
       <TitleContainer>
         <PositionText>{position}</PositionText>
         <FireLogo />
       </TitleContainer>
+      <PeriodContainer>
+        <GreyText>Created</GreyText>
+        <ValueText>{created.format("MM.D.YYYY")}</ValueText>
+      </PeriodContainer>
       <StatsContainer>
-        <PeriodContainer>
-          <ValueText>{rangeString}</ValueText>
-          <GreyText>Active period</GreyText>
-        </PeriodContainer>
-        {appendCategoriesWithInfo().map((item, index) => (
+        {statistics.map((item, index) => (
           <CategoryContainer key={index.toString()} noBorder={false}>
-            <ValueText>{item.value}</ValueText>
-            <GreyText>{item.title}</GreyText>
+            <ValueText>{item.count}</ValueText>
+            <GreyText>{item.name}</GreyText>
           </CategoryContainer>
         ))}
       </StatsContainer>
@@ -39,7 +33,6 @@ VacancyItem.propTypes = {
 }
 
 const Container = styled.div`
-  width: 30%;
   margin-left: 20px;
   margin-top: 20px;
   padding: 24px 32px 20px 32px;
@@ -51,7 +44,21 @@ const Container = styled.div`
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-bottom: 24px;
+`
+
+const CategoryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0px 10px 0px 10px;
+  border-right: ${props => (props.noBorder ? null : "1px solid #353b53")};
+`
+
+const PeriodContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  padding: 10px 0px 10px 0px;
   border-bottom: 1px solid #353b53;
 `
 
@@ -59,22 +66,6 @@ const StatsContainer = styled.div`
   display: flex;
   padding-top: 16px;
   height: 59px;
-`
-
-const CategoryContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 119px;
-  border-right: ${props => (props.noBorder ? null : "1px solid #353b53")};
-`
-
-const PeriodContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  justify-content: space-between;
 `
 
 const PositionText = styled(Text)`

@@ -6,7 +6,7 @@ import { setVacancies } from "../actions"
 const formStatesArray = (interviewStatus, customInterviewStates) =>
   interviewStatus.split(",").map(key => {
     const customState = customInterviewStates[key]
-    const emptyState = { id: key, name: null, type: null, count: 0 }
+    const emptyState = { id: key, name: "name", type: null, count: 0 }
     return {
       ...emptyState,
       ...customState
