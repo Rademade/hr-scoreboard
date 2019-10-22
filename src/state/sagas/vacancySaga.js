@@ -1,20 +1,32 @@
-import { call, put, all } from "redux-saga/effects"
+import { call, put, all, select } from "redux-saga/effects"
 import moment from "moment"
 import { getVacancyStatistic, getVacancies } from "../../services/api"
 import { setVacancies } from "../actions"
 
+function* vacancyStatisticsSaga(vacancyId) {
+  const response = yield call(getVacancyStatistic, { vacancyId })
+  return response.data.object
+}
+
 function* appendWithStatisticsSaga(vacancyData) {
   const { vacancyId, dc, dm, position, status } = vacancyData
-  const response = yield call(getVacancyStatistic, { vacancyId })
-  console.log("StatisticsSaga", response)
-  const detailedInfo = {}
+  const vacancyStatistics = yield call(vacancyStatisticsSaga, vacancyId)
+  const interviewStates = yield select(state => state.interviewStates)
+  const preparedStatistics = vacancyStatistics.map(vacancyItem => {
+    const interviewState = interviewStates[vacancyItem.item]
+    return {
+      ...interviewState,
+      count: vacancyItem.count,
+      key: vacancyItem.item
+    }
+  })
   return {
     vacancyId,
     position,
     status,
     created: moment(dc),
     modified: moment(dm),
-    detailedInfo
+    statistic: preparedStatistics
   }
 }
 

@@ -46,8 +46,10 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.SET_DATES_RANGE:
       return {
         ...state,
-        startDate: payload.startDate,
-        endDate: payload.endDate
+        datesRange: {
+          startDate: payload.startDate,
+          endDate: payload.endDate
+        }
       }
     case actionTypes.SET_STATES:
       return {

@@ -11,8 +11,7 @@ const Header = () => {
     { title: "Interview", value: 0 },
     { title: "Offer", value: 0 }
   ]
-  const startDate = useSelector(state => state.startDate)
-  const endDate = useSelector(state => state.endDate)
+  const { startDate, endDate } = useSelector(state => state.datesRange)
   const dateFormat = "MM.D.YYYY"
   const rangeString = `${startDate.format(dateFormat)} — ${endDate.format(
     dateFormat
