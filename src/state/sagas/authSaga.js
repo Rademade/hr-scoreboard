@@ -1,6 +1,6 @@
 import { put, call } from "redux-saga/effects"
 import { setAuthStatus } from "../actions"
-import { auth } from "../../services/api"
+import { auth } from "../../helpers/api"
 
 function* authSaga() {
   const username = process.env.REACT_APP_USERNAME

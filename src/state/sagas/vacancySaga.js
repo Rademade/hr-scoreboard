@@ -1,32 +1,46 @@
 import { call, put, all, select } from "redux-saga/effects"
 import moment from "moment"
-import { getVacancyStatistic, getVacancies } from "../../services/api"
+import { getVacancyDetails, getVacancies } from "../../helpers/api"
 import { setVacancies } from "../actions"
 
-function* vacancyStatisticsSaga(vacancyId) {
-  const response = yield call(getVacancyStatistic, { vacancyId })
-  return response.data.object
+const formStatesArray = (interviewStatus, customInterviewStates) =>
+  interviewStatus.split(",").map(key => {
+    const customState = customInterviewStates[key]
+    const emptyState = { id: key, name: null, type: null, count: 0 }
+    return {
+      ...emptyState,
+      ...customState
+    }
+  })
+
+const appendWithStatistics = (vacancyStatesArray, vacancyDetails) =>
+  vacancyStatesArray.map(state => {
+    const personsArray = vacancyDetails[state.id]
+    const count = personsArray ? personsArray.length : 0
+    state.count = count
+    return state
+  })
+
+function* vacancyDetailsSaga(vacancyId) {
+  const response = yield call(getVacancyDetails, { vacancyId })
+  return response.data.vacancyInterviewDetalInfo
 }
 
 function* appendWithStatisticsSaga(vacancyData) {
-  const { vacancyId, dc, dm, position, status } = vacancyData
-  const vacancyStatistics = yield call(vacancyStatisticsSaga, vacancyId)
-  const interviewStates = yield select(state => state.interviewStates)
-  const preparedStatistics = vacancyStatistics.map(vacancyItem => {
-    const interviewState = interviewStates[vacancyItem.item]
-    return {
-      ...interviewState,
-      count: vacancyItem.count,
-      key: vacancyItem.item
-    }
-  })
+  const { vacancyId, dc, dm, position, status, interviewStatus } = vacancyData
+  const vacancyDetails = yield call(vacancyDetailsSaga, vacancyId)
+  const customInterviewStates = yield select(state => state.interviewStates)
+  const statistics = appendWithStatistics(
+    formStatesArray(interviewStatus, customInterviewStates),
+    vacancyDetails
+  )
   return {
     vacancyId,
     position,
     status,
     created: moment(dc),
     modified: moment(dm),
-    statistic: preparedStatistics
+    statistics
   }
 }
 

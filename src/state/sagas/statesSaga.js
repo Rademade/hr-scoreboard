@@ -1,34 +1,6 @@
 import { call, put } from "redux-saga/effects"
-import { getInterviewStates } from "../../services/api"
+import { getInterviewStates } from "../../helpers/api"
 import { setStates } from "../actions"
-
-// TODO: some states are hardcoded
-const commonStates = {
-  longlist: {
-    name: "Long List",
-    type: "common"
-  },
-  interview: {
-    name: "Interview",
-    type: "interview"
-  },
-  test_task: {
-    name: "Test Task",
-    type: "common"
-  },
-  declinedoffer: {
-    name: "Decline Offer",
-    type: "common"
-  },
-  approved: {
-    name: "Offer",
-    type: "common"
-  },
-  notafit: {
-    name: "Not fit",
-    type: "common"
-  }
-}
 
 function* statesSaga() {
   const response = yield call(getInterviewStates)
@@ -40,12 +12,7 @@ function* statesSaga() {
       type: state.type
     }
   })
-  yield put(
-    setStates({
-      ...commonStates,
-      ...customStates
-    })
-  )
+  yield put(setStates(customStates))
 }
 
 export default statesSaga
