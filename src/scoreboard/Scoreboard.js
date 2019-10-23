@@ -40,9 +40,10 @@ const Scoreboard = () => {
 const BoardContainer = styled.div`
   display: flex;
   flex: 1;
+  flex-direction: column;
   flex-wrap: wrap;
-  margin: 70px 40px 0px 40px;
   padding-bottom: 20px;
+  margin: 70px 40px 0px 40px;
   border-radius: 12px;
   background: #23283b;
 `
