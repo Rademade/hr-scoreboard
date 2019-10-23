@@ -2,10 +2,10 @@ import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "./Text"
-import { ReactComponent as FireLogo } from "../assets/images/fire.svg"
 
 const VacancyItem = ({ data }) => {
-  const { position, created } = data
+  const { position } = data
+  // console.log(position, states)
   return (
     <Container>
       <PositionText>{position}</PositionText>

@@ -8,7 +8,7 @@ const initialState = {
     startDate: null,
     endDate: null
   },
-  interviewStates: null,
+  customStates: null,
   vacancies: [],
   recruters: [],
   error: null
@@ -54,7 +54,7 @@ const appReducer = (state = initialState, action) => {
     case actionTypes.SET_STATES:
       return {
         ...state,
-        interviewStates: payload
+        customStates: payload
       }
     case actionTypes.SET_VACANCIES:
       return {

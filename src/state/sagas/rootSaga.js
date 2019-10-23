@@ -5,34 +5,22 @@ import { START_SYNC } from "../actionTypes"
 import authSaga from "./authSaga"
 import statesSaga from "./statesSaga"
 import vacancySaga from "./vacancySaga"
+import usersSaga from "./usersSaga"
 
 function* syncSaga() {
   try {
     if (false) {
       yield call(authSaga)
     }
-
     yield put(
       actions.setDatesRange({
         startDate: moment().startOf("week"),
         endDate: moment().endOf("day")
       })
     )
-
     yield call(statesSaga)
     yield call(vacancySaga)
-    // const allPersonsResponse = yield call(api.allPersonsRequest)
-    // const allPersons = allPersonsResponse.data.object
-    // yield put(actions.setRecruters(filterRecruters(allPersons)))
-
-    // const statisticsResponse = yield call(api.statisticsRequest, {
-    //   personIds: formPersonsArray(vacancies),
-    //   vacancyIds: vacancies.map(item => item.vacancyId),
-    //   fromTimestamp: startDate.valueOf(),
-    //   toTimestamp: endDate.valueOf()
-    // })
-    // console.log("statisticsResponse", statisticsResponse)
-    // yield put(actions.setStatistics(statisticsResponse.data.object))
+    yield call(usersSaga)
   } catch (error) {
     yield put(actions.setError(error))
   } finally {
