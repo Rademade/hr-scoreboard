@@ -1,28 +1,33 @@
 import React from "react"
+import { useSelector } from "react-redux"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "./Text"
+import StateItem from "./StateItem"
 
 const VacancyItem = ({ data }) => {
-  const { position } = data
-  // console.log(position, states)
+  const { position, created, vacancyId, states } = data
+  const statistic = useSelector(state => state.statistic[vacancyId])
+  const customStates = useSelector(state => state.customStates)
   return (
     <Container>
       <PositionText>{position}</PositionText>
+      <DateContainer>
+        <CreatedText>{created.format("MM.D.YYYY")}</CreatedText>
+        <GreyText>Created</GreyText>
+      </DateContainer>
+      <StatsContainer>
+        {states.map((state, index) => {
+          const count = statistic[state]
+          const customState = customStates[state]
+          const title = customState ? customState.name : "Title"
+          return (
+            <StateItem key={index.toString()} title={title} value={count} />
+          )
+        })}
+      </StatsContainer>
     </Container>
   )
-  // return (
-  //   <Container>
-  //     <TitleContainer>
-  //       <PositionText>{position}</PositionText>
-  //       <FireLogo />
-  //     </TitleContainer>
-  //     <PeriodContainer>
-  //       <GreyText>Created</GreyText>
-  //       <ValueText>{created.format("MM.D.YYYY")}</ValueText>
-  //     </PeriodContainer>
-  //   </Container>
-  // )
 }
 
 VacancyItem.propTypes = {
@@ -32,6 +37,7 @@ VacancyItem.propTypes = {
 const Container = styled.div`
   display: flex;
   flex: 1;
+  flex-direction: column;
   margin: 20px 20px 0px 20px;
   padding: 24px 32px 20px 32px;
   background: #2a2f45;
@@ -39,45 +45,38 @@ const Container = styled.div`
   box-shadow: 0px 20px 68px rgba(0, 0, 0, 0.2);
 `
 
-// const TitleContainer = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-// `
+const DateContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #353b53;
+`
 
-// const CategoryContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   padding: 0px 10px 0px 10px;
-//   border-right: ${props => (props.noBorder ? null : "1px solid #353b53")};
-// `
-
-// const PeriodContainer = styled.div`
-//   display: flex;
-//   flex: 1;
-//   align-items: flex-end;
-//   padding: 10px 0px 10px 0px;
-//   border-bottom: 1px solid #353b53;
-// `
-
-// const StatsContainer = styled.div`
-//   display: flex;
-//   padding-top: 16px;
-//   height: 59px;
-// `
+const StatsContainer = styled.div`
+  display: flex;
+  padding-top: 20px;
+`
 
 const PositionText = styled(Text)`
   font-size: 32px;
 `
 
-// const ValueText = styled(Text)`
-//   font-size: 22px;
-// `
+const GreyText = styled(Text)`
+  font-size: 20px;
+  font-weight: bold;
+  color: #636b8b;
+`
 
-// const GreyText = styled(Text)`
-//   font-size: 20px;
+const CreatedText = styled(Text)`
+  font-size: 22px;
+  margin-bottom: 10px;
+`
+
+// const StatText = styled(Text)`
+//   font-size: 26px;
 //   font-weight: bold;
-//   color: #636b8b;
+//   margin-top: 32px;
 // `
 
 export default VacancyItem

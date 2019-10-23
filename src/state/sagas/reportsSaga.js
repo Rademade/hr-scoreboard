@@ -1,4 +1,5 @@
 import { call, all, put, select } from "redux-saga/effects"
+import reduce from "lodash/reduce"
 import { getVacancyDetails } from "../../helpers/api"
 import { setStatistics } from "../actions"
 
@@ -13,7 +14,8 @@ function* getDetailsSaga(vacancy) {
     statisticsObj[state] = count
   })
   return {
-    [vacancyId]: statisticsObj
+    vacancyId,
+    statisticsObj
   }
 }
 
@@ -22,7 +24,18 @@ function* reportsSaga() {
   const stats = yield all(
     vacancies.map(vacancy => call(getDetailsSaga, vacancy))
   )
-  yield put(setStatistics(stats))
+  yield put(
+    setStatistics(
+      reduce(
+        stats,
+        (obj, stat) => {
+          obj[stat.vacancyId] = stat.statisticsObj
+          return obj
+        },
+        {}
+      )
+    )
+  )
 }
 
 export default reportsSaga
