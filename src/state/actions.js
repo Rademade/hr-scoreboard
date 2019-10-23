@@ -13,11 +13,6 @@ export const setFirstLaunch = payload => ({
   payload
 })
 
-export const setError = payload => ({
-  type: actionTypes.SET_ERROR,
-  payload
-})
-
 export const setAuthStatus = payload => ({
   type: actionTypes.SET_AUTH_STATUS,
   payload
@@ -28,8 +23,8 @@ export const setDatesRange = payload => ({
   payload
 })
 
-export const setRecruters = payload => ({
-  type: actionTypes.SET_RECRUTERS,
+export const setStates = payload => ({
+  type: actionTypes.SET_STATES,
   payload
 })
 
@@ -39,11 +34,16 @@ export const setVacancies = payload => ({
 })
 
 export const setStatistics = payload => ({
-  type: actionTypes.SET_STATISCTICS,
+  type: actionTypes.SET_STATISCTIC,
   payload
 })
 
-export const setStates = payload => ({
-  type: actionTypes.SET_STATES,
+export const setRecruters = payload => ({
+  type: actionTypes.SET_RECRUTERS,
+  payload
+})
+
+export const setError = payload => ({
+  type: actionTypes.SET_ERROR,
   payload
 })

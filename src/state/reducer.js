@@ -11,6 +11,7 @@ const initialState = {
   customStates: null,
   vacancies: [],
   recruters: [],
+  statistic: null,
   error: null
 }
 
@@ -65,6 +66,11 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         recruters: payload
+      }
+    case actionTypes.SET_STATISCTIC:
+      return {
+        ...state,
+        statistic: payload
       }
     default:
       return state
