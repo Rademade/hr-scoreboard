@@ -2,8 +2,8 @@ import React from "react"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import Text from "./Text"
-import StateItem from "./StateItem"
+import Text from "../components/Text"
+import StateItem from "../components/StateItem"
 import { getStateName } from "../helpers/constants"
 
 const VacancyItem = ({ data }) => {

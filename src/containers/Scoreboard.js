@@ -1,15 +1,13 @@
 import React, { Fragment } from "react"
-import styled from "styled-components"
 import { useSelector } from "react-redux"
 import LaunchPlaceholder from "../components/LaunchPlaceholder"
 import Header from "./Header"
 import Error from "../components/Error"
-import VacancyItem from "../components/VacancyItem"
+import VacancyList from "./VacancyList"
 
 const Scoreboard = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
   const error = useSelector(state => state.error)
-  const vacancies = useSelector(state => state.vacancies)
 
   if (isFirstLaunch) {
     return <LaunchPlaceholder />
@@ -28,24 +26,9 @@ const Scoreboard = () => {
   return (
     <Fragment>
       <Header />
-      <BoardContainer>
-        {vacancies.map((vacancy, index) => (
-          <VacancyItem key={index.toString()} data={vacancy} />
-        ))}
-      </BoardContainer>
+      <VacancyList />
     </Fragment>
   )
 }
-
-const BoardContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding-bottom: 20px;
-  margin: 70px 40px 0px 40px;
-  border-radius: 12px;
-  background: #23283b;
-`
 
 export default Scoreboard

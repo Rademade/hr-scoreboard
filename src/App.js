@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Provider } from "react-redux"
 import firebase from "firebase"
-import Scoreboard from "./scoreboard/Scoreboard"
+import Scoreboard from "./containers/Scoreboard"
 import { firebaseConfig } from "./helpers/config"
 import store from "./state/store"
 import { startSync } from "./state/actions"
