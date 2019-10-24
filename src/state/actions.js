@@ -38,6 +38,11 @@ export const setStatistics = payload => ({
   payload
 })
 
+export const setWeekStatistic = payload => ({
+  type: actionTypes.SET_WEEK_STATISTIC,
+  payload
+})
+
 export const setRecruters = payload => ({
   type: actionTypes.SET_RECRUTERS,
   payload

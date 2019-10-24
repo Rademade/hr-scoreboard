@@ -1,12 +1,9 @@
 import { call, all, put, select } from "redux-saga/effects"
 import reduce from "lodash/reduce"
 import { getVacancyDetails } from "../../helpers/api"
-import { setStatistics } from "../actions"
+import { setStatistics, setWeekStatistic } from "../actions"
 
-function* getDetailsSaga(vacancy) {
-  const { vacancyId, states } = vacancy
-  const response = yield call(getVacancyDetails, { vacancyId })
-  const inverviewInfo = response.data.vacancyInterviewDetalInfo
+const prepateStatistics = (vacancyId, states, inverviewInfo) => {
   const statisticsObj = {}
   states.forEach(state => {
     const info = inverviewInfo[state]
@@ -19,23 +16,45 @@ function* getDetailsSaga(vacancy) {
   }
 }
 
+const formObject = stats =>
+  reduce(
+    stats,
+    (obj, stat) => {
+      obj[stat.vacancyId] = stat.statisticsObj
+      return obj
+    },
+    {}
+  )
+
+function* getDetailsSaga(vacancy) {
+  const { vacancyId, states } = vacancy
+  const response = yield call(getVacancyDetails, { vacancyId })
+  const inverviewInfo = response.data.vacancyInterviewDetalInfo
+  return prepateStatistics(vacancyId, states, inverviewInfo)
+}
+
+function* getWeekDetailsSaga(vacancy) {
+  const { vacancyId, states } = vacancy
+  const { startDate, endDate } = yield select(state => state.datesRange)
+  const response = yield call(getVacancyDetails, {
+    vacancyId,
+    from: startDate.valueOf(),
+    to: endDate.valueOf()
+  })
+  const inverviewInfo = response.data.vacancyInterviewDetalInfo
+  return prepateStatistics(vacancyId, states, inverviewInfo)
+}
+
 function* reportsSaga() {
   const vacancies = yield select(state => state.vacancies)
   const stats = yield all(
     vacancies.map(vacancy => call(getDetailsSaga, vacancy))
   )
-  yield put(
-    setStatistics(
-      reduce(
-        stats,
-        (obj, stat) => {
-          obj[stat.vacancyId] = stat.statisticsObj
-          return obj
-        },
-        {}
-      )
-    )
+  const weekStats = yield all(
+    vacancies.map(vacancy => call(getWeekDetailsSaga, vacancy))
   )
+  yield put(setStatistics(formObject(stats)))
+  yield put(setWeekStatistic(formObject(weekStats)))
 }
 
 export default reportsSaga

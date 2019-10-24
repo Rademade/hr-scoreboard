@@ -18,7 +18,6 @@ const VacancyItem = ({ data }) => {
       </DateContainer>
       <StatsContainer>
         {states.map((state, index) => {
-          console.log("state", state)
           const count = statistic[state]
           const customState = customStates[state]
           const title = customState ? customState.name : getStateName(state)
@@ -36,7 +35,7 @@ VacancyItem.propTypes = {
 }
 
 const getStateName = key => {
-  switch(key) {
+  switch (key) {
     case "longlist":
       return "Long list"
     case "interview":
