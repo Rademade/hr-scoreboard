@@ -45,7 +45,7 @@ function* getWeekDetailsSaga(vacancy) {
   return prepateStatistics(vacancyId, states, inverviewInfo)
 }
 
-function* reportsSaga() {
+function* statisticSaga() {
   const vacancies = yield select(state => state.vacancies)
   const [stats, weekStats] = yield all([
     all(vacancies.map(vacancy => call(getDetailsSaga, vacancy))),
@@ -55,4 +55,4 @@ function* reportsSaga() {
   yield put(setWeekStatistic(formObject(weekStats)))
 }
 
-export default reportsSaga
+export default statisticSaga

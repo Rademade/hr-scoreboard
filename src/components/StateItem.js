@@ -3,17 +3,25 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "./Text"
 
-const StateItem = ({ value, title }) => (
+const StateItem = ({ count, weekCount, title }) => (
   <Container>
-    <ValueContainer>
-      <ValueText>{value}</ValueText>
-    </ValueContainer>
-    <TitleText>{title}</TitleText>
+    <TitleContainer>
+      <TitleText>{title}</TitleText>
+    </TitleContainer>
+    <ValueItem count={count} />
+    <ValueItem count={weekCount} />
   </Container>
 )
 
+const ValueItem = ({ count }) => (
+  <ValueContainer>
+    <ValueText>{count}</ValueText>
+  </ValueContainer>
+)
+
 StateItem.propTypes = {
-  value: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+  weekCount: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired
 }
 
@@ -32,13 +40,17 @@ const ValueContainer = styled.div`
   justify-content: center;
   height: 102px;
   width: 102px;
+  margin-top: 20px;
   border-radius: 18px;
   border: 2px solid #393e4f;
 `
 
+const TitleContainer = styled.div`
+  height: 48px;
+`
+
 const TitleText = styled(Text)`
   font-size: 18px;
-  margin-top: 20px;
   text-align: center;
   font-weight: bold;
   color: #636b8b;

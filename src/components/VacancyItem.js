@@ -35,20 +35,16 @@ const VacancyItem = ({ data }) => {
       <StatsContainer>
         {states.map((state, index) => {
           const count = statistic[state]
+          const weekCount = weekStatistic[state]
           const customState = customStates[state]
           const title = customState ? customState.name : getStateName(state)
           return (
-            <StateItem key={index.toString()} title={title} value={count} />
-          )
-        })}
-      </StatsContainer>
-      <StatsContainer>
-        {states.map((state, index) => {
-          const count = weekStatistic[state]
-          const customState = customStates[state]
-          const title = customState ? customState.name : getStateName(state)
-          return (
-            <StateItem key={index.toString()} title={title} value={count} />
+            <StateItem
+              key={index.toString()}
+              title={title}
+              count={count}
+              weekCount={weekCount}
+            />
           )
         })}
       </StatsContainer>

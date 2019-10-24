@@ -6,7 +6,8 @@ import authSaga from "./authSaga"
 import statesSaga from "./statesSaga"
 import vacancySaga from "./vacancySaga"
 import usersSaga from "./usersSaga"
-import reportsSaga from "./reportsSaga"
+import statisticSaga from "./statisticSaga"
+import combineStatsSaga from "./combineStatsSaga"
 
 function* syncSaga() {
   try {
@@ -22,7 +23,8 @@ function* syncSaga() {
     yield call(statesSaga)
     yield call(vacancySaga)
     yield call(usersSaga)
-    yield call(reportsSaga)
+    yield call(statisticSaga)
+    yield call(combineStatsSaga)
   } catch (error) {
     yield put(actions.setError(error))
   } finally {
