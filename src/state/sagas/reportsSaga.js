@@ -47,12 +47,10 @@ function* getWeekDetailsSaga(vacancy) {
 
 function* reportsSaga() {
   const vacancies = yield select(state => state.vacancies)
-  const stats = yield all(
-    vacancies.map(vacancy => call(getDetailsSaga, vacancy))
-  )
-  const weekStats = yield all(
-    vacancies.map(vacancy => call(getWeekDetailsSaga, vacancy))
-  )
+  const [stats, weekStats] = yield all([
+    all(vacancies.map(vacancy => call(getDetailsSaga, vacancy))),
+    all(vacancies.map(vacancy => call(getWeekDetailsSaga, vacancy)))
+  ])
   yield put(setStatistics(formObject(stats)))
   yield put(setWeekStatistic(formObject(weekStats)))
 }
