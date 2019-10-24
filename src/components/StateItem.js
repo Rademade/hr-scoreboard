@@ -5,18 +5,10 @@ import Text from "./Text"
 
 const StateItem = ({ count, weekCount, title }) => (
   <Container>
-    <TitleContainer>
-      <TitleText>{title}</TitleText>
-    </TitleContainer>
-    <ValueItem count={count} />
-    <ValueItem count={weekCount} />
+    <TitleText>{title}</TitleText>
+    <ItemText>{count}</ItemText>
+    <ItemText>{weekCount}</ItemText>
   </Container>
-)
-
-const ValueItem = ({ count }) => (
-  <ValueContainer>
-    <ValueText>{count}</ValueText>
-  </ValueContainer>
 )
 
 StateItem.propTypes = {
@@ -27,39 +19,20 @@ StateItem.propTypes = {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding-right: 20px;
-  width: 142px;
-`
-
-const ValueContainer = styled.div`
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 102px;
-  width: 102px;
-  margin-top: 20px;
-  border-radius: 18px;
-  border: 2px solid #393e4f;
-`
-
-const TitleContainer = styled.div`
-  height: 48px;
+  margin-right: 20px;
 `
 
 const TitleText = styled(Text)`
-  font-size: 18px;
-  text-align: center;
   font-weight: bold;
-  color: #636b8b;
+  font-size: 16px;
 `
 
-const ValueText = styled(Text)`
-  font-size: 24px;
+const ItemText = styled(Text)`
   font-weight: bold;
-  color: #ffffff;
+  margin-top: 20px;
+  font-size: 16px;
 `
 
 export default StateItem
