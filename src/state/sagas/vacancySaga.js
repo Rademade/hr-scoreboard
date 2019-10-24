@@ -6,8 +6,6 @@ import { setVacancies } from "../actions"
 const statesToDelete = [
   "applied_people",
   "shortlist",
-  "sent_offer",
-  "accept_offer",
   "approved",
   "declinedoffer",
   "no_response",

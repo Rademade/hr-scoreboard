@@ -4,21 +4,7 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "./Text"
 import StateItem from "./StateItem"
-
-const getStateName = key => {
-  switch (key) {
-    case "longlist":
-      return "Long list"
-    case "interview":
-      return "Interview"
-    case "interview_with_the_boss":
-      return "Interview with CEO"
-    case "test_task":
-      return "Test task"
-    default:
-      return "Name"
-  }
-}
+import { getStateName } from "../helpers/constants"
 
 const VacancyItem = ({ data }) => {
   const { position, created, vacancyId, states } = data
