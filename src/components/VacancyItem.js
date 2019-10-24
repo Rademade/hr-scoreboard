@@ -5,9 +5,25 @@ import PropTypes from "prop-types"
 import Text from "./Text"
 import StateItem from "./StateItem"
 
+const getStateName = key => {
+  switch (key) {
+    case "longlist":
+      return "Long list"
+    case "interview":
+      return "Interview"
+    case "interview_with_the_boss":
+      return "Interview with CEO"
+    case "test_task":
+      return "Test task"
+    default:
+      return "Name"
+  }
+}
+
 const VacancyItem = ({ data }) => {
   const { position, created, vacancyId, states } = data
   const statistic = useSelector(state => state.statistic[vacancyId])
+  const weekStatistic = useSelector(state => state.weekStatistic[vacancyId])
   const customStates = useSelector(state => state.customStates)
   return (
     <Container>
@@ -26,27 +42,22 @@ const VacancyItem = ({ data }) => {
           )
         })}
       </StatsContainer>
+      <StatsContainer>
+        {states.map((state, index) => {
+          const count = weekStatistic[state]
+          const customState = customStates[state]
+          const title = customState ? customState.name : getStateName(state)
+          return (
+            <StateItem key={index.toString()} title={title} value={count} />
+          )
+        })}
+      </StatsContainer>
     </Container>
   )
 }
 
 VacancyItem.propTypes = {
   data: PropTypes.object.isRequired
-}
-
-const getStateName = key => {
-  switch (key) {
-    case "longlist":
-      return "Long list"
-    case "interview":
-      return "Interview"
-    case "interview_with_the_boss":
-      return "Interview with CEO"
-    case "test_task":
-      return "Test task"
-    default:
-      return "Name"
-  }
 }
 
 const Container = styled.div`
