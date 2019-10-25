@@ -17,8 +17,7 @@ const VacancyList = () => {
 const BoardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
-  padding: 0px 20px 20px 20px;
+  padding-bottom: 25px;
   margin: 70px 40px 0px 40px;
   border-radius: 12px;
   background: #23283b;

@@ -6,34 +6,34 @@ import Text from "../components/Text"
 import StateItem from "../components/StateItem"
 import { getStateName } from "../helpers/constants"
 
+// const statistic = useSelector(state => state.statistic[vacancyId])
+// const weekStatistic = useSelector(state => state.weekStatistic[vacancyId])
+// const customStates = useSelector(state => state.customStates)
+
+// const count = statistic[state]
+// const weekCount = weekStatistic[state]
+// const customState = customStates[state]
+// const title = customState ? customState.name : getStateName(state)
+
 const VacancyItem = ({ data }) => {
   const { position, created, vacancyId, states } = data
-  const statistic = useSelector(state => state.statistic[vacancyId])
-  const weekStatistic = useSelector(state => state.weekStatistic[vacancyId])
-  const customStates = useSelector(state => state.customStates)
   return (
     <Container>
-      <PositionText>{position}</PositionText>
-      <DateContainer>
-        <CreatedText>{created.format("MM.D.YYYY")}</CreatedText>
-        <GreyText>Created</GreyText>
-      </DateContainer>
-      <StatsContainer>
-        {states.map((state, index) => {
-          const count = statistic[state]
-          const weekCount = weekStatistic[state]
-          const customState = customStates[state]
-          const title = customState ? customState.name : getStateName(state)
-          return (
-            <StateItem
-              key={index.toString()}
-              title={title}
-              count={count}
-              weekCount={weekCount}
-            />
-          )
-        })}
-      </StatsContainer>
+      <Header>
+        <Position>
+          <PositionText>{position}</PositionText>
+        </Position>
+        <Credentials>
+          <div>
+            <GreyText>Responsibles</GreyText>
+            <InfoText>JuliaRuden, Kate Vakulenko</InfoText>
+          </div>
+          <CreatedInfo>
+            <GreyText>Created</GreyText>
+            <InfoText>{created.format("MM.D.YYYY")}</InfoText>
+          </CreatedInfo>
+        </Credentials>
+      </Header>
     </Container>
   )
 }
@@ -43,48 +43,52 @@ VacancyItem.propTypes = {
 }
 
 const Container = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 24px 32px 20px 32px;
-  margin-top: 20px;
-  background: #2a2f45;
+  width: 570px;
+  margin-left: 25px;
+  margin-top: 25px;
   border-radius: 12px;
-  box-shadow: 0px 20px 68px rgba(0, 0, 0, 0.2);
+  background: #2a2f45;
+  box-shadow: 0px 20px 68px #000000;
 `
 
-const DateContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: 20px;
+const Header = styled.div`
+  background: #2f354d;
+  border-radius: 12px;
+  padding: 20px 0px 20px 30px;
+`
+const Position = styled.div`
   padding-bottom: 20px;
-  border-bottom: 1px solid #353b53;
+  border-bottom: 1px solid #373e57;
 `
 
-const StatsContainer = styled.div`
+const Credentials = styled.div`
   display: flex;
   padding-top: 20px;
+`
+
+const CreatedInfo = styled.div`
+  margin-left: 80px;
 `
 
 const PositionText = styled(Text)`
-  font-size: 32px;
+  font-size: 27px;
+  font-weight: bold;
 `
 
 const GreyText = styled(Text)`
-  font-size: 20px;
+  font-size: 14px;
+  line-height: 14px;
   font-weight: bold;
   color: #636b8b;
 `
 
-const CreatedText = styled(Text)`
-  font-size: 22px;
-  margin-bottom: 10px;
+const CommonText = styled(Text)`
+  font-size: 18px;
+  line-height: 18px;
 `
 
-// const StatText = styled(Text)`
-//   font-size: 26px;
-//   font-weight: bold;
-//   margin-top: 32px;
-// `
+const InfoText = styled(CommonText)`
+  margin-top: 7px;
+`
 
 export default VacancyItem
