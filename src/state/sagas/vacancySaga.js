@@ -28,7 +28,12 @@ function* vacancySaga() {
       .filter(state => !statesToDelete.includes(state))
       .filter(state => {
         const customState = customStates[state]
-        return !customState || customState.type !== "refuse"
+        return (
+          !customState ||
+          (customState.type !== "refuse" &&
+            customState.name !== "Under consideration" &&
+            customState.name !== "Interview with the team")
+        )
       })
     return {
       vacancyId,
