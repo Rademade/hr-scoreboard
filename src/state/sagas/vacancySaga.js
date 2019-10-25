@@ -10,12 +10,16 @@ const statesToDelete = [
   "declinedoffer",
   "no_response",
   "is_not_looking_for_job",
-  "notafit"
+  "notafit",
+  "accept_offer",
+  "test_task",
+  "interview_with_the_boss"
 ]
 
 function* vacancySaga() {
   const allVacancyResponse = yield call(getVacancies)
   const vacancies = allVacancyResponse.data.objects
+  console.log(vacancies)
   const customStates = yield select(state => state.customStates)
   const formatedVacancies = vacancies.map(vacancy => {
     const { vacancyId, dc, dm, position, status, interviewStatus } = vacancy

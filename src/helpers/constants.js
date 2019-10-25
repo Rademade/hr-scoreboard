@@ -9,9 +9,7 @@ export const getStateName = key => {
     case "test_task":
       return "Test task"
     case "sent_offer":
-      return "Offer send"
-    case "accept_offer":
-      return "Offer accepted"
+      return "Offer"
     default:
       return "Name"
   }
