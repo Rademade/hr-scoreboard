@@ -11,7 +11,7 @@ import combineStatsSaga from "./combineStatsSaga"
 
 function* syncSaga() {
   try {
-    if (false) {
+    if (true) {
       yield call(authSaga)
     }
     yield put(
