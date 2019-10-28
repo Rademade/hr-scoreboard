@@ -64,6 +64,7 @@ const Header = styled.div`
   background: #2f354d;
   border-radius: 12px;
   padding: 20px 0px 20px 30px;
+  box-shadow: 0px 20px 68px rgba(0, 0, 0, 0.2);
 `
 const Position = styled.div`
   padding-bottom: 20px;

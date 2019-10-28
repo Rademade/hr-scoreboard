@@ -13,6 +13,7 @@ const initialState = {
   recruters: [],
   statistic: null,
   weekStatistic: null,
+  generalStatistic: null,
   error: null
 }
 
@@ -77,6 +78,11 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         weekStatistic: payload
+      }
+    case actionTypes.SET_GENERAL_STATISTIC:
+      return {
+        ...state,
+        generalStatistic: payload
       }
     default:
       return state

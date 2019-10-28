@@ -3,28 +3,34 @@ import { useSelector } from "react-redux"
 import styled from "styled-components"
 import Text from "../components/Text"
 import HeaderState from "../components/HeaderState"
+import { getStateName } from "../helpers/constants"
 
 const Header = () => {
   const categories = [
-    { title: "Long-List", value: 0 },
-    { title: "Calling", value: 0 },
-    { title: "Interview", value: 0 },
-    { title: "Offer", value: 0 }
+    "longlist",
+    "e025c9f3fbf14cfb9c47cb09ec34adc3",
+    "interview",
+    "sent_offer"
   ]
   const { startDate, endDate } = useSelector(state => state.datesRange)
   const dateFormat = "MM.D.YYYY"
   const rangeString = `${startDate.format(dateFormat)} — ${endDate.format(
     dateFormat
   )}`
+  const customStates = useSelector(state => state.customStates)
+  const generalStatistic = useSelector(state => state.generalStatistic)
   return (
     <HeaderContainer>
       <InfoContainer>
         <Title>Recruitment statistics</Title>
         <DateString>{rangeString}</DateString>
       </InfoContainer>
-      {categories.map((item, index) => (
-        <HeaderState key={index} title={item.title} value={item.value} />
-      ))}
+      {categories.map((state, index) => {
+        const value = generalStatistic[state]
+        const customState = customStates[state]
+        const title = customState ? customState.name : getStateName(state)
+        return <HeaderState key={index} title={title} value={value} />
+      })}
     </HeaderContainer>
   )
 }
