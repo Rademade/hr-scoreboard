@@ -27,7 +27,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:5000/hr-scoreboard/us-central1",
   "browserslist": {
     "production": [
       ">0.2%",
