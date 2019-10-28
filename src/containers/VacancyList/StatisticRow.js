@@ -8,7 +8,7 @@ const StatisticRow = ({ values, isHeader }) => (
     {values.map((value, index) => {
       const isFirst = index === 0
       return (
-        <Element key={value} flex={isFirst ? 2 : 1}>
+        <Element key={index} flex={isFirst ? 2 : 1}>
           {isHeader ? (
             <GreyText>{value}</GreyText>
           ) : (

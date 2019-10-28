@@ -18,26 +18,26 @@ const VacancyItem = ({ data }) => {
         <Position>
           <PositionText>{position}</PositionText>
         </Position>
-        <Credentials>
-          <div>
+        <Info>
+          <Responsibles>
             <GreyText>Responsibles</GreyText>
-            <MainText>JuliaRuden, Kate Vakulenko</MainText>
-          </div>
-          <CreatedInfo>
+            <InfoText>JuliaRuden, Kate Vakulenko</InfoText>
+          </Responsibles>
+          <Created>
             <GreyText>Created</GreyText>
-            <MainText>{created.format("MM.D.YYYY")}</MainText>
-          </CreatedInfo>
-        </Credentials>
+            <InfoText>{created.format("MM.D.YYYY")}</InfoText>
+          </Created>
+        </Info>
       </Header>
       <Statistic>
         <StatisticRow isHeader values={["scale", "week", "all"]} />
-        {states.map(state => {
+        {states.map((state, index) => {
           const count = statistic[state]
           const weekCount = weekStatistic[state]
           const customState = customStates[state]
           const title = customState ? customState.name : getStateName(state)
           return (
-            <StatisticWrapper>
+            <StatisticWrapper key={index}>
               <StatisticRow values={[title, weekCount, count]} />
             </StatisticWrapper>
           )
@@ -70,13 +70,17 @@ const Position = styled.div`
   border-bottom: 1px solid #373e57;
 `
 
-const Credentials = styled.div`
+const Info = styled.div`
   display: flex;
   padding-top: 20px;
 `
 
-const CreatedInfo = styled.div`
-  margin-left: 80px;
+const Responsibles = styled.div`
+  flex: 2;
+`
+
+const Created = styled.div`
+  flex: 1;
 `
 
 const Statistic = styled.div`
@@ -90,6 +94,10 @@ const StatisticWrapper = styled.div`
 const PositionText = styled(Text)`
   font-size: 27px;
   font-weight: bold;
+`
+
+const InfoText = styled(MainText)`
+  margin-top: 10px;
 `
 
 export default VacancyItem

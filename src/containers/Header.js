@@ -23,11 +23,7 @@ const Header = () => {
         <DateString>{rangeString}</DateString>
       </InfoContainer>
       {categories.map((item, index) => (
-        <HeaderCategory
-          key={index.toString()}
-          title={item.title}
-          value={item.value}
-        />
+        <HeaderCategory key={index} title={item.title} value={item.value} />
       ))}
     </HeaderContainer>
   )

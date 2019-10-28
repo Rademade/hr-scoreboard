@@ -8,7 +8,7 @@ const VacancyList = () => {
   return (
     <ListContainer>
       {vacancies.map((vacancy, index) => (
-        <VacancyItem key={index.toString()} data={vacancy} />
+        <VacancyItem key={index} data={vacancy} />
       ))}
     </ListContainer>
   )
