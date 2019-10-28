@@ -2,14 +2,10 @@ import React from "react"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import Text from "../components/Text"
-import StatsHeader from "../components/StatsHeader"
-import { getStateName } from "../helpers/constants"
-
-// const count = statistic[state]
-// const weekCount = weekStatistic[state]
-// const customState = customStates[state]
-// const title = customState ? customState.name : getStateName(state)
+import Text from "../../components/Text"
+import { GreyText, MainText } from "./styledComponents"
+import StatisticRow from "./StatisticRow"
+import { getStateName } from "../../helpers/constants"
 
 const VacancyItem = ({ data }) => {
   const { position, created, vacancyId, states } = data
@@ -25,18 +21,26 @@ const VacancyItem = ({ data }) => {
         <Credentials>
           <div>
             <GreyText>Responsibles</GreyText>
-            <InfoText>JuliaRuden, Kate Vakulenko</InfoText>
+            <MainText>JuliaRuden, Kate Vakulenko</MainText>
           </div>
           <CreatedInfo>
             <GreyText>Created</GreyText>
-            <InfoText>{created.format("MM.D.YYYY")}</InfoText>
+            <MainText>{created.format("MM.D.YYYY")}</MainText>
           </CreatedInfo>
         </Credentials>
       </Header>
       <Statistic>
-        <StatsHeader />
+        <StatisticRow isHeader values={["scale", "week", "all"]} />
         {states.map(state => {
-          return <CommonText>ssass</CommonText>
+          const count = statistic[state]
+          const weekCount = weekStatistic[state]
+          const customState = customStates[state]
+          const title = customState ? customState.name : getStateName(state)
+          return (
+            <StatisticWrapper>
+              <StatisticRow values={[title, weekCount, count]} />
+            </StatisticWrapper>
+          )
         })}
       </Statistic>
     </Container>
@@ -79,25 +83,13 @@ const Statistic = styled.div`
   padding: 30px 30px 30px 30px;
 `
 
+const StatisticWrapper = styled.div`
+  padding-top: 20px;
+`
+
 const PositionText = styled(Text)`
   font-size: 27px;
   font-weight: bold;
-`
-
-const GreyText = styled(Text)`
-  font-size: 14px;
-  line-height: 14px;
-  font-weight: bold;
-  color: #636b8b;
-`
-
-const CommonText = styled(Text)`
-  font-size: 18px;
-  line-height: 18px;
-`
-
-const InfoText = styled(CommonText)`
-  margin-top: 7px;
 `
 
 export default VacancyItem

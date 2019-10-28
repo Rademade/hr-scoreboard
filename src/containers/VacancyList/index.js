@@ -1,26 +1,17 @@
 import React from "react"
-import styled from "styled-components"
 import { useSelector } from "react-redux"
 import VacancyItem from "./VacancyItem"
+import { ListContainer } from "./styledComponents"
 
 const VacancyList = () => {
   const vacancies = useSelector(state => state.vacancies)
   return (
-    <BoardContainer>
+    <ListContainer>
       {vacancies.map((vacancy, index) => (
         <VacancyItem key={index.toString()} data={vacancy} />
       ))}
-    </BoardContainer>
+    </ListContainer>
   )
 }
-
-const BoardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding-bottom: 25px;
-  margin: 70px 40px 0px 40px;
-  border-radius: 12px;
-  background: #23283b;
-`
 
 export default VacancyList
