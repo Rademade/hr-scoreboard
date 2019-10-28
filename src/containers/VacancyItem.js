@@ -3,12 +3,8 @@ import { useSelector } from "react-redux"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "../components/Text"
-import StateItem from "../components/StateItem"
+import StatsHeader from "../components/StatsHeader"
 import { getStateName } from "../helpers/constants"
-
-// const statistic = useSelector(state => state.statistic[vacancyId])
-// const weekStatistic = useSelector(state => state.weekStatistic[vacancyId])
-// const customStates = useSelector(state => state.customStates)
 
 // const count = statistic[state]
 // const weekCount = weekStatistic[state]
@@ -17,6 +13,9 @@ import { getStateName } from "../helpers/constants"
 
 const VacancyItem = ({ data }) => {
   const { position, created, vacancyId, states } = data
+  const statistic = useSelector(state => state.statistic[vacancyId])
+  const weekStatistic = useSelector(state => state.weekStatistic[vacancyId])
+  const customStates = useSelector(state => state.customStates)
   return (
     <Container>
       <Header>
@@ -34,6 +33,12 @@ const VacancyItem = ({ data }) => {
           </CreatedInfo>
         </Credentials>
       </Header>
+      <Statistic>
+        <StatsHeader />
+        {states.map(state => {
+          return <CommonText>ssass</CommonText>
+        })}
+      </Statistic>
     </Container>
   )
 }
@@ -48,7 +53,7 @@ const Container = styled.div`
   margin-top: 25px;
   border-radius: 12px;
   background: #2a2f45;
-  box-shadow: 0px 20px 68px #000000;
+  box-shadow: 0px 20px 68px rgba(0, 0, 0, 0.2);
 `
 
 const Header = styled.div`
@@ -68,6 +73,10 @@ const Credentials = styled.div`
 
 const CreatedInfo = styled.div`
   margin-left: 80px;
+`
+
+const Statistic = styled.div`
+  padding: 30px 30px 30px 30px;
 `
 
 const PositionText = styled(Text)`
