@@ -5,7 +5,7 @@ export const ListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding-bottom: 25px;
-  margin: 70px 40px 0px 40px;
+  margin: 35px 40px 0px 40px;
   border-radius: 12px;
   background: #23283b;
 `

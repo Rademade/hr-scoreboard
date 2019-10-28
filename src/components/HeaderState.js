@@ -3,7 +3,7 @@ import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "./Text"
 
-const HeaderCategories = ({ value, title }) => (
+const HeaderState = ({ value, title }) => (
   <Container>
     <ValueContainer>
       <ValueText>{value}</ValueText>
@@ -12,7 +12,7 @@ const HeaderCategories = ({ value, title }) => (
   </Container>
 )
 
-HeaderCategories.propTypes = {
+HeaderState.propTypes = {
   value: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired
 }
@@ -30,15 +30,17 @@ const ValueContainer = styled.div`
   justify-content: center;
   background: #1c4140;
   border-radius: 12px;
-  height: 94px;
-  width: 94px;
+  height: 80px;
+  width: 80px;
 `
 
 const TitileText = styled(Text)`
   font-weight: bold;
   color: #1ec882;
-  font-size: 18px;
+  font-size: 14px;
+  line-height: 14px;
   margin-top: 10px;
+  text-transform: uppercase;
 `
 
 const ValueText = styled(Text)`
@@ -47,4 +49,4 @@ const ValueText = styled(Text)`
   font-size: 32px;
 `
 
-export default HeaderCategories
+export default HeaderState

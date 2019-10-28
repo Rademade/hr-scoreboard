@@ -2,7 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
 import Text from "../components/Text"
-import HeaderCategory from "../components/HeaderCategory"
+import HeaderState from "../components/HeaderState"
 
 const Header = () => {
   const categories = [
@@ -23,7 +23,7 @@ const Header = () => {
         <DateString>{rangeString}</DateString>
       </InfoContainer>
       {categories.map((item, index) => (
-        <HeaderCategory key={index} title={item.title} value={item.value} />
+        <HeaderState key={index} title={item.title} value={item.value} />
       ))}
     </HeaderContainer>
   )
@@ -31,7 +31,7 @@ const Header = () => {
 
 const HeaderContainer = styled.div`
   display: flex;
-  padding: 40px 60px 0px 60px;
+  padding: 30px 60px 0px 60px;
 `
 
 const InfoContainer = styled.div`
