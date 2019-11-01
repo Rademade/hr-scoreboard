@@ -3,7 +3,17 @@ import reduce from "lodash/reduce"
 import { getVacancyDetails } from "../../helpers/api"
 import { setStatistics, setWeekStatistic } from "../actions"
 
-const prepateStatistics = (vacancyId, states, inverviewInfo) => {
+const formObject = stats =>
+  reduce(
+    stats,
+    (obj, stat) => {
+      obj[stat.vacancyId] = stat.statisticsObj
+      return obj
+    },
+    {}
+  )
+
+const formatStatistics = (vacancyId, states, inverviewInfo) => {
   const statisticsObj = {}
   states.forEach(state => {
     const info = inverviewInfo[state]
@@ -16,21 +26,11 @@ const prepateStatistics = (vacancyId, states, inverviewInfo) => {
   }
 }
 
-const formObject = stats =>
-  reduce(
-    stats,
-    (obj, stat) => {
-      obj[stat.vacancyId] = stat.statisticsObj
-      return obj
-    },
-    {}
-  )
-
 function* getDetailsSaga(vacancy) {
   const { vacancyId, states } = vacancy
   const response = yield call(getVacancyDetails, { vacancyId })
   const inverviewInfo = response.data.vacancyInterviewDetalInfo
-  return prepateStatistics(vacancyId, states, inverviewInfo)
+  return formatStatistics(vacancyId, states, inverviewInfo)
 }
 
 function* getWeekDetailsSaga(vacancy) {
@@ -42,7 +42,7 @@ function* getWeekDetailsSaga(vacancy) {
     to: endDate.valueOf()
   })
   const inverviewInfo = response.data.vacancyInterviewDetalInfo
-  return prepateStatistics(vacancyId, states, inverviewInfo)
+  return formatStatistics(vacancyId, states, inverviewInfo)
 }
 
 function* statisticSaga() {

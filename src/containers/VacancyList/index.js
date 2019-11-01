@@ -1,7 +1,7 @@
 import React from "react"
 import { useSelector } from "react-redux"
 import VacancyItem from "./VacancyItem"
-import { ListContainer } from "./styledComponents"
+import { ListContainer } from "./components"
 
 const VacancyList = () => {
   const vacancies = useSelector(state => state.vacancies)

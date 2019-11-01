@@ -6,7 +6,6 @@ import authPingSaga from "./authPingSaga"
 import authSaga from "./authSaga"
 import statesSaga from "./statesSaga"
 import vacancySaga from "./vacancySaga"
-import usersSaga from "./usersSaga"
 import statisticSaga from "./statisticSaga"
 import combineStatsSaga from "./combineStatsSaga"
 
@@ -21,7 +20,6 @@ function* syncSaga() {
       })
     )
     yield call(statesSaga)
-    yield call(usersSaga)
     yield call(vacancySaga)
     yield call(statisticSaga)
     yield call(combineStatsSaga)

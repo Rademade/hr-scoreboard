@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 import Text from "../../components/Text"
-import { GreyText, MainText } from "./styledComponents"
+import { GreyText, MainText } from "./components"
 import StatisticRow from "./StatisticRow"
 import { getStateName } from "../../helpers/constants"
 

@@ -48,11 +48,6 @@ export const setGeneralStatistic = payload => ({
   payload
 })
 
-export const setRecruters = payload => ({
-  type: actionTypes.SET_RECRUTERS,
-  payload
-})
-
 export const setError = payload => ({
   type: actionTypes.SET_ERROR,
   payload

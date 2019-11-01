@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import { GreyText, MainText } from "./styledComponents"
+import { GreyText, MainText } from "./components"
 
 const StatisticRow = ({ values, isHeader }) => (
   <Container>
