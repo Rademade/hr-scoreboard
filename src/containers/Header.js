@@ -12,6 +12,7 @@ const Header = () => {
     "interview",
     "sent_offer"
   ]
+  const hrCustomCategory = "9b4184eb558b41f49365b8a634526d28"
   const { startDate, endDate } = useSelector(state => state.datesRange)
   const dateFormat = "MM.D.YYYY"
   const rangeString = `${startDate.format(dateFormat)} — ${endDate.format(
@@ -26,7 +27,11 @@ const Header = () => {
         <DateString>{rangeString}</DateString>
       </InfoContainer>
       {categories.map((state, index) => {
-        const value = generalStatistic[state]
+        let value = generalStatistic[state]
+        if (state === "interview") {
+          const hrInterviewValue = generalStatistic[hrCustomCategory] || 0
+          value += hrInterviewValue
+        }
         const customState = customStates[state]
         const title = customState ? customState.name : getStateName(state)
         return <HeaderState key={index} title={title} value={value} />
