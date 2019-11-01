@@ -22,7 +22,25 @@ function* vacancySaga() {
   const vacancies = allVacancyResponse.data.objects
   const customStates = yield select(state => state.customStates)
   const formatedVacancies = vacancies.map(vacancy => {
-    const { vacancyId, dc, dm, position, status, interviewStatus } = vacancy
+    const {
+      vacancyId,
+      dc,
+      dm,
+      position,
+      status,
+      interviewStatus,
+      responsiblesPerson
+    } = vacancy
+    const responsibles = responsiblesPerson
+      .map(item => item.responsible)
+      .filter(
+        item => item.recrutRole === "admin" || item.recrutRole === "recruter"
+      )
+      .map(item => ({
+        personId: item.personId,
+        name: item.firstName,
+        recrutRole: item.recrutRole
+      }))
     const filteredStates = interviewStatus
       .split(",")
       .filter(state => !statesToDelete.includes(state))
@@ -41,7 +59,8 @@ function* vacancySaga() {
       status,
       created: moment(dc),
       modified: moment(dm),
-      states: filteredStates
+      states: filteredStates,
+      responsibles
     }
   })
   yield put(setVacancies(formatedVacancies))

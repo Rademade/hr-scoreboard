@@ -8,10 +8,11 @@ import StatisticRow from "./StatisticRow"
 import { getStateName } from "../../helpers/constants"
 
 const VacancyItem = ({ data }) => {
-  const { position, created, vacancyId, states } = data
+  const { position, created, vacancyId, states, responsibles } = data
   const statistic = useSelector(state => state.statistic[vacancyId])
   const weekStatistic = useSelector(state => state.weekStatistic[vacancyId])
   const customStates = useSelector(state => state.customStates)
+  const responsiblesNames = responsibles.map(item => item.name).join(", ")
   return (
     <Container>
       <Header>
@@ -21,7 +22,7 @@ const VacancyItem = ({ data }) => {
         <Info>
           <Responsibles>
             <GreyText>Responsibles</GreyText>
-            <InfoText>JuliaRuden, Kate Vakulenko</InfoText>
+            <InfoText>{responsiblesNames}</InfoText>
           </Responsibles>
           <Created>
             <GreyText>Created</GreyText>

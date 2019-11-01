@@ -21,8 +21,8 @@ function* syncSaga() {
       })
     )
     yield call(statesSaga)
-    yield call(vacancySaga)
     yield call(usersSaga)
+    yield call(vacancySaga)
     yield call(statisticSaga)
     yield call(combineStatsSaga)
   } catch (error) {
