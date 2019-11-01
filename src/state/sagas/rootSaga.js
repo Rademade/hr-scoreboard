@@ -2,6 +2,7 @@ import { takeLatest, put, call, select } from "redux-saga/effects"
 import moment from "moment"
 import * as actions from "../actions"
 import { START_SYNC } from "../actionTypes"
+import authPingSaga from "./authPingSaga"
 import authSaga from "./authSaga"
 import statesSaga from "./statesSaga"
 import vacancySaga from "./vacancySaga"
@@ -11,9 +12,8 @@ import combineStatsSaga from "./combineStatsSaga"
 
 function* syncSaga() {
   try {
-    if (true) {
-      yield call(authSaga)
-    }
+    yield call(authPingSaga)
+    yield call(authSaga)
     yield put(
       actions.setDatesRange({
         startDate: moment().startOf("week"),
