@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import { GreyText, AppText } from "../common"
 import Header from "./Header"
+import Statistic from "./Statistic"
 
 const Vacancy = ({ data }) => {
   const responsiblesNames = data.responsibles.map(item => item.name).join(", ")
@@ -12,6 +12,7 @@ const Vacancy = ({ data }) => {
         responsibles={responsiblesNames}
         date={data.created}
       />
+      <Statistic vacancyId={data.vacancyId} states={data.states} />
     </Container>
   )
 }

@@ -26,6 +26,8 @@ const HeaderBox = styled.div`
   padding-left: 32px;
   padding-right: 32px;
   padding-bottom: 22px;
+  box-shadow: 0px 20px 68px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
 `
 
 const TitleText = styled(AppText)`
