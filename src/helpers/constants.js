@@ -14,3 +14,12 @@ export const getStateName = key => {
       return "Name"
   }
 }
+
+export const statsCategories = [
+  "longlist",
+  "e025c9f3fbf14cfb9c47cb09ec34adc3",
+  "interview",
+  "sent_offer"
+]
+
+export const hrCustomCategory = "9b4184eb558b41f49365b8a634526d28"

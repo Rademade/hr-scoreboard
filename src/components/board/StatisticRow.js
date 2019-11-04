@@ -12,7 +12,7 @@ const StatisticRow = ({ values, isHeader }) => (
           {isHeader ? (
             <GreyText>{value}</GreyText>
           ) : (
-            <WhiteText>{value}</WhiteText>
+            <MainSText>{value}</MainSText>
           )}
         </Element>
       )
@@ -33,7 +33,7 @@ const Element = styled.div`
   flex: ${props => props.flex || 1};
 `
 
-const WhiteText = styled(MainText)`
+const MainSText = styled(MainText)`
   font-size: 16;
 `
 

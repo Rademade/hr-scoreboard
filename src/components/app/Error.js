@@ -1,7 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import errorImage from "../assets/images/error.png"
+import errorImage from "../../assets/images/error.png"
+import { AppText } from "../common"
 
 const Error = ({ message }) => (
   <Container>
@@ -20,10 +21,11 @@ const Container = styled.div`
   padding-top: 40px;
 `
 
-const ErrorText = styled.h2`
+const ErrorText = styled(AppText)`
   margin: 0;
   color: #ecf0f1;
   margin-top: 20px;
+  font-size: 42px;
 `
 
 export default Error

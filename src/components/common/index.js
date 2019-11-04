@@ -1,5 +1,19 @@
 import styled from "styled-components"
-import Text from "../../components/Text"
+
+export const AppText = styled.p`
+  @font-face {
+    font-family: "SFProDisplay-Medium";
+    src: local("SFProDisplay-Medium"),
+      url(../assets/fonts/SFProDisplay-Medium.ttf) format("ttf");
+  }
+  margin: 0;
+  font-size: 28px;
+  color: #ffffff;
+`
+
+export const FlexContainer = styled.div`
+  display: flex;
+`
 
 export const ListContainer = styled.div`
   display: flex;
@@ -18,7 +32,7 @@ export const GreyText = styled(Text)`
   text-transform: uppercase;
 `
 
-export const MainText = styled(Text)`
+export const CommonText = styled(Text)`
   font-size: 18px;
   line-height: 18px;
 `

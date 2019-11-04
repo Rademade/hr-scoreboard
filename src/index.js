@@ -1,12 +1,26 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { Provider } from "react-redux"
 import ReactDOM from "react-dom"
 import "./index.css"
-import App from "./App"
 import * as serviceWorker from "./serviceWorker"
+import App from "./components/app"
+import store from "./state/store"
+import { startSync } from "./state/actions"
 
-ReactDOM.render(<App />, document.getElementById("root"))
+const AppStateWrapper = () => {
+  useEffect(() => {
+    const { dispatch } = store
+    dispatch(startSync())
+    const interval = setInterval(() => dispatch(startSync()), 3600 * 1000)
+    return () => clearInterval(interval)
+  }, [])
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
+ReactDOM.render(<AppStateWrapper />, document.getElementById("root"))
 serviceWorker.unregister()

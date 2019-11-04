@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import Text from "./Text"
+import { AppText, FlexContainer } from "../common"
 
-const HeaderState = ({ value, title }) => (
+const StatisticItem = ({ value, title }) => (
   <Container>
     <ValueContainer>
       <ValueText>{value}</ValueText>
@@ -12,20 +12,18 @@ const HeaderState = ({ value, title }) => (
   </Container>
 )
 
-HeaderState.propTypes = {
+StatisticItem.propTypes = {
   value: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired
 }
 
-const Container = styled.div`
-  display: flex;
+const Container = styled(FlexContainer)`
   flex-direction: column;
   align-items: center;
   padding-left: 30px;
 `
 
-const ValueContainer = styled.div`
-  display: flex;
+const ValueContainer = styled(FlexContainer)`
   align-items: center;
   justify-content: center;
   background: #1c4140;
@@ -34,7 +32,7 @@ const ValueContainer = styled.div`
   width: 80px;
 `
 
-const TitileText = styled(Text)`
+const TitileText = styled(AppText)`
   font-weight: bold;
   color: #1ec882;
   font-size: 14px;
@@ -43,10 +41,10 @@ const TitileText = styled(Text)`
   text-transform: uppercase;
 `
 
-const ValueText = styled(Text)`
+const ValueText = styled(AppText)`
   font-weight: bold;
   color: #1ec882;
   font-size: 32px;
 `
 
-export default HeaderState
+export default StatisticItem

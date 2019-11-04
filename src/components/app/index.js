@@ -1,16 +1,16 @@
-import React, { Fragment } from "react"
+import React from "react"
 import { useSelector } from "react-redux"
-import LaunchPlaceholder from "../components/LaunchPlaceholder"
-import Header from "./Header"
-import Error from "../components/Error"
-import VacancyList from "./VacancyList"
+import styled from "styled-components"
+import AppLaunch from "./AppLaunch"
+import Error from "./Error"
+import Header from "../header"
 
-const Scoreboard = () => {
+const App = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
   const error = useSelector(state => state.error)
 
   if (isFirstLaunch) {
-    return <LaunchPlaceholder />
+    return <AppLaunch />
   }
 
   if (error) {
@@ -24,11 +24,16 @@ const Scoreboard = () => {
   }
 
   return (
-    <Fragment>
+    <Container>
       <Header />
-      <VacancyList />
-    </Fragment>
+    </Container>
   )
 }
 
-export default Scoreboard
+const Container = styled.div`
+  padding-top: 38px;
+  padding-left: 52px;
+  padding-right: 52px;
+`
+
+export default App
