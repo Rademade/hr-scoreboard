@@ -2,8 +2,7 @@ import React from "react"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
 import PropTypes from "prop-types"
-import Text from "../Text"
-import { GreyText, MainText } from "./components"
+import { GreyText, AppText } from "../common"
 import StatisticRow from "./StatisticRow"
 import { getStateName } from "../../helpers/constants"
 
@@ -30,20 +29,6 @@ const VacancyItem = ({ data }) => {
           </Created>
         </Info>
       </Header>
-      <Statistic>
-        <StatisticRow isHeader values={["scale", "week", "all"]} />
-        {states.map((state, index) => {
-          const count = statistic[state]
-          const weekCount = weekStatistic[state]
-          const customState = customStates[state]
-          const title = customState ? customState.name : getStateName(state)
-          return (
-            <StatisticWrapper key={index}>
-              <StatisticRow values={[title, weekCount, count]} />
-            </StatisticWrapper>
-          )
-        })}
-      </Statistic>
     </Container>
   )
 }
@@ -93,12 +78,12 @@ const StatisticWrapper = styled.div`
   padding-top: 20px;
 `
 
-const PositionText = styled(Text)`
+const PositionText = styled(AppText)`
   font-size: 27px;
   font-weight: bold;
 `
 
-const InfoText = styled(MainText)`
+const InfoText = styled(AppText)`
   margin-top: 10px;
 `
 

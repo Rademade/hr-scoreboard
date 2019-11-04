@@ -4,6 +4,7 @@ import styled from "styled-components"
 import AppLaunch from "./AppLaunch"
 import Error from "./Error"
 import Header from "../header"
+import Board from "../board"
 
 const App = () => {
   const isFirstLaunch = useSelector(state => state.isFirstLaunch)
@@ -26,6 +27,7 @@ const App = () => {
   return (
     <Container>
       <Header />
+      <Board />
     </Container>
   )
 }
