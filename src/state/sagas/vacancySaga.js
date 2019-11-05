@@ -63,7 +63,11 @@ function* vacancySaga() {
       responsibles
     }
   })
-  yield put(setVacancies(formatedVacancies))
+  yield put(
+    setVacancies(
+      formatedVacancies.filter(vacancy => vacancy.status === "inwork")
+    )
+  )
 }
 
 export default vacancySaga
